@@ -10,9 +10,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useStyles } from "./styles";
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -77,7 +79,7 @@ const SignIn = () => {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" onClick={() => navigate('/sign-up')}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

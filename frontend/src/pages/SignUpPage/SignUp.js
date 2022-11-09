@@ -8,9 +8,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useStyles } from "./styles";
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -55,7 +57,7 @@ const SignUp = () => {
                 id="lastName"
                 label="Last Name"
                 name="lastName"
-                autoComplete="family-name"
+                autoComplete="off"
               />
             </Grid>
             <Grid item xs={12}>
@@ -65,7 +67,7 @@ const SignUp = () => {
                 id="email"
                 label="Email Address"
                 name="email"
-                autoComplete="email"
+                autoComplete="off"
               />
             </Grid>
             <Grid item xs={12}>
@@ -76,7 +78,7 @@ const SignUp = () => {
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="new-password"
+                autoComplete="off"
               />
             </Grid>
           </Grid>
@@ -90,7 +92,7 @@ const SignUp = () => {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" onClick={() => navigate('/sign-in')}>
                 Already have an account? Sign in
               </Link>
             </Grid>
