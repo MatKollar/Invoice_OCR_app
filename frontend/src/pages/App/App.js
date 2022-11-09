@@ -1,13 +1,13 @@
 import { Route, Routes } from 'react-router-dom';
 
 
-import AuthPage from "../AuthPage/AuthPage";
+import SignIn from '../SignInPage/SignIn';
 
 const App = () => {
   return (
     <div className="App">
       <Routes>
-        <Route path="/login" element={<AuthPage />}/>
+        <Route path="/" element={<SignIn />}/>
       </Routes>
     </div>
   );
