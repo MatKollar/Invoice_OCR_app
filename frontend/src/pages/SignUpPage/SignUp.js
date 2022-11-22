@@ -7,20 +7,50 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { useState, useRef, useContext } from "react";
 import { useStyles } from "./styles";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import AuthContext from '../../context/auth-context';
 
 const SignUp = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const authCtx = useContext(AuthContext);
 
-  const handleSubmit = (event) => {
+  const submitHandler = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    const enteredEmail = data.get("email");
+    const enteredPassword = data.get("password");
+
+    const url ="https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBMgmWnz9jI2xvSNb2ineSJc_VxByNhboE";
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        email: enteredEmail,
+        password: enteredPassword,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(async (res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          let errorMessage = "Authentication failed!";
+          throw new Error(errorMessage);
+        }
+      })
+      .then((data) => {
+        authCtx.login(data.idToken);
+        navigate("/");
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   };
 
   return (
@@ -37,7 +67,12 @@ const SignUp = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={submitHandler}
+          sx={{ mt: 3 }}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -92,7 +127,11 @@ const SignUp = () => {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2" onClick={() => navigate('/sign-in')}>
+              <Link
+                href="#"
+                variant="body2"
+                onClick={() => navigate("/sign-in")}
+              >
                 Already have an account? Sign in
               </Link>
             </Grid>
