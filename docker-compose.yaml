@@ -7,3 +7,10 @@ services:
       POSTGRES_PASSWORD: password
     ports: 
       - 5432:5432
+  backend:
+    build: ./backend
+    command: python manage.py run -h 0.0.0.0
+    ports:
+      - 5000:5000
+    env_file:
+      - ./.env.dev
