@@ -11,7 +11,6 @@ services:
       - '5432:5432'
   backend:
     build: ./backend
-    command: python manage.py run -h 0.0.0.0
     ports:
       - '5000:5000'
     volumes:
@@ -30,5 +29,5 @@ services:
     tty: true
     depends_on: 
       - backend
-  volumes: 
-    data:
+volumes: 
+  data:
