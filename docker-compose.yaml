@@ -3,6 +3,8 @@ services:
   postgres:
     image: 'postgres'
     restart: always
+    volumes: 
+      - data:/data/db
     environment:
       POSTGRES_PASSWORD: password
     ports: 
@@ -12,8 +14,12 @@ services:
     command: python manage.py run -h 0.0.0.0
     ports:
       - '5000:5000'
+    volumes:
+        - ./backend:/app
     env_file:
       - ./.env.dev
+    depends_on: 
+      - postgres
   frontend: 
     build: ./frontend
     ports: 
@@ -24,3 +30,5 @@ services:
     tty: true
     depends_on: 
       - backend
+  volumes: 
+    data:
