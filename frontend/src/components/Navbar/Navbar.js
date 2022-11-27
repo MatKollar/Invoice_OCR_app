@@ -13,14 +13,15 @@ const Navbar = () => {
     <>
       <div className={classes.rootContainer}>
         <Grid container spacing={2} sx={{ my: "auto" }}>
-          <Grid item xs={10} sx={{ mt: 1, textAlign: "center" }}>
+          <Grid item xs={2}></Grid>
+          <Grid item xs={8} sx={{ mt: 1, textAlign: "center" }}>
             <Typography variant="h4">Welcome Back!</Typography>
           </Grid>
           <Grid item xs={2} sx={{ mt: 1, textAlign: "right" }}>
             <Button
               className={classes.logout}
               variant="contained"
-              sx={{ mx: 2, backgroundColor: "#00ABB3" }}
+              sx={{ mx: 2 }}
               onClick={ctx.logout}
             >
               Log out

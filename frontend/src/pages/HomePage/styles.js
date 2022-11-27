@@ -6,5 +6,9 @@ export const useStyles = makeStyles({
     },
     contentWrapper: {
         width: "100%",
+        backgroundColor: "#B2B2B2",
+    },
+    content: {
+        textAlign: "center",
     }
 });
