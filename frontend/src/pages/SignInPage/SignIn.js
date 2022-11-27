@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useRef, useContext } from 'react';
+import { useRef, useContext } from "react";
 
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,8 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useStyles } from "./styles";
 import { useNavigate } from "react-router-dom";
-import AuthContext from '../../context/auth-context';
-
+import AuthContext from "../../context/auth-context";
 
 const SignIn = () => {
   const classes = useStyles();
@@ -30,7 +29,8 @@ const SignIn = () => {
     const enteredEmail = data.get("email");
     const enteredPassword = data.get("password");
 
-    const url ="https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBMgmWnz9jI2xvSNb2ineSJc_VxByNhboE";
+    const url =
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBMgmWnz9jI2xvSNb2ineSJc_VxByNhboE";
     fetch(url, {
       method: "POST",
       body: JSON.stringify({
@@ -52,12 +52,12 @@ const SignIn = () => {
       })
       .then((data) => {
         authCtx.login(data.idToken);
-        navigate("/");
+        navigate("/upload");
       })
       .catch((err) => {
         alert(err.message);
       });
-  }
+  };
 
   return (
     <Container component="main" maxWidth="xs" className={classes.rootContainer}>
@@ -73,7 +73,12 @@ const SignIn = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={submitHandler} noValidate sx={{ mt: 1 }}>
+        <Box
+          component="form"
+          onSubmit={submitHandler}
+          noValidate
+          sx={{ mt: 1 }}
+        >
           <TextField
             margin="normal"
             required

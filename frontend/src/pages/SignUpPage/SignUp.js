@@ -7,7 +7,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useState, useRef, useContext } from "react";
+import { useContext } from "react";
 import { useStyles } from "./styles";
 import { useNavigate } from "react-router-dom";
 import AuthContext from '../../context/auth-context';
@@ -46,7 +46,7 @@ const SignUp = () => {
       })
       .then((data) => {
         authCtx.login(data.idToken);
-        navigate("/");
+        navigate("/upload");
       })
       .catch((err) => {
         alert(err.message);
