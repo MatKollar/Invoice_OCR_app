@@ -1,17 +1,20 @@
-import Button from "@mui/material/Button";
-import React, { useContext } from "react";
-import AuthContext from "../../context/auth-context";
+import Navbar from "../../components/Navbar/Navbar";
+import SideMenu from "../../components/SideMenu/SideMenu";
+
+import { useStyles } from "./styles";
 
 const HomePage = () => {
-  const ctx = useContext(AuthContext);
+  const classes = useStyles();
 
   return (
     <>
-      <div>Welcome back!</div>
-
-      <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={ctx.logout}>
-        Log out
-      </Button>
+      <div className={classes.pageWrapper}>
+        <SideMenu />
+        <div className={classes.contentWrapper}>
+          <Navbar />
+          <p>Content</p>
+        </div>
+      </div>
     </>
   );
 };
