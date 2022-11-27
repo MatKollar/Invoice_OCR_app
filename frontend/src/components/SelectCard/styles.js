@@ -3,9 +3,9 @@ import { makeStyles } from '@mui/styles';
 export const useStyles = makeStyles({
     rootContainer: {
         margin: "0 auto",
-        marginTop: 50,
-        width: "40%",
-        height: "25vh",
+        marginTop: 20,
+        width: "30%",
+        height: "180px",
         borderRadius: 30,
         color: "black",
         backgroundColor: "white",
@@ -13,7 +13,7 @@ export const useStyles = makeStyles({
     },
     input: {
         margin: "0 auto",
-        marginTop: "50px",
-        width:  "50%",
+        marginTop: 20,
+        width:  "70%",
     }
 });

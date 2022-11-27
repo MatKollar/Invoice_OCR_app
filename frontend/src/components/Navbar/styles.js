@@ -4,7 +4,7 @@ export const useStyles = makeStyles({
     rootContainer: {
         color: "white",
         width: "100%",
-        height: "10vh",
+        height: "70px",
         backgroundColor: "#3C4048",
     },
 });

@@ -15,6 +15,7 @@ const HomePage = () => {
           <Navbar />
           <div className={classes.content}>
             <SelectCard />
+            <canvas className={classes.invoice} id="output" />
           </div>
         </div>
       </div>
