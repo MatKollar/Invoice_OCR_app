@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -9,9 +10,10 @@ import SummaryIcon from "@mui/icons-material/List";
 import { useStyles } from "./styles";
 import { Typography } from "@mui/material";
 
-const Tabbar = () => {
+const Tabbar = (props) => {
   const classes = useStyles();
-  const [value, setValue] = useState(2);
+  const [value, setValue] = useState(props.pageNumber);
+  const navigate = useNavigate();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -27,6 +29,7 @@ const Tabbar = () => {
           onChange={handleChange}
         >
           <Tab
+            onClick={() => navigate("/upload")}
             sx={{ mx: 5, p: 2 }}
             label={
               <Typography>
@@ -36,6 +39,7 @@ const Tabbar = () => {
             }
           />
           <Tab
+            onClick={() => navigate("/preprocessing")}
             sx={{ mx: 5, p: 2 }}
             label={
               <Typography>
@@ -45,6 +49,7 @@ const Tabbar = () => {
             }
           />
           <Tab
+            onClick={() => navigate("/ocr")}
             sx={{ mx: 5, p: 2 }}
             label={
               <Typography>
@@ -54,6 +59,7 @@ const Tabbar = () => {
             }
           />
           <Tab
+            onClick={() => navigate("/summary")}
             sx={{ mx: 5, p: 2 }}
             label={
               <Typography>

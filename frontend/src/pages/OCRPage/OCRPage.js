@@ -1,18 +1,18 @@
+import AppLayout from "../../components/AppLayout/AppLayout";
 import SelectCard from "../../components/SelectCard/SelectCard";
 
 import { useStyles } from "./styles";
 
-const HomePage = () => {
+const OCRPage = () => {
   const classes = useStyles();
 
   return (
     <>
-      <div className={classes.content}>
+      <AppLayout pageNumber={2}>
         <SelectCard />
-        <canvas className={classes.invoice} id="output" />
-      </div>
+      </AppLayout>
     </>
   );
 };
 
-export default HomePage;
+export default OCRPage;

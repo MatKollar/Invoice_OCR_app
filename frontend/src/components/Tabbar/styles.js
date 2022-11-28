@@ -10,5 +10,6 @@ export const useStyles = makeStyles({
     },
     tabsContainer: {
         color: "black",
+        textDecoration: "none"
     }
 });
