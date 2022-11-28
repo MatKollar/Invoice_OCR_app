@@ -1,5 +1,5 @@
 import AppLayout from "../../components/AppLayout/AppLayout";
-import SelectCard from "../../components/SelectCard/SelectCard";
+import UploadCard from "../../components/UploadCard/UploadCard";
 
 import { useStyles } from "./styles";
 
@@ -9,7 +9,7 @@ const UploadPage = () => {
   return (
     <>
       <AppLayout pageNumber={0}>
-        <SelectCard />
+        <UploadCard />
         <canvas className={classes.invoice} id="output" />
       </AppLayout>
     </>

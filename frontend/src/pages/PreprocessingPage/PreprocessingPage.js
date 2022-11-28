@@ -1,5 +1,5 @@
 import AppLayout from "../../components/AppLayout/AppLayout";
-import SelectCard from "../../components/SelectCard/SelectCard";
+import PreprocessingCard from "../../components/PreprocessingCard/PreprocessingCard";
 
 import { useStyles } from "./styles";
 
@@ -9,7 +9,7 @@ const PreprocessingPage = () => {
   return (
     <>
       <AppLayout pageNumber={1}>
-        <SelectCard />
+        <PreprocessingCard />
       </AppLayout>
     </>
   );

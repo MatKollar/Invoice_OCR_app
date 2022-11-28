@@ -23,13 +23,38 @@ const App = () => {
           path="/"
           element={!ctx.isLoggedIn && <Navigate replace to="/sign-in" />}
         />
-        <Route path="/upload" element={ctx.isLoggedIn && <UploadPage />} />
+        <Route
+          path="/upload"
+          element={
+            ctx.isLoggedIn ? <UploadPage /> : <Navigate replace to="/sign-in" />
+          }
+        />
         <Route
           path="/preprocessing"
-          element={ctx.isLoggedIn && <PreprocessingPage />}
+          element={
+            ctx.isLoggedIn ? (
+              <PreprocessingPage />
+            ) : (
+              <Navigate replace to="/sign-in" />
+            )
+          }
         />
-        <Route path="/ocr" element={ctx.isLoggedIn && <OCRPage />} />
-        <Route path="/summary" element={ctx.isLoggedIn && <SummaryPage />} />
+        <Route
+          path="/ocr"
+          element={
+            ctx.isLoggedIn ? <OCRPage /> : <Navigate replace to="/sign-in" />
+          }
+        />
+        <Route
+          path="/summary"
+          element={
+            ctx.isLoggedIn ? (
+              <SummaryPage />
+            ) : (
+              <Navigate replace to="/sign-in" />
+            )
+          }
+        />
       </Routes>
     </div>
   );

@@ -1,5 +1,5 @@
 import AppLayout from "../../components/AppLayout/AppLayout";
-import SelectCard from "../../components/SelectCard/SelectCard";
+import OCRCard from "../../components/OCRCard/OCRCard";
 
 import { useStyles } from "./styles";
 
@@ -9,7 +9,7 @@ const OCRPage = () => {
   return (
     <>
       <AppLayout pageNumber={2}>
-        <SelectCard />
+        <OCRCard />
       </AppLayout>
     </>
   );

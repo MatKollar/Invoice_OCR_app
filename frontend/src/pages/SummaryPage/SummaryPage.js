@@ -1,5 +1,4 @@
 import AppLayout from "../../components/AppLayout/AppLayout";
-import SelectCard from "../../components/SelectCard/SelectCard";
 
 import { useStyles } from "./styles";
 
@@ -8,9 +7,7 @@ const SummaryPage = () => {
 
   return (
     <>
-      <AppLayout pageNumber={3}>
-        <SelectCard />
-      </AppLayout>
+      <AppLayout pageNumber={3}>Summary</AppLayout>
     </>
   );
 };
