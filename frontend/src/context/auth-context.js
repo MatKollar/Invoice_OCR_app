@@ -27,7 +27,7 @@ export const AuthContextProvider = (props) => {
     logout: logoutHandler,
   };
 
-  return (
+  return ( 
     <AuthContext.Provider value={contextValue}>
       {props.children}
     </AuthContext.Provider>

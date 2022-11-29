@@ -7,7 +7,7 @@ const HistoryPage = () => {
 
   return (
     <>
-      <AppLayout pageNumber={2} tabbarDisabled={true}>
+      <AppLayout>
         Your scans
       </AppLayout>
     </>

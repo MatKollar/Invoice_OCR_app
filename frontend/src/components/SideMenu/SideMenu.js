@@ -16,7 +16,7 @@ const SideMenu = () => {
         <Divider />
         <div className={classes.linkContainer}>
           <div>
-            <Link to="/upload" className={classes.link}>
+            <Link to="/" className={classes.link}>
               <Typography variant="h7">
                 <DashboardIcon />
                 Dashboard
