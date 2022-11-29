@@ -1,9 +1,11 @@
 import { Button, Typography } from "@mui/material";
 import { useStyles } from "./styles";
+import { useNavigate } from "react-router-dom";
 const cv = window.cv;
 
 const OCRCard = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -14,7 +16,7 @@ const OCRCard = () => {
 
         <Button
           variant="contained"
-          //   onClick={handleClick}
+          onClick={() => navigate("/summary")}
           sx={{ margin: "20px", px: "10%" }}
         >
           NEXT

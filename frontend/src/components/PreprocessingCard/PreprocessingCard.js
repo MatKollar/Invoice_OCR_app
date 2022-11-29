@@ -1,9 +1,11 @@
 import { Button, Typography } from "@mui/material";
 import { useStyles } from "./styles";
+import { useNavigate } from "react-router-dom";
 const cv = window.cv;
 
 const PreprocessingCard = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -14,7 +16,7 @@ const PreprocessingCard = () => {
 
         <Button
           variant="contained"
-          //   onClick={handleClick}
+          onClick={() => navigate("/ocr")}
           sx={{ margin: "20px", px: "10%" }}
         >
           NEXT

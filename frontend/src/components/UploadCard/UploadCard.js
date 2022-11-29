@@ -1,9 +1,11 @@
 import { Button, Typography } from "@mui/material";
 import { useStyles } from "./styles";
+import { useNavigate } from "react-router-dom";
 const cv = window.cv;
 
 const UploadCard = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
 
   const handleImageUpload = (event) => {
     const img = new Image();
@@ -30,7 +32,7 @@ const UploadCard = () => {
         </div>
         <Button
           variant="contained"
-          //   onClick={handleClick}
+          onClick={() => navigate("/preprocessing")}
           sx={{ margin: "20px", px: "10%" }}
         >
           NEXT
