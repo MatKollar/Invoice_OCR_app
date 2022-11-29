@@ -11,7 +11,7 @@ const AppLayout = (props) => {
       <SideMenu />
       <div className={classes.contentWrapper}>
         <Navbar />
-        <Tabbar pageNumber={props.pageNumber} />
+        {!props.tabbarDisabled && <Tabbar pageNumber={props.pageNumber} />}
         <div className={classes.content}>{props.children}</div>
       </div>
     </div>

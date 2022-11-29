@@ -9,6 +9,7 @@ import UploadPage from "../UploadPage/UploadPage";
 import PreprocessingPage from "../PreprocessingPage/PreprocessingPage";
 import OCRPage from "../OCRPage/OCRPage";
 import SummaryPage from "../SummaryPage/SummaryPage";
+import HistoryPage from "../HistoryPage/HistoryPage";
 
 const App = () => {
   const ctx = useContext(AuthContext);
@@ -50,6 +51,16 @@ const App = () => {
           element={
             ctx.isLoggedIn ? (
               <SummaryPage />
+            ) : (
+              <Navigate replace to="/sign-in" />
+            )
+          }
+        />
+        <Route
+          path="/history"
+          element={
+            ctx.isLoggedIn ? (
+              <HistoryPage />
             ) : (
               <Navigate replace to="/sign-in" />
             )

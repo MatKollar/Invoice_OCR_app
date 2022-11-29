@@ -7,4 +7,10 @@ export const useStyles = makeStyles({
         backgroundColor: "#222222",
         textAlign: "center"
     },
+    linkContainer: {
+        marginTop: 40,
+    },
+    link: {
+        color: "white",
+    },
 });
