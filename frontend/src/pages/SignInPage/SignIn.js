@@ -1,5 +1,7 @@
 import * as React from "react";
-import { useRef, useContext } from "react";
+import { useRef, useContext, useState, useEffect } from "react";
+
+import CryptoJS from "crypto-js";
 
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -21,21 +23,51 @@ const SignIn = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const authCtx = useContext(AuthContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+
+  useEffect(() => {
+    const email = localStorage.getItem("email");
+    const password = localStorage.getItem("password");
+    if (email && password) {
+      const encryptedPassword = localStorage.getItem("password");
+      const bytes = CryptoJS.AES.decrypt(encryptedPassword, "secret key");
+      const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
+      setEmail(email);
+      setPassword(decryptedPassword);
+      setRememberMe(true);
+    }
+  }, []);
 
   const submitHandler = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    const enteredEmail = data.get("email");
-    const enteredPassword = data.get("password");
+    setEmail(data.get("email"));
+    setPassword(data.get("password"));
 
+    if (rememberMe) {
+      const encryptedPassword = CryptoJS.AES.encrypt(
+        password,
+        "secret key"
+      ).toString();
+      localStorage.setItem("password", encryptedPassword);
+      localStorage.setItem("email", email);
+      console.log("remember");
+    }
+
+    authenticationRequest();
+  };
+
+  const authenticationRequest = () => {
     const url =
       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBMgmWnz9jI2xvSNb2ineSJc_VxByNhboE";
     fetch(url, {
       method: "POST",
       body: JSON.stringify({
-        email: enteredEmail,
-        password: enteredPassword,
+        email: email,
+        password: password,
         returnSecureToken: true,
       }),
       headers: {
@@ -57,6 +89,10 @@ const SignIn = () => {
       .catch((err) => {
         alert(err.message);
       });
+  };
+
+  const handleCheckbox = (event) => {
+    setRememberMe(event.target.checked);
   };
 
   return (
@@ -104,6 +140,7 @@ const SignIn = () => {
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
+            onChange={handleCheckbox}
           />
           <Button
             type="submit"

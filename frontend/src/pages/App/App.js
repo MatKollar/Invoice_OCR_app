@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-import { useStyles } from "./styles";
 
 import SignIn from "../SignInPage/SignIn";
 import SignUp from "../SignUpPage/SignUp";
@@ -10,7 +9,6 @@ import HomePage from "../HomePage/HomePage";
 
 const App = () => {
   const ctx = useContext(AuthContext);
-  const classes = useStyles();
 
   return (
     <div className="App">
