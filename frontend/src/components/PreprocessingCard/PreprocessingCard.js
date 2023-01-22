@@ -28,6 +28,15 @@ const PreprocessingCard = () => {
     src.delete();
   };
 
+  const handleNoiseReduction = () => {
+    let src = cv.imread("output");
+    let dst = new cv.Mat();
+    cv.fastNlMeansDenoising(src, dst, 3, 7, 21);
+    cv.imshow("output", dst);
+    src.delete();
+    dst.delete();
+  };
+
   const handleReset = () => {
     const originalImage = ocrCtx.originalImage;
     if (originalImage) {
@@ -68,6 +77,15 @@ const PreprocessingCard = () => {
               sx={{ margin: "20px", px: "10%" }}
             >
               Binarization
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              variant="contained"
+              onClick={handleNoiseReduction}
+              sx={{ margin: "20px", px: "10%" }}
+            >
+              Noise Reduction
             </Button>
           </Grid>
         </Grid>
