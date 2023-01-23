@@ -3,17 +3,33 @@ import OCRContext from "../../context/ocr-context";
 import { Button, Grid, IconButton, Typography } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { useStyles } from "./styles";
+import axios from "axios";
 const cv = window.cv;
 
 const PreprocessingCard = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
 
-  const handleGrayScale = () => {
-    const src = cv.imread("output");
-    cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0);
-    cv.imshow("output", src);
-    src.delete();
+  const handleGrayScale = async () => {
+    const originalImage = ocrCtx.originalImage;
+
+    try {
+      const response = await axios.post("/grayscale", originalImage, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("cc");
+      const preprocessedImage = response.data;
+      const img = new Image();
+      img.onload = () => {
+        cv.imshow("output", img);
+      };
+      img.src = URL.createObjectURL(preprocessedImage);
+      console.log("sucess");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleBinarization = () => {

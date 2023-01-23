@@ -2,3 +2,4 @@ Flask==2.2.2
 Flask-SQLAlchemy==2.5.1
 psycopg2-binary==2.9.4
 flask-cors
+opencv-python-headless
