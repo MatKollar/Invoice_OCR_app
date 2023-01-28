@@ -1,5 +1,9 @@
 Flask==2.2.2
-Flask-SQLAlchemy==2.5.1
+Flask-SQLAlchemy
 psycopg2-binary==2.9.4
 flask-cors
+flask-bcrypt
+python-dotenv
+flask-session
+redis
 opencv-python-headless

@@ -1,4 +1,6 @@
 import * as React from "react";
+
+import httpClient from "../../httpClient";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -10,47 +12,34 @@ import Container from "@mui/material/Container";
 import { useContext } from "react";
 import { useStyles } from "./styles";
 import { useNavigate } from "react-router-dom";
-import AuthContext from '../../context/auth-context';
+import AuthContext from "../../context/auth-context";
 
-const SignUp = () => {
+const RegisterPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    
 
-    const enteredEmail = data.get("email");
-    const enteredPassword = data.get("password");
+    const email = data.get("email");
+    const password = data.get("password");
 
-    const url ="https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBMgmWnz9jI2xvSNb2ineSJc_VxByNhboE";
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        email: enteredEmail,
-        password: enteredPassword,
-        returnSecureToken: true,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then(async (res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          let errorMessage = "Authentication failed!";
-          throw new Error(errorMessage);
-        }
-      })
-      .then((data) => {
-        authCtx.login(data.idToken);
-        navigate("/");
-      })
-      .catch((err) => {
-        alert(err.message);
+    try {
+      const resp = await httpClient.post("http://localhost:5000/register", {
+        email,
+        password,
       });
+
+      console.log(resp);
+      window.location.href = "/";
+    } catch (error) {
+      if (error.response.status === 401) {
+        alert("Invalid credentials");
+      }
+    }
   };
 
   return (
@@ -65,7 +54,7 @@ const SignUp = () => {
         }}
       >
         <Typography component="h1" variant="h5">
-          Sign up
+          Register
         </Typography>
         <Box
           component="form"
@@ -123,16 +112,12 @@ const SignUp = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign Up
+            Register
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link
-                href="#"
-                variant="body2"
-                onClick={() => navigate("/sign-in")}
-              >
-                Already have an account? Sign in
+              <Link href="#" variant="body2" onClick={() => navigate("/login")}>
+                Already have an account? Login
               </Link>
             </Grid>
           </Grid>
@@ -142,4 +127,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default RegisterPage;

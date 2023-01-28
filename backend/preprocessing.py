@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify
 import cv2
 
-preprocessing_bp = Blueprint('grayscale', __name__)
+preprocessing = Blueprint('grayscale', __name__)
 
-@preprocessing_bp.route('/grayscale', methods=['POST'])
+@preprocessing.route('/grayscale', methods=['POST'])
 def grayscale():
     image = request.files.get('image').read()
     image = np.fromstring(image, np.uint8)

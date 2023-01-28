@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import httpClient from "../../httpClient";
 
 import OCRContext from "../../context/ocr-context";
 import AppLayout from "../../components/AppLayout/AppLayout";
@@ -13,6 +14,19 @@ import OCRCard from "../../components/OCRCard/OCRCard";
 const HomePage = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const resp = await httpClient.get("http://localhost:5000/@me");
+        console.log(resp.data);
+        setUser(resp.data);
+      } catch (error) {
+        console.log("Not authenticated");
+      }
+    })();
+  }, []);
 
   function getData() {
     axios({

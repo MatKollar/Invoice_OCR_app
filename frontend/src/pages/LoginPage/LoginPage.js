@@ -2,6 +2,7 @@ import * as React from "react";
 import { useRef, useContext, useState, useEffect } from "react";
 
 import CryptoJS from "crypto-js";
+import axios from "axios";
 
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -17,78 +18,34 @@ import { useStyles } from "./styles";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/auth-context";
 
-const SignIn = () => {
+const LoginPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const authCtx = useContext(AuthContext);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
-  useEffect(() => {
-    const email = localStorage.getItem("email");
-    const password = localStorage.getItem("password");
-    if (email && password) {
-      const encryptedPassword = localStorage.getItem("password");
-      const bytes = CryptoJS.AES.decrypt(encryptedPassword, "secret key");
-      const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
-      setEmail(email);
-      setPassword(decryptedPassword);
-      setRememberMe(true);
-    }
-  }, []);
-
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    setEmail(data.get("email"));
-    setPassword(data.get("password"));
+    const email = data.get("email");
+    const password = data.get("password");
 
-    if (rememberMe) {
-      const encryptedPassword = CryptoJS.AES.encrypt(
+    try {
+      const resp = await axios.post("http://localhost:5000/login", {
+        email,
         password,
-        "secret key"
-      ).toString();
-      localStorage.setItem("password", encryptedPassword);
-      localStorage.setItem("email", email);
-      console.log("remember");
-    }
-
-    authenticationRequest();
-  };
-
-  const authenticationRequest = () => {
-    const url =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBMgmWnz9jI2xvSNb2ineSJc_VxByNhboE";
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        email: email,
-        password: password,
-        returnSecureToken: true,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then(async (res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          let errorMessage = "Authentication failed!";
-          throw new Error(errorMessage);
-        }
-      })
-      .then((data) => {
-        authCtx.login(data.idToken);
-        navigate("/");
-      })
-      .catch((err) => {
-        alert(err.message);
       });
+
+      window.location.href = "/";
+      console.log(resp)
+    } catch (error) {
+      if (error.response.status === 401) {
+        alert("Invalid credentials");
+      }
+    }
   };
 
   const handleCheckbox = (event) => {
@@ -107,7 +64,7 @@ const SignIn = () => {
         }}
       >
         <Typography component="h1" variant="h5">
-          Sign in
+          Login
         </Typography>
         <Box
           component="form"
@@ -160,9 +117,9 @@ const SignIn = () => {
               <Link
                 href="#"
                 variant="body2"
-                onClick={() => navigate("/sign-up")}
+                onClick={() => navigate("/register")}
               >
-                {"Don't have an account? Sign Up"}
+                {"Don't have an account? Register"}
               </Link>
             </Grid>
           </Grid>
@@ -172,4 +129,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default LoginPage;
