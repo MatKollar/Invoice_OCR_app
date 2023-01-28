@@ -5,5 +5,4 @@ flask-cors
 flask-bcrypt
 python-dotenv
 flask-session
-redis
 opencv-python-headless

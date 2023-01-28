@@ -12,6 +12,7 @@ app.config.update(ENV='development')
 CORS(app, supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.register_blueprint(preprocessing)
+app.config['SESSION_SQLALCHEMY'] = db
 
 bcrypt = Bcrypt(app)
 server_session = Session(app)
@@ -29,6 +30,7 @@ def hello():
 def get_current_user():
 
     user_id = session.get("user_id")
+    print(user_id)
     
     if not user_id:
         return jsonify({"error": "Unauthorized"}), 401

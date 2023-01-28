@@ -9,13 +9,6 @@ services:
       POSTGRES_PASSWORD: password
     ports: 
       - '5432:5432'
-  redis:
-    image: 'redis'
-    restart: always
-    volumes: 
-      - redis-data:/data
-    ports: 
-      - '6379:6379'
   backend:
     build: ./backend
     ports:
@@ -38,4 +31,3 @@ services:
       - backend
 volumes: 
   data:
-  redis-data:
