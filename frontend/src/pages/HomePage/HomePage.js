@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import httpClient from "../../httpClient";
+import httpRequest from "../../httpRequest";
 
 import OCRContext from "../../context/ocr-context";
 import AppLayout from "../../components/AppLayout/AppLayout";
@@ -19,7 +19,7 @@ const HomePage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const resp = await httpClient.get("http://localhost:5000/@me");
+        const resp = await httpRequest.get("http://localhost:5000/@me");
         console.log(resp.data);
         setUser(resp.data);
       } catch (error) {

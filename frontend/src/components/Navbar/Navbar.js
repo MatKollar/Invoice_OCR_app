@@ -1,18 +1,15 @@
 import Button from "@mui/material/Button";
-import AuthContext from "../../context/auth-context";
 
-import React, { useContext } from "react";
 import { useStyles } from "./styles";
 import { Grid, Typography } from "@mui/material";
-import httpClient from "../../httpClient";
+import httpRequest from "../../httpRequest";
 
 const Navbar = () => {
-  const ctx = useContext(AuthContext);
   const classes = useStyles();
 
   const logoutUser = async () => {
-    await httpClient.post("//localhost:5000/logout");
-    window.location.href = "/";
+    await httpRequest.post("//localhost:5000/logout");
+    window.location.href = "/login";
   };
 
   return (
