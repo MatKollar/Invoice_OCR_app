@@ -4,7 +4,7 @@ import { useStyles } from "./styles";
 import { Grid, Typography } from "@mui/material";
 import httpRequest from "../../httpRequest";
 
-const Navbar = () => {
+const Navbar = (props) => {
   const classes = useStyles();
 
   const logoutUser = async () => {
@@ -18,7 +18,7 @@ const Navbar = () => {
         <Grid container spacing={2}>
           <Grid item xs={10} sx={{ mt: 1, textAlign: "left" }}>
             <Typography variant="h5" sx={{ ml: 4 }}>
-              Welcome Back!
+              Welcome Back {props.userName}!
             </Typography>
           </Grid>
           <Grid item xs={2} sx={{ mt: 1, textAlign: "right" }}>

@@ -9,7 +9,7 @@ const AppLayout = (props) => {
     <div className={classes.pageWrapper}>
       <SideMenu />
       <div className={classes.contentWrapper}>
-        <Navbar />
+        <Navbar userName={props.userName}/>
         {props.children}
       </div>
     </div>

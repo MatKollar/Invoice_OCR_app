@@ -52,12 +52,14 @@ const RegisterPage = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
+    const name = data.get("name");
     const email = data.get("email");
     const password = data.get("password");
 
     if (nameValid && emailValid && passwordValid) {
       try {
         const resp = await httpRequest.post("http://localhost:5000/register", {
+          name,
           email,
           password,
         });
@@ -94,10 +96,10 @@ const RegisterPage = () => {
                   !nameValid ? "Name must be at least 3 characters." : ""
                 }
                 autoComplete="off"
-                name="Name"
+                name="name"
                 required
                 fullWidth
-                id="Name"
+                id="name"
                 label="Name"
                 onBlur={validateName}
                 autoFocus
