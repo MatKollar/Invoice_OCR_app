@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 
 import httpRequest from "../../httpRequest";
 import Button from "@mui/material/Button";
@@ -15,11 +15,41 @@ import { useNavigate } from "react-router-dom";
 const RegisterPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const [nameValid, setNameValid] = useState(true);
+  const [emailValid, setEmailValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
+
+  const validateName = (event) => {
+    const name = event.target.value;
+    if (name.length < 3) {
+      setNameValid(false);
+    } else {
+      setNameValid(true);
+    }
+  };
+
+  const validateEmail = (event) => {
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const email = event.target.value;
+    if (!emailRegex.test(email)) {
+      setEmailValid(false);
+    } else {
+      setEmailValid(true);
+    }
+  };
+
+  const validatePassword = (event) => {
+    const password = event.target.value;
+    if (password.length < 6) {
+      setPasswordValid(false);
+    } else {
+      setPasswordValid(true);
+    }
+  };
 
   const submitHandler = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
 
     const email = data.get("email");
     const password = data.get("password");
@@ -52,52 +82,52 @@ const RegisterPage = () => {
         <Typography component="h1" variant="h5">
           Register
         </Typography>
-        <Box
-          component="form"
-          noValidate
-          onSubmit={submitHandler}
-          sx={{ mt: 3 }}
-        >
+        <Box component="form" validate onSubmit={submitHandler} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
-                autoComplete="given-name"
-                name="firstName"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
+                error={!nameValid}
+                helperText={
+                  !nameValid ? "Name must be at least 3 characters." : ""
+                }
                 autoComplete="off"
+                name="Name"
+                required
+                fullWidth
+                id="Name"
+                label="Name"
+                onBlur={validateName}
+                autoFocus
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={!emailValid}
+                helperText={!emailValid ? "Incorrect email format." : ""}
                 required
                 fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
+                onBlur={validateEmail}
                 autoComplete="off"
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={!passwordValid}
+                helperText={
+                  !passwordValid
+                    ? "Password must be at least 6 characters."
+                    : ""
+                }
                 required
                 fullWidth
                 name="password"
                 label="Password"
                 type="password"
                 id="password"
+                onBlur={validatePassword}
                 autoComplete="off"
               />
             </Grid>
