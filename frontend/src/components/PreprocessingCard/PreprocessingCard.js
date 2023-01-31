@@ -10,13 +10,13 @@ const PreprocessingCard = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
 
-  const handleGrayScale = async () => {
+  const handlePreprocessingMethod = async (methodEndpoint) => {
     let formData = new FormData();
     formData.append("file", ocrCtx.originalImage);
 
     try {
       const resp = await httpRequest.post(
-        "http://localhost:5000/grayscale",
+        `http://localhost:5000/${methodEndpoint}`,
         formData
       );
       let bytestring = resp["data"]["status"];
@@ -28,79 +28,6 @@ const PreprocessingCard = () => {
         mat.delete();
       };
       img.src = "data:image/jpeg;base64," + image;
-
-    } catch (error) {
-      console.log("Error");
-    }
-  };
-
-  const handleBinarization = async () => {
-    let formData = new FormData();
-    formData.append("file", ocrCtx.originalImage);
-
-    try {
-      const resp = await httpRequest.post(
-        "http://localhost:5000/binarization",
-        formData
-      );
-      let bytestring = resp["data"]["status"];
-      let image = bytestring.split("'")[1];
-      let img = new Image();
-      img.onload = () => {
-        const mat = cv.imread(img);
-        cv.imshow("output", mat);
-        mat.delete();
-      };
-      img.src = "data:image/jpeg;base64," + image;
-
-    } catch (error) {
-      console.log("Error");
-    }
-  };
-
-  const handleNoiseReduction = async () => {
-    let formData = new FormData();
-    formData.append("file", ocrCtx.originalImage);
-
-    try {
-      const resp = await httpRequest.post(
-        "http://localhost:5000/noise_reduction",
-        formData
-      );
-      let bytestring = resp["data"]["status"];
-      let image = bytestring.split("'")[1];
-      let img = new Image();
-      img.onload = () => {
-        const mat = cv.imread(img);
-        cv.imshow("output", mat);
-        mat.delete();
-      };
-      img.src = "data:image/jpeg;base64," + image;
-
-    } catch (error) {
-      console.log("Error");
-    }
-  };
-
-  const handleSkewCorrection = async () => {
-    let formData = new FormData();
-    formData.append("file", ocrCtx.originalImage);
-
-    try {
-      const resp = await httpRequest.post(
-        "http://localhost:5000/skew_correction",
-        formData
-      );
-      let bytestring = resp["data"]["status"];
-      let image = bytestring.split("'")[1];
-      let img = new Image();
-      img.onload = () => {
-        const mat = cv.imread(img);
-        cv.imshow("output", mat);
-        mat.delete();
-      };
-      img.src = "data:image/jpeg;base64," + image;
-
     } catch (error) {
       console.log("Error");
     }
@@ -133,7 +60,7 @@ const PreprocessingCard = () => {
           <Grid item xs={3}>
             <Button
               variant="contained"
-              onClick={handleGrayScale}
+              onClick={() => handlePreprocessingMethod("grayscale")}
               sx={{ px: "10%" }}
             >
               Grayscale
@@ -142,7 +69,7 @@ const PreprocessingCard = () => {
           <Grid item xs={3}>
             <Button
               variant="contained"
-              onClick={handleBinarization}
+              onClick={() => handlePreprocessingMethod("binarization")}
               sx={{ px: "10%" }}
             >
               Binarization
@@ -151,7 +78,7 @@ const PreprocessingCard = () => {
           <Grid item xs={6}>
             <Button
               variant="contained"
-              onClick={handleNoiseReduction}
+              onClick={() => handlePreprocessingMethod("noise_reduction")}
               sx={{ px: "10%" }}
             >
               Noise Reduction
@@ -160,7 +87,7 @@ const PreprocessingCard = () => {
           <Grid item xs={6}>
             <Button
               variant="contained"
-              onClick={handleSkewCorrection}
+              onClick={() => handlePreprocessingMethod("skew_correction")}
               sx={{ px: "10%" }}
             >
               Skew Correction
