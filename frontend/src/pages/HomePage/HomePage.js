@@ -23,6 +23,7 @@ const HomePage = () => {
         setUserName(resp.data.name);
       } catch (error) {
         console.log("Not authenticated");
+        window.location.href = "/login";
       }
     })();
   }, []);

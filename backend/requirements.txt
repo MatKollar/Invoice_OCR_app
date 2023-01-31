@@ -1,6 +1,7 @@
 Flask==2.2.2
 Flask-SQLAlchemy
 psycopg2-binary==2.9.4
+Pillow
 flask-cors
 flask-bcrypt
 python-dotenv
