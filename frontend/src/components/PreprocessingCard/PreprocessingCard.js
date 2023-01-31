@@ -34,16 +34,28 @@ const PreprocessingCard = () => {
     }
   };
 
-  const handleBinarization = () => {
-    let src = cv.imread("output");
-    let dst = new cv.Mat();
-    let thresholdValue = 0;
-    let maxValue = 255;
-    let thresholdType = cv.THRESH_OTSU;
-    cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0);
-    cv.threshold(src, dst, thresholdValue, maxValue, thresholdType);
-    cv.imshow("output", dst);
-    src.delete();
+  const handleBinarization = async () => {
+    let formData = new FormData();
+    formData.append("file", ocrCtx.originalImage);
+
+    try {
+      const resp = await httpRequest.post(
+        "http://localhost:5000/binarization",
+        formData
+      );
+      let bytestring = resp["data"]["status"];
+      let image = bytestring.split("'")[1];
+      let img = new Image();
+      img.onload = () => {
+        const mat = cv.imread(img);
+        cv.imshow("output", mat);
+        mat.delete();
+      };
+      img.src = "data:image/jpeg;base64," + image;
+
+    } catch (error) {
+      console.log("Error");
+    }
   };
 
   const handleNoiseReduction = () => {

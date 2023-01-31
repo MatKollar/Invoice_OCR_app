@@ -21,3 +21,19 @@ def grayscale():
     rawBytes.seek(0)
     img_base64 = base64.b64encode(rawBytes.read())
     return jsonify({'status':str(img_base64)})
+
+@preprocessing.route('/binarization', methods=['POST'])
+def binarization():
+    file = request.files['file'].read()
+    npimg = np.fromstring(file, np.uint8)
+    img = cv2.imdecode(npimg,cv2.IMREAD_COLOR)
+    
+    gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+    ret,thresh = cv2.threshold(gray,127,255,cv2.THRESH_BINARY)
+    
+    img = Image.fromarray(thresh.astype("uint8"))
+    rawBytes = io.BytesIO()
+    img.save(rawBytes, "JPEG")
+    rawBytes.seek(0)
+    img_base64 = base64.b64encode(rawBytes.read())
+    return jsonify({'status':str(img_base64)})
