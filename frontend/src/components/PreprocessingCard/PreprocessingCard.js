@@ -82,17 +82,28 @@ const PreprocessingCard = () => {
     }
   };
 
-  const handleSkewCorrection = () => {
-    let mat = cv.imread("output");
-    let dst = new cv.Mat();
-    cv.cvtColor(mat, mat, cv.COLOR_RGB2GRAY, 0);
-    cv.Canny(mat, dst, 50, 100, 3, false);
+  const handleSkewCorrection = async () => {
+    let formData = new FormData();
+    formData.append("file", ocrCtx.originalImage);
 
-    cv.imshow("output", mat);
-    cv.imshow("output", dst);
+    try {
+      const resp = await httpRequest.post(
+        "http://localhost:5000/skew_correction",
+        formData
+      );
+      let bytestring = resp["data"]["status"];
+      let image = bytestring.split("'")[1];
+      let img = new Image();
+      img.onload = () => {
+        const mat = cv.imread(img);
+        cv.imshow("output", mat);
+        mat.delete();
+      };
+      img.src = "data:image/jpeg;base64," + image;
 
-    dst.delete();
-    mat.delete();
+    } catch (error) {
+      console.log("Error");
+    }
   };
 
   const handleReset = () => {
