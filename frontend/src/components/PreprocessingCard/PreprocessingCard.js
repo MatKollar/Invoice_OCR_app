@@ -58,16 +58,28 @@ const PreprocessingCard = () => {
     }
   };
 
-  const handleNoiseReduction = () => {
-    let src = cv.imread("output");
-    let dst = new cv.Mat();
-    let ksize = new cv.Size(3, 3);
-    let anchor = new cv.Point(-1, -1);
-    let borderType = cv.BORDER_DEFAULT;
-    cv.medianBlur(src, dst, ksize, anchor, borderType);
-    cv.imshow("output", dst);
-    src.delete();
-    dst.delete();
+  const handleNoiseReduction = async () => {
+    let formData = new FormData();
+    formData.append("file", ocrCtx.originalImage);
+
+    try {
+      const resp = await httpRequest.post(
+        "http://localhost:5000/noise_reduction",
+        formData
+      );
+      let bytestring = resp["data"]["status"];
+      let image = bytestring.split("'")[1];
+      let img = new Image();
+      img.onload = () => {
+        const mat = cv.imread(img);
+        cv.imshow("output", mat);
+        mat.delete();
+      };
+      img.src = "data:image/jpeg;base64," + image;
+
+    } catch (error) {
+      console.log("Error");
+    }
   };
 
   const handleSkewCorrection = () => {
