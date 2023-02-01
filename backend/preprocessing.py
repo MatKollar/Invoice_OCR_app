@@ -5,7 +5,7 @@ import numpy as np
 import cv2
 import base64
 
-preprocessing = Blueprint('grayscale', __name__)
+preprocessing_bp = Blueprint('preprocessing', __name__)
 
 
 def load_image():
@@ -25,14 +25,14 @@ def convert_to_base64(img):
     return str(img_base64)
 
 
-@preprocessing.route('/grayscale', methods=['POST'])
+@preprocessing_bp.route('/grayscale', methods=['POST'])
 def grayscale():
     img = load_image()
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     return jsonify({'status': convert_to_base64(gray)})
 
 
-@preprocessing.route('/binarization', methods=['POST'])
+@preprocessing_bp.route('/binarization', methods=['POST'])
 def binarization():
     img = load_image()
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
@@ -40,14 +40,14 @@ def binarization():
     return jsonify({'status':convert_to_base64(thresh)})
 
 
-@preprocessing.route('/noise_reduction', methods=['POST'])
+@preprocessing_bp.route('/noise_reduction', methods=['POST'])
 def noise_reduction():
     img = load_image()
     img = cv2.fastNlMeansDenoisingColored(img,None,10,10,7,21)
     return jsonify({'status':convert_to_base64(img)})
 
 
-@preprocessing.route('/skew_correction', methods=['POST'])
+@preprocessing_bp.route('/skew_correction', methods=['POST'])
 def skew_correction():
     img = load_image()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
