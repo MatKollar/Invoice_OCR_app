@@ -15,7 +15,6 @@ def load_image():
     img = cv2.cvtColor(img , cv2.COLOR_BGR2RGB)
     return img
 
-
 def convert_to_base64(img):
     img = Image.fromarray(img.astype("uint8"))
     raw_bytes = io.BytesIO()
@@ -29,7 +28,7 @@ def convert_to_base64(img):
 def grayscale():
     img = load_image()
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-    return jsonify({'status': convert_to_base64(gray)})
+    return jsonify({'image': convert_to_base64(gray), 'filename': request.files['file'].filename})
 
 
 @preprocessing_bp.route('/binarization', methods=['POST'])
@@ -37,14 +36,15 @@ def binarization():
     img = load_image()
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     ret,thresh = cv2.threshold(gray,127,255,cv2.THRESH_BINARY)
-    return jsonify({'status':convert_to_base64(thresh)})
+    return jsonify({'image': convert_to_base64(thresh), 'filename': request.files['file'].filename})
+
 
 
 @preprocessing_bp.route('/noise_reduction', methods=['POST'])
 def noise_reduction():
     img = load_image()
     img = cv2.fastNlMeansDenoisingColored(img,None,10,10,7,21)
-    return jsonify({'status':convert_to_base64(img)})
+    return jsonify({'image': convert_to_base64(img), 'filename': request.files['file'].filename})
 
 
 @preprocessing_bp.route('/skew_correction', methods=['POST'])
@@ -66,4 +66,4 @@ def skew_correction():
     img = cv2.warpAffine(img, M, (w, h),
         flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
 
-    return jsonify({'status':convert_to_base64(img)})
+    return jsonify({'image': convert_to_base64(img), 'filename': request.files['file'].filename})

@@ -12,14 +12,14 @@ const PreprocessingCard = () => {
 
   const handlePreprocessingMethod = async (methodEndpoint) => {
     let formData = new FormData();
-    formData.append("file", ocrCtx.originalImage);
+    formData.append("file", ocrCtx.actualImage);
 
     try {
       const resp = await httpRequest.post(
         `http://localhost:5000/${methodEndpoint}`,
         formData
       );
-      let bytestring = resp["data"]["status"];
+      let bytestring = resp["data"]["image"];
       let image = bytestring.split("'")[1];
       let img = new Image();
       img.onload = () => {
@@ -28,12 +28,21 @@ const PreprocessingCard = () => {
         mat.delete();
       };
       img.src = "data:image/jpeg;base64," + image;
+      const base64Response = await fetch(`data:image/jpeg;base64,${image}`);
+      const blob = await base64Response.blob();
+      let file = new File([blob], resp["data"]["filename"], {
+        type: "image/jpeg",
+        lastModified: new Date().getTime(),
+      });
+
+      ocrCtx.setActualImage(file);
     } catch (error) {
       console.log("Error");
     }
   };
 
   const handleReset = () => {
+    ocrCtx.setActualImage(ocrCtx.originalImage);
     const originalImage = ocrCtx.originalImage;
     if (originalImage) {
       const img = new Image();

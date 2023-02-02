@@ -17,6 +17,7 @@ const UploadCard = () => {
     };
     img.src = URL.createObjectURL(event.target.files[0]);
     ocrCtx.setOriginalImage(event.target.files[0]);
+    ocrCtx.setActualImage(event.target.files[0]);
   };
 
   return (
