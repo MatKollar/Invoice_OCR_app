@@ -17,4 +17,4 @@ def load_image():
 def tesseract():
     img = load_image()
     text = pytesseract.image_to_string(img)
-    return jsonify({'status':text})
+    return jsonify({'text': text})

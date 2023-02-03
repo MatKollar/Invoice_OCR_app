@@ -3,7 +3,6 @@ import OCRContext from "../../context/ocr-context";
 import { Button, Typography, Grid } from "@mui/material";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
-const cv = window.cv;
 
 const OCRCard = () => {
   const classes = useStyles();
@@ -18,7 +17,7 @@ const OCRCard = () => {
         `http://localhost:5000/${OCRmethod}`,
         formData
       );
-      console.log(resp["data"]["status"]);
+      ocrCtx.setTextResult(resp["data"]["text"]);
     } catch (error) {
       console.log("Error");
     }

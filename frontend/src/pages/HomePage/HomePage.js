@@ -7,6 +7,7 @@ import Tabbar from "../../components/Tabbar/Tabbar";
 import UploadCard from "../../components/UploadCard/UploadCard";
 import PreprocessingCard from "../../components/PreprocessingCard/PreprocessingCard";
 import OCRCard from "../../components/OCRCard/OCRCard";
+import SummaryCard from "../../components/SummaryCard/SummaryCard";
 import { useStyles } from "./styles";
 
 const HomePage = () => {
@@ -40,6 +41,7 @@ const HomePage = () => {
           {activePage === 0 && <UploadCard />}
           {activePage === 1 && <PreprocessingCard />}
           {activePage === 2 && <OCRCard />}
+          {activePage === 3 && <SummaryCard />}
           <canvas className={classes.invoice} id="output" />
         </div>
       </AppLayout>
