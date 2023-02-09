@@ -17,6 +17,7 @@
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
     "mdb-react-ui-kit": "^5.0.0",
+    "pdfjs-dist": "^3.3.122",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.3",
