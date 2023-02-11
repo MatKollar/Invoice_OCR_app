@@ -3,9 +3,9 @@ from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from config import ApplicationConfig
-from models import db, User
-from preprocessing import preprocessing_bp
-from tesseractOCR import tesseract_bp
+from app.models import db, User
+from app.preprocessing import preprocessing_bp
+from app.tesseractOCR import tesseract_bp
 
 app = Flask(__name__)
 app.config.from_object(ApplicationConfig)

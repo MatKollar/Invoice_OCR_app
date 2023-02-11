@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from parserOCR import parse_text
+from app.parserOCR import parse_text
 import numpy as np
 import cv2
 import pytesseract
