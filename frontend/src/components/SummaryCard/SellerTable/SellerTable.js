@@ -1,14 +1,14 @@
 import { useStyles } from "./styles";
-import Table from "../../Table/Table";
+import DataTable from "../../Table/DataTable";
 
-const DetailsTable = () => {
+const SellerTable = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.table}>
-        <Table />
+        <DataTable />
     </div>
   );
 };
 
-export default DetailsTable;
+export default SellerTable;

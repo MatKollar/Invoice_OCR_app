@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
 import OCRContext from "../../context/ocr-context";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, Paper } from "@mui/material";
 import { useStyles } from "./styles";
-import DetailsTable from "./DetailsTable/DetailsTable";
-import CompanyTable from "./CompanyTable/CompanyTable";
-import ProductsTable from "./ProductsTable/ProductTable";
+import SellerTable from "./SellerTable/SellerTable";
+import BuyerTable from "./BuyerTable/BuyerTable";
+import InvoiceTable from "./InvoiceTable/InvoiceTable";
 
 const SummaryCard = () => {
   const classes = useStyles();
@@ -16,16 +16,18 @@ const SummaryCard = () => {
       <div className={classes.rootContainer}>
         <div className={classes.textContainer}>
           {showText && (
-            <TextField
-              id="outlined-multiline-static"
-              className={classes.textField}
-              label="Text from OCR"
-              multiline
-              fullWidth
-              rows={20}
-              variant={"filled"}
-              defaultValue={ocrCtx.textResult}
-            />
+            <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
+              <TextField
+                id="outlined-multiline-static"
+                sx={{ backgroundColor: "white", borderRadius: "20px" }}
+                label="Text from OCR"
+                multiline
+                fullWidth
+                rows={20}
+                variant={"standard"}
+                defaultValue={ocrCtx.textResult}
+              />
+            </Paper>
           )}
 
           <Button
@@ -38,11 +40,11 @@ const SummaryCard = () => {
         </div>
 
         <div className={classes.tables}>
+          <InvoiceTable />
           <div className={classes.tableContainer}>
-            <DetailsTable />
-            <CompanyTable />
+            <SellerTable />
+            <BuyerTable />
           </div>
-          <ProductsTable />
         </div>
       </div>
     </>

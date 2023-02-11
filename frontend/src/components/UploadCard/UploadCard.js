@@ -41,7 +41,6 @@ const UploadCard = () => {
 
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
-    console.log(file.name);
     if (file.type === "application/pdf") {
       const image = convertPdfToImages(event.target.files[0]);
       image.then(async (image) => {
