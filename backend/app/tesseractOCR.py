@@ -17,5 +17,5 @@ def load_image():
 def tesseract():
     img = load_image()
     text = pytesseract.image_to_string(img, lang='slk')
-    parsed_data = parse_text(text)
-    return jsonify({'text': text})
+    parsed_text = parse_text(text)
+    return jsonify({'text': text, 'parsed_text': parsed_text})
