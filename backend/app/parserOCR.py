@@ -1,4 +1,5 @@
 import re
+import requests
 
 def get_invoice_number(lines):
     invoice_number = ''
@@ -171,6 +172,24 @@ def get_supplier_ico(lines):
 def parse_text(text):
     lines = text.split('\n')
 
+    supplier_ico = get_supplier_ico(lines)
+    details_url = f"http://localhost:5000/get_details?ico={supplier_ico}"
+    supplier_details = requests.post(details_url)
+
+    if supplier_details.status_code == 200:
+        supplier_data = supplier_details.json()['data']
+    else:
+        supplier_data = {}
+
+    buyer_ico = get_buyer_ico(lines) 
+    details_url = f"http://localhost:5000/get_details?ico={buyer_ico}"
+    buyer_details = requests.post(details_url)
+
+    if buyer_details.status_code == 200:
+        buyer_data = buyer_details.json()['data']
+    else:
+        buyer_data = {}
+
     data = {
         'invoice_number': get_invoice_number(lines),
         'var_symbol': get_variable_symbol(lines),
@@ -183,6 +202,8 @@ def parse_text(text):
         'swift': get_swift(lines),
         'iban': get_iban(lines),
         'buyer_ico': get_buyer_ico(lines),
-        'supplier_ico': get_supplier_ico(lines)
+        'supplier_ico': get_supplier_ico(lines),
+        'supplier_data': supplier_data,
+        'buyer_data': buyer_data
     }
     return data
