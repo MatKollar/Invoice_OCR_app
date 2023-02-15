@@ -154,10 +154,10 @@ def get_buyer_ico(lines):
 def get_supplier_ico(lines):
     ico = ''
     for i, line in enumerate(lines):
-        if 'ičo' in line.lower() or '1čo' in line.lower():
+        if 'ičo' in line.lower() or '1čo' in line.lower() or '1ičo' in line.lower():
             words = line.split()
             for j, word in enumerate(words):
-                if word.lower() == 'ičo:' or word.lower() == '1čo:':
+                if word.lower() == 'ičo:' or word.lower() == '1čo:' or word.lower() == '1ičo:':
                     ico = words[j + 1]
                     del words[j + 1]
                     del words[j]

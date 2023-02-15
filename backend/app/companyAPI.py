@@ -33,6 +33,7 @@ def getCompanyDetails():
         'City': data['mesto'],
         'Street': data['ulica'],
         'DIC': data['dic'],
+        'ICO': ico,
     }
     
     return jsonify({'data': data})

@@ -5,8 +5,8 @@ import OCRContext from "../../context/ocr-context";
 
 const DataTableWide = () => {
   const ocrCtx = useContext(OCRContext);
-  console.log(ocrCtx.extractedData);
   const invoiceData = ocrCtx.extractedData;
+
   return (
     <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
       <Grid container spacing={1}>
