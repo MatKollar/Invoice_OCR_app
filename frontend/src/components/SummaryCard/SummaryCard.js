@@ -6,10 +6,11 @@ import SellerTable from "./SellerTable/SellerTable";
 import BuyerTable from "./BuyerTable/BuyerTable";
 import InvoiceTable from "./InvoiceTable/InvoiceTable";
 
-const SummaryCard = () => {
+const SummaryCard = (props) => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
   const [showText, setShowText] = useState(true);
+  console.log(props.dataFromDB);
 
   return (
     <>
@@ -40,10 +41,16 @@ const SummaryCard = () => {
         </div>
 
         <div className={classes.tables}>
-          <InvoiceTable />
+          <InvoiceTable
+            data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
+          />
           <div className={classes.tableContainer}>
-            <SellerTable />
-            <BuyerTable />
+            <SellerTable
+              data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
+            />
+            <BuyerTable
+              data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
+            />
           </div>
         </div>
       </div>

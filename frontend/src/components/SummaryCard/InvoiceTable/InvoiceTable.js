@@ -1,12 +1,12 @@
 import { useStyles } from "./styles";
 import DataTableWide from "../../Table/DataTableWide";
 
-const InvoiceTable = () => {
+const InvoiceTable = (props) => {
   const classes = useStyles();
 
   return (
     <div className={classes.table}>
-        <DataTableWide />
+      <DataTableWide invoiceData={props.data} />
     </div>
   );
 };
