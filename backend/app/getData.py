@@ -6,5 +6,8 @@ getData_bp = Blueprint('getdata', __name__)
 
 @getData_bp.route('/get-invoices')
 def getInvoices():
+    invoices = Invoice.query.all()
 
-    return jsonify({'text': "Hello"})
+    invoice_numbers = [invoice.invoice_number for invoice in invoices]
+
+    return jsonify({'invoice_numbers': invoice_numbers})
