@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import { Divider, Typography } from "@mui/material";
 import { useStyles } from "./styles";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import HistoryIcon from '@mui/icons-material/History';
+import HistoryIcon from "@mui/icons-material/History";
+import BusinessIcon from "@mui/icons-material/Business";
 
 const SideMenu = () => {
   const classes = useStyles();
@@ -26,9 +27,18 @@ const SideMenu = () => {
           <br />
           <div>
             <Link to="/history" className={classes.link}>
-              <Typography variant="h7" >
+              <Typography variant="h7">
                 <HistoryIcon />
                 Your scans
+              </Typography>
+            </Link>
+          </div>
+          <br />
+          <div>
+            <Link to="/organization" className={classes.link}>
+              <Typography variant="h7">
+                <BusinessIcon />
+                Organization
               </Typography>
             </Link>
           </div>
