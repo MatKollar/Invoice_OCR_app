@@ -10,7 +10,6 @@ const SummaryCard = (props) => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
   const [showText, setShowText] = useState(true);
-  console.log(props.dataFromDB);
 
   return (
     <>

@@ -9,6 +9,7 @@ def getInvoices():
     invoice_data = []
     for invoice in invoices:
         invoice_dict = {
+            'id': invoice.id,
             'invoice_number': invoice.invoice_number,
             'var_symbol': invoice.var_symbol,
             'date_of_issue': invoice.date_of_issue,

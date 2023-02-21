@@ -2,7 +2,6 @@ import React from "react";
 import { Paper, TextField, Grid } from "@mui/material";
 
 const DataTableWide = (props) => {
-  console.log(props.invoiceData)
   return (
     <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
       <Grid container spacing={1}>
@@ -81,7 +80,9 @@ const DataTableWide = (props) => {
         <Grid item xs={6}>
           <TextField
             label="Total amount"
-            defaultValue={props.invoiceData?.total_price + " €" || ""}
+            defaultValue={
+              props.invoiceData ? props.invoiceData.total_price + " €" : ""
+            }
             variant="standard"
             fullWidth
           />

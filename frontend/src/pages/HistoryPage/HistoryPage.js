@@ -22,7 +22,6 @@ const HistoryPage = () => {
           "http://localhost:5000/get-invoices"
         );
         setInvoicesData(resp.data.invoices);
-        console.log(resp.data.invoices);
       } catch (error) {
         console.log("Error");
       }
@@ -30,7 +29,6 @@ const HistoryPage = () => {
   }, []);
 
   const openSummary = (invoiceData) => {
-    console.log(invoiceData);
     setIsSummaryOpen(true);
     setSelectedInvoice(invoiceData);
   };
