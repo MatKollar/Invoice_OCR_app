@@ -1,11 +1,13 @@
-from flask import Blueprint, request, jsonify
-from app.models import db, Invoice
+from flask import Blueprint, jsonify, session
+from app.models import Invoice
 
 getData_bp = Blueprint('getdata', __name__)
 
 @getData_bp.route('/get-invoices')
 def getInvoices():
-    invoices = Invoice.query.all()
+    user_id = session.get("user_id")
+
+    invoices = Invoice.query.filter_by(user_id=user_id).all()
     invoice_data = []
     for invoice in invoices:
         invoice_dict = {

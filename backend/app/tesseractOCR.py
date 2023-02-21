@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from app.parserOCR import parse_text
 from app.models import db, Invoice
 import numpy as np
@@ -16,6 +16,7 @@ def load_image():
 
 def add_invoice_to_db(parsed_data):
     invoice = Invoice(
+        user_id=session.get("user_id"),
         invoice_number=parsed_data['invoice_number'],
         var_symbol=parsed_data['var_symbol'],
         date_of_issue=parsed_data['date_of_issue'],
