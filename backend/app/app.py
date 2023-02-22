@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from config import ApplicationConfig
-from app.models import db, User
+from app.models import db, User, UserRole
 from app.preprocessing import preprocessing_bp
 from app.tesseractOCR import tesseract_bp
 from app.companyAPI import companyAPI_bp
@@ -42,10 +42,23 @@ def get_current_user():
     
     user = User.query.filter_by(id=user_id).first()
     return jsonify({
-        "id": user.id,
         "name": user.name,
-        "email": user.email
-    }) 
+        "email": user.email,
+        "role": user.role.value
+    })
+
+@app.route('/promoteuser/<string:user_id>', methods=['POST'])
+def promote_user(user_id):
+    user = User.query.filter_by(id=user_id).first()
+
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+
+    user.role = UserRole.ADMIN
+
+    db.session.commit()
+
+    return jsonify({'message': 'User has been promoted to admin'}), 200
 
 @app.route("/register", methods=["POST"])
 def register_user():

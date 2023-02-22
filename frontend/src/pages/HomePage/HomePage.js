@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 
 import httpRequest from "../../httpRequest";
 import OCRContext from "../../context/ocr-context";
+import userContext from "../../context/user-context";
 import AppLayout from "../../components/AppLayout/AppLayout";
 import Tabbar from "../../components/Tabbar/Tabbar";
 import UploadCard from "../../components/UploadCard/UploadCard";
@@ -13,6 +14,7 @@ import { useStyles } from "./styles";
 const HomePage = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
+  const userCtx = useContext(userContext);
   const [userName, setUserName] = useState();
   const [activePage, setActivePage] = useState(0);
 
@@ -20,7 +22,9 @@ const HomePage = () => {
     (async () => {
       try {
         const resp = await httpRequest.get("http://localhost:5000/@me");
-        console.log(resp.data.name);
+        userCtx.setUserName(resp.data.name);
+        userCtx.setEmail(resp.data.email);
+        userCtx.setRole(resp.data.role);
         setUserName(resp.data.name);
       } catch (error) {
         console.log("Not authenticated");

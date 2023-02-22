@@ -1,10 +1,15 @@
 from flask_sqlalchemy import SQLAlchemy
 from uuid import uuid4
+from enum import Enum
 
 db = SQLAlchemy()
 
 def get_uuid():
     return uuid4().hex
+
+class UserRole(Enum):
+    ADMIN = "admin"
+    USER = "user"
 
 class User(db.Model):
     __tablename__ = "users"
@@ -12,6 +17,7 @@ class User(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(345), unique=True)
     password = db.Column(db.Text, nullable=False)
+    role = db.Column(db.Enum(UserRole), nullable=False, default=UserRole.USER)
     invoices = db.relationship("Invoice", backref="user")
 
 class Invoice(db.Model):
