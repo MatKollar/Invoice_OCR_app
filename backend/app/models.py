@@ -11,6 +11,11 @@ class UserRole(Enum):
     ADMIN = "admin"
     USER = "user"
 
+user_organization = db.Table('user_organization', db.metadata,
+    db.Column('user_id', db.String(32), db.ForeignKey('users.id')),
+    db.Column('organization_id', db.String(32), db.ForeignKey('organizations.id'))
+)
+
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
@@ -19,6 +24,13 @@ class User(db.Model):
     password = db.Column(db.Text, nullable=False)
     role = db.Column(db.Enum(UserRole), nullable=False, default=UserRole.USER)
     invoices = db.relationship("Invoice", backref="user")
+    organizations = db.relationship("Organization", secondary=user_organization, backref=db.backref('users', lazy='dynamic'))
+
+class Organization(db.Model):
+    __tablename__ = "organizations"
+    id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(1000))
 
 class Invoice(db.Model):
     __tablename__ = "invoices"

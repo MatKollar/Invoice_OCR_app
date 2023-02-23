@@ -7,6 +7,7 @@ from app.models import db, User, UserRole
 from app.preprocessing import preprocessing_bp
 from app.tesseractOCR import tesseract_bp
 from app.companyAPI import companyAPI_bp
+from app.organizations import organizations_bp
 from app.getData import getData_bp
 
 app = Flask(__name__)
@@ -17,6 +18,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.register_blueprint(preprocessing_bp)
 app.register_blueprint(tesseract_bp)
 app.register_blueprint(companyAPI_bp)
+app.register_blueprint(organizations_bp)
 app.register_blueprint(getData_bp)
 app.config['SESSION_SQLALCHEMY'] = db
 
