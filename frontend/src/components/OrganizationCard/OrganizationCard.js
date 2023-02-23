@@ -25,6 +25,7 @@ const OrganizationCard = () => {
       >
         <Typography variant="h5">
           Join Organization
+          <br />
           <TextField
             id="outlined-basic"
             label="Enter the code"
