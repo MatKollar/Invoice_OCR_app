@@ -1,24 +1,35 @@
-import { Button, Paper } from "@mui/material";
+import { Button, Paper, Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import { useState } from "react";
+
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 
-const CreateOrganizationCard = () => {
+const CreateOrganizationCard = (props) => {
   const classes = useStyles();
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
 
-  const createOrganization = async () => {
+  const createOrganization = async (event) => {
+    event.preventDefault();
+
+    const data = new FormData(event.currentTarget);
+
+    const name = data.get("name");
+    const description = data.get("description");
     console.log("Creating Organization with name", name, description);
 
     try {
-      const resp = await httpRequest.post("http://localhost:5000/create_organization", {
-        name,
-        description,
-      });
-      console.log(resp);
+      const resp = await httpRequest.post(
+        "http://localhost:5000/create_organization",
+        {
+          name,
+          description,
+        }
+      );
+      console.log(resp.status);
+      const status = resp.status;
+      if (status === 201) {
+        props.onPageChange(0);
+      }
     } catch (error) {
       if (error.response.status === 401) {
         alert("User not logged in");
@@ -27,14 +38,6 @@ const CreateOrganizationCard = () => {
         alert("Name is required");
       }
     }
-  };
-
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-
-  const handleDescriptionChange = (event) => {
-    setDescription(event.target.value);
   };
 
   return (
@@ -46,32 +49,35 @@ const CreateOrganizationCard = () => {
       >
         <Typography variant="h5">Create Organization</Typography>
         <br />
-        <div className={classes.textFields}>
+        <Box
+          component="form"
+          onSubmit={createOrganization}
+          className={classes.textFields}
+        >
           <TextField
-            id="outlined-basic"
+            id="name"
+            name="name"
             label="Organization name"
             variant="outlined"
             sx={{ width: "100%" }}
             size="small"
-            value={name}
-            onChange={handleNameChange}
+            required
           />
           <br />
           <TextField
-            id="outlined-basic"
+            id="description"
+            name="description"
             label="Description"
             variant="outlined"
             sx={{ mt: 2, width: "100%" }}
             multiline
             rows={4}
-            value={description}
-            onChange={handleDescriptionChange}
           />
-        </div>
-        <br />
-        <Button variant="contained" onClick={createOrganization}>
-          Create
-        </Button>
+          <br />
+          <Button variant="contained" type="submit" sx={{ mt: 2 }}>
+            Create
+          </Button>
+        </Box>
       </Paper>
     </>
   );

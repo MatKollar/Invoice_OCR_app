@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import httpRequest from "../../httpRequest";
 import AppLayout from "../../components/AppLayout/AppLayout";
 import { useStyles } from "./styles";
 import OrganizationCard from "../../components/OrganizationCard/OrganizationCard";
@@ -21,10 +20,10 @@ const OrganizationPage = () => {
   return (
     <>
       <AppLayout>
-        <OrganizationTabbar onPageChange={handlePageChange} />
-        <div className={classes.root}>
-          {activePage == 0 && <OrganizationCard />}
-          {role == "admin" && activePage == 1 && <CreateOrganizationCard />}
+        <OrganizationTabbar onPageChange={handlePageChange} activePage={activePage}/>
+        <div className={classes.cards}>
+          {activePage == 1 && <OrganizationCard />}
+          {role == "admin" && activePage == 2 && <CreateOrganizationCard onPageChange={handlePageChange} />}
         </div>
       </AppLayout>
     </>
