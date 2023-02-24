@@ -3,13 +3,34 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { useStyles } from "./styles";
+import httpRequest from "../../httpRequest";
 
-const OrganizationCard = () => {
+const OrganizationCard = (props) => {
   const classes = useStyles();
   const [code, setCode] = useState("");
 
-  const joinOrganization = () => {
+  const joinOrganization = async () => {
     console.log("Joining Organization with code", code);
+    try {
+        const resp = await httpRequest.post(
+          "http://localhost:5000/join_organization",
+          {
+            code,
+          }
+        );
+        console.log(resp.status);
+        const status = resp.status;
+        if (status === 201) {
+          props.onPageChange(0);
+        }
+      } catch (error) {
+        if (error.response.status === 401) {
+          alert("User not logged in");
+        }
+        if (error.response.status === 400) {
+          alert("Invalid invite code!");
+        }
+      }
   };
 
   const handleCodeChange = (event) => {

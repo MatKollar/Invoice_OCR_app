@@ -28,3 +28,22 @@ def create_organization():
     db.session.commit()
 
     return jsonify({"message": "Organization created successfully!"}), 201
+
+
+@organizations_bp.route('/join_organization', methods=['POST'])
+def join_organization():
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return jsonify({"error": "User not logged in."}), 401
+
+    invite_code = request.json.get("code")
+    
+    organization = Organization.query.filter_by(invite_code=invite_code).first()
+    if organization:
+        user = User.query.get(user_id)
+        user.organizations.append(organization)
+        db.session.commit()
+        return jsonify({"message": "Organization joined successfully!"}), 201
+    else:
+        return jsonify({"message": "Invalid invite code"}), 400

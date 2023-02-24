@@ -20,7 +20,7 @@ const OrganizationTabbar = (props) => {
 
   const handleChange = (event, newValue, tabName) => {
     setValue(newValue);
-    props.onPageChange(tabName);
+    props.onPageChange(newValue, tabName);
   };
 
   return (

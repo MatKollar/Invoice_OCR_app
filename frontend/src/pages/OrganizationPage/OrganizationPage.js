@@ -13,7 +13,8 @@ const OrganizationPage = () => {
   const classes = useStyles();
   const userCtx = useContext(userContext);
   const role = userCtx.role;
-  const [activePage, setActivePage] = useState("");
+  const [activePage, setActivePage] = useState(0);
+  const [activePageName, setActivePageName] = useState("ORGANIZATIONS");
   const [organizationsData, setOrganizationsData] = useState([]);
 
   useEffect(() => {
@@ -30,8 +31,9 @@ const OrganizationPage = () => {
     })();
   }, []);
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page, name) => {
     setActivePage(page);
+    setActivePageName(name);
   };
 
   return (
@@ -42,7 +44,7 @@ const OrganizationPage = () => {
           activePage={activePage}
         />
         <Grid container spacing={2}>
-          {activePage == "ORGANIZATIONS" &&
+          {activePageName == "ORGANIZATIONS" &&
             organizationsData &&
             organizationsData.map((organizationsData) => (
               <Grid key={organizationsData.id} item md={2}>
@@ -53,8 +55,8 @@ const OrganizationPage = () => {
             ))}
         </Grid>
         <div className={classes.cards}>
-          {activePage == "JOIN" && <OrganizationCard />}
-          {role == "admin" && activePage == "CREATE" && (
+          {activePageName == "JOIN" && <OrganizationCard onPageChange={handlePageChange} />}
+          {role == "admin" && activePageName == "CREATE" && (
             <CreateOrganizationCard onPageChange={handlePageChange} />
           )}
         </div>
