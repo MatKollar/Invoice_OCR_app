@@ -18,9 +18,9 @@ const OrganizationTabbar = (props) => {
     setValue(props.activePage);
   }, [props.activePage]);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event, newValue, tabName) => {
     setValue(newValue);
-    props.onPageChange(newValue);
+    props.onPageChange(tabName);
   };
 
   return (
@@ -30,7 +30,6 @@ const OrganizationTabbar = (props) => {
           className={classes.tabsContainer}
           centered
           value={value}
-          onChange={handleChange}
         >
           <Tab
             sx={{ mx: 5, p: 2 }}
@@ -40,6 +39,8 @@ const OrganizationTabbar = (props) => {
                 ORGANIZATIONS
               </Typography>
             }
+            value={0}
+            onClick={(e) => handleChange(e, 0, "ORGANIZATIONS")}
           />
           <Tab
             sx={{ mx: 5, p: 2 }}
@@ -49,6 +50,8 @@ const OrganizationTabbar = (props) => {
                 JOIN
               </Typography>
             }
+            value={1}
+            onClick={(e) => handleChange(e, 1, "JOIN")}
           />
           {role == "admin" && (
             <Tab
@@ -59,6 +62,8 @@ const OrganizationTabbar = (props) => {
                   CREATE
                 </Typography>
               }
+              value={2}
+              onClick={(e) => handleChange(e, 2, "CREATE")}
             />
           )}
         </Tabs>

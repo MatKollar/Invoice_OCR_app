@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, session
-from app.models import Invoice
+from app.models import Invoice, Organization, User
 
 getData_bp = Blueprint('getdata', __name__)
 
@@ -28,3 +28,14 @@ def getInvoices():
         invoice_data.append(invoice_dict)
 
     return jsonify({'invoices': invoice_data})
+
+@getData_bp.route('/get-organizations')
+def getOrganizations():
+    user_id = session.get("user_id")
+
+    user = User.query.get(user_id)
+    organization_data = [{'id': org.id, 'name': org.name, 'description': org.description, 'invite_code': org.invite_code} 
+                        for org in user.organizations]
+                        
+    return jsonify({'organizations': organization_data})
+
