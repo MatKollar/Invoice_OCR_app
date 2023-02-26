@@ -3,6 +3,7 @@ import requests
 
 companyAPI_bp = Blueprint('companyAPI', __name__)
 
+
 @companyAPI_bp.route('/get_details', methods=['POST'])
 def getCompanyDetails():
     ico = request.args.get('ico')
@@ -26,7 +27,7 @@ def getCompanyDetails():
         print(data)
     else:
         print(f"Error: {details_response.status_code}")
-    
+
     data = {
         'Name': data['nazovUJ'],
         'PSC': data['psc'],
@@ -35,5 +36,5 @@ def getCompanyDetails():
         'DIC': data['dic'],
         'ICO': ico,
     }
-    
+
     return jsonify({'data': data})

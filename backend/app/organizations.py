@@ -3,6 +3,7 @@ from app.models import db, Organization, User
 
 organizations_bp = Blueprint('organizations', __name__)
 
+
 @organizations_bp.route('/create_organization', methods=['POST'])
 def create_organization():
     user_id = session.get("user_id")
@@ -12,7 +13,7 @@ def create_organization():
 
     name = request.json['name']
     description = request.json['description']
-    
+
     if not name:
         return jsonify({"error": "Name is required."}), 400
 
@@ -38,8 +39,9 @@ def join_organization():
         return jsonify({"error": "User not logged in."}), 401
 
     invite_code = request.json.get("code")
-    
-    organization = Organization.query.filter_by(invite_code=invite_code).first()
+
+    organization = Organization.query.filter_by(
+        invite_code=invite_code).first()
     if organization:
         user = User.query.get(user_id)
         user.organizations.append(organization)

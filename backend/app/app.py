@@ -34,20 +34,22 @@ with app.app_context():
 def hello():
     return "Hello, World!"
 
+
 @app.route("/@me")
 def get_current_user():
 
     user_id = session.get("user_id")
-    
+
     if not user_id:
         return jsonify({"error": "Unauthorized"}), 401
-    
+
     user = User.query.filter_by(id=user_id).first()
     return jsonify({
         "name": user.name,
         "email": user.email,
         "role": user.role.value
     })
+
 
 @app.route('/promoteuser/<string:user_id>', methods=['POST'])
 def promote_user(user_id):
@@ -62,6 +64,7 @@ def promote_user(user_id):
 
     return jsonify({'message': 'User has been promoted to admin'}), 200
 
+
 @app.route("/register", methods=["POST"])
 def register_user():
     name = request.json["name"]
@@ -69,15 +72,15 @@ def register_user():
     password = request.json["password"]
 
     user_exists = User.query.filter_by(email=email).first() is not None
-    
+
     if user_exists:
         return jsonify({"error": "User already exists"}), 409
-        
+
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     new_user = User(name=name, email=email, password=hashed_password)
     db.session.add(new_user)
     db.session.commit()
-    
+
     session["user_id"] = new_user.id
 
     return jsonify({
@@ -85,6 +88,7 @@ def register_user():
         "name": new_user.name,
         "email": new_user.email
     })
+
 
 @app.route("/login", methods=["POST"])
 def login_user():
@@ -98,7 +102,7 @@ def login_user():
 
     if not bcrypt.check_password_hash(user.password, password):
         return jsonify({"error": "Unauthorized"}), 401
-    
+
     session["user_id"] = user.id
 
     return jsonify({
@@ -106,6 +110,7 @@ def login_user():
         "name": user.name,
         "email": user.email
     })
+
 
 @app.route("/logout", methods=["POST"])
 def logout_user():

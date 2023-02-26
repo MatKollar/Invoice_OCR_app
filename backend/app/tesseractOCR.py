@@ -7,12 +7,14 @@ import pytesseract
 
 tesseract_bp = Blueprint('tesseract', __name__)
 
+
 def load_image():
     file = request.files['file'].read()
     npimg = np.fromstring(file, np.uint8)
-    img = cv2.imdecode(npimg,cv2.IMREAD_COLOR)
-    img = cv2.cvtColor(img , cv2.COLOR_BGR2RGB)
+    img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     return img
+
 
 def add_invoice_to_db(parsed_data):
     invoice = Invoice(
@@ -32,6 +34,7 @@ def add_invoice_to_db(parsed_data):
     )
     db.session.add(invoice)
     db.session.commit()
+
 
 @tesseract_bp.route('/tesseract', methods=['POST'])
 def tesseract():

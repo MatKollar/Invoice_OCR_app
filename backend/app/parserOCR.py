@@ -1,6 +1,7 @@
 import re
 import requests
 
+
 def get_invoice_number(lines):
     invoice_number = ''
     for line in lines:
@@ -14,6 +15,7 @@ def get_invoice_number(lines):
                 break
     return invoice_number
 
+
 def get_variable_symbol(lines):
     var_symbol = ''
     for line in lines:
@@ -26,6 +28,7 @@ def get_variable_symbol(lines):
             if var_symbol:
                 break
     return var_symbol
+
 
 def get_date_of_issue(lines):
     date_of_issue = ''
@@ -41,6 +44,7 @@ def get_date_of_issue(lines):
                 break
     return date_of_issue
 
+
 def get_due_date(lines):
     due_date = ''
     date_pattern = re.compile(r"\d{2}\.\d{2}\.\d{4}")
@@ -54,6 +58,7 @@ def get_due_date(lines):
             if due_date:
                 break
     return due_date
+
 
 def get_delivery_date(lines):
     delivery_date = ''
@@ -69,6 +74,7 @@ def get_delivery_date(lines):
                 break
     return delivery_date
 
+
 def get_payment_method(lines):
     payment_method = ''
     for line in lines:
@@ -81,6 +87,7 @@ def get_payment_method(lines):
             if payment_method:
                 break
     return payment_method
+
 
 def get_total_price(lines):
     total_price = ''
@@ -96,6 +103,7 @@ def get_total_price(lines):
                 break
     return total_price
 
+
 def get_bank(lines):
     bank = ''
     for line in lines:
@@ -108,6 +116,7 @@ def get_bank(lines):
             if bank:
                 break
     return bank
+
 
 def get_swift(lines):
     swift = ''
@@ -122,6 +131,7 @@ def get_swift(lines):
                 break
     return swift
 
+
 def get_iban(lines):
     iban = ''
     for line in lines:
@@ -135,6 +145,7 @@ def get_iban(lines):
                 break
     return iban
 
+
 def get_buyer_ico(lines):
     ico = ''
     for i, line in enumerate(lines):
@@ -145,11 +156,12 @@ def get_buyer_ico(lines):
                     ico = words[j + 1]
                     del words[j + 1]
                     del words[j]
-                    lines[i] = ' '.join(words) 
+                    lines[i] = ' '.join(words)
                     break
             if ico:
                 break
     return ico
+
 
 def get_supplier_ico(lines):
     ico = ''
@@ -161,12 +173,11 @@ def get_supplier_ico(lines):
                     ico = words[j + 1]
                     del words[j + 1]
                     del words[j]
-                    lines[i] = ' '.join(words) 
+                    lines[i] = ' '.join(words)
                     break
             if ico:
                 break
     return ico
-
 
 
 def parse_text(text):
@@ -181,7 +192,7 @@ def parse_text(text):
     else:
         supplier_data = {}
 
-    buyer_ico = get_buyer_ico(lines) 
+    buyer_ico = get_buyer_ico(lines)
     details_url = f"http://localhost:5000/get_details?ico={buyer_ico}"
     buyer_details = requests.post(details_url)
 
