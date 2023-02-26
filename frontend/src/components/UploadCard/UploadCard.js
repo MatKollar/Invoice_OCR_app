@@ -39,17 +39,28 @@ const UploadCard = () => {
     return image;
   };
 
+  const loadImage = () => {
+    const img = new Image();
+    img.onload = () => {
+      const mat = cv.imread(img);
+      cv.imshow("output", mat);
+      mat.delete();
+     
+    };
+    return img;
+  };
+
+  const saveImage = (file) => {
+    ocrCtx.setOriginalImage(file);
+    ocrCtx.setActualImage(file);
+  };
+
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (file.type === "application/pdf") {
-      const image = convertPdfToImages(event.target.files[0]);
+      const image = convertPdfToImages(file);
       image.then(async (image) => {
-        const img = new Image();
-        img.onload = () => {
-          const mat = cv.imread(img);
-          cv.imshow("output", mat);
-          mat.delete();
-        };
+        const img = loadImage();
         img.src = image;
         const base64Response = await fetch(`${image}`);
         const blob = await base64Response.blob();
@@ -57,19 +68,12 @@ const UploadCard = () => {
           type: "image/jpeg",
           lastModified: new Date().getTime(),
         });
-        ocrCtx.setOriginalImage(fileImage);
-        ocrCtx.setActualImage(fileImage);
+        saveImage(fileImage);
       });
     } else {
-      const img = new Image();
-      img.onload = () => {
-        const mat = cv.imread(img);
-        cv.imshow("output", mat);
-        mat.delete();
-      };
-      img.src = URL.createObjectURL(event.target.files[0]);
-      ocrCtx.setOriginalImage(event.target.files[0]);
-      ocrCtx.setActualImage(event.target.files[0]);
+      const img = loadImage();
+      img.src = URL.createObjectURL(file);
+      saveImage(file);
     }
   };
 

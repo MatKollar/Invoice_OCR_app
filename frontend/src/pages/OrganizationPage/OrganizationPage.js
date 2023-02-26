@@ -23,7 +23,6 @@ const OrganizationPage = () => {
         const resp = await httpRequest.get(
           "http://localhost:5000/get-organizations"
         );
-        console.log(resp.data.organizations);
         setOrganizationsData(resp.data.organizations);
       } catch (error) {
         console.log("Error");
