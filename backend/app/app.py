@@ -6,6 +6,7 @@ from config import ApplicationConfig
 from app.models import db, User, UserRole
 from app.preprocessing import preprocessing_bp
 from app.tesseractOCR import tesseract_bp
+from app.paddleOCR import paddleocr_bp
 from app.companyAPI import companyAPI_bp
 from app.organizations import organizations_bp
 from app.getData import getData_bp
@@ -17,6 +18,7 @@ CORS(app, supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.register_blueprint(preprocessing_bp)
 app.register_blueprint(tesseract_bp)
+app.register_blueprint(paddleocr_bp)
 app.register_blueprint(companyAPI_bp)
 app.register_blueprint(organizations_bp)
 app.register_blueprint(getData_bp)
