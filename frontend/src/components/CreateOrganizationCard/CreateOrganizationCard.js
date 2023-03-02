@@ -25,10 +25,9 @@ const CreateOrganizationCard = (props) => {
           description,
         }
       );
-      console.log(resp.status);
       const status = resp.status;
       if (status === 201) {
-        props.onPageChange(0);
+        props.onPageChange(0, "ORGANIZATIONS");
       }
     } catch (error) {
       if (error.response.status === 401) {

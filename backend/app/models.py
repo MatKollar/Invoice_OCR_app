@@ -3,6 +3,7 @@ from uuid import uuid4
 from enum import Enum
 import string
 import random
+import secrets
 
 db = SQLAlchemy()
 
@@ -13,7 +14,10 @@ def get_uuid():
 
 def generate_invite_code(length):
     letters_and_digits = string.ascii_uppercase + string.digits
-    return ''.join(random.choice(letters_and_digits) for i in range(length))
+    while True:
+        code = ''.join(random.choices(letters_and_digits, k=length))
+        if not Organization.query.filter_by(invite_code=code).first():
+            return code
 
 
 class UserRole(Enum):
@@ -47,7 +51,7 @@ class Organization(db.Model):
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(1000))
     invite_code = db.Column(db.String(5), unique=True,
-                            default=generate_invite_code(5))
+                            default=lambda: generate_invite_code(5))
 
 
 class Invoice(db.Model):

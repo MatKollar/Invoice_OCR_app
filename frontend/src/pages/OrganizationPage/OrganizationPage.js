@@ -47,11 +47,12 @@ const OrganizationPage = () => {
         console.log("Error");
       }
     })();
-  }, []);
+  }, [activePage]);
 
   const handlePageChange = (page, name) => {
     setActivePage(page);
     setActivePageName(name);
+    setIsOrganizationOpen(false);
   };
 
   const openOrganization = (organizationData) => {
@@ -94,7 +95,7 @@ const OrganizationPage = () => {
             <IconButton onClick={() => setIsOrganizationOpen(false)}>
               <ArrowBackIcon />
             </IconButton>
-            <Organization dataFromDB={selectedOrganization}/>
+            <Organization dataFromDB={selectedOrganization} />
           </div>
         )}
       </AppLayout>
