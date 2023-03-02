@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from paddleocr import PaddleOCR
 import numpy as np
 import cv2
@@ -15,10 +15,11 @@ def load_image():
 @paddleocr_bp.route('/paddleOCR', methods=['POST'])
 def paddleocr():
     img = load_image()
-    ocr = PaddleOCR(use_angle_cls=True, lang='en')
+    ocr = PaddleOCR(use_angle_cls=True, lang='sk')
+    text=''
     result = ocr.ocr(img, cls=True)
-    for idx in range(len(result)):
-        res = result[idx]
+    text = ""
+    for res in result:
         for line in res:
-            print(line)
-    return "PaddleOCR"
+            text += line[1][0] + "\n"
+    return jsonify({'text': text})
