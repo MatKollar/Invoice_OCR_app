@@ -11,6 +11,22 @@ def getInvoices():
     invoices = Invoice.query.filter_by(user_id=user_id).all()
     invoice_data = []
     for invoice in invoices:
+        supplier_data = {
+            'ICO': invoice.supplier_ico,
+            'Name': invoice.supplier_name,
+            'Street': invoice.supplier_address,
+            'PSC': invoice.supplier_psc,
+            'City': invoice.supplier_city,
+            'DIC': invoice.supplier_dic,
+        }
+        buyer_data = {
+            'ICO': invoice.buyer_ico,
+            'Name': invoice.buyer_name,
+            'Street': invoice.buyer_address,
+            'PSC': invoice.buyer_psc,
+            'City': invoice.buyer_city,
+            'DIC': invoice.buyer_dic,
+        }
         invoice_dict = {
             'id': invoice.id,
             'invoice_number': invoice.invoice_number,
@@ -23,8 +39,8 @@ def getInvoices():
             'bank': invoice.bank,
             'swift': invoice.swift,
             'iban': invoice.iban,
-            'buyer_ico': invoice.buyer_ico,
-            'supplier_ico': invoice.supplier_ico
+            'supplier_data': supplier_data,
+            'buyer_data': buyer_data,
         }
         invoice_data.append(invoice_dict)
 

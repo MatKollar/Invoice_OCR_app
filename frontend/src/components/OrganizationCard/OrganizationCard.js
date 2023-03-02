@@ -10,7 +10,6 @@ const OrganizationCard = (props) => {
   const [code, setCode] = useState("");
 
   const joinOrganization = async () => {
-    console.log("Joining Organization with code", code);
     try {
         const resp = await httpRequest.post(
           "http://localhost:5000/join_organization",

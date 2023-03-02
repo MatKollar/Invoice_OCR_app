@@ -212,8 +212,8 @@ def parse_text(text):
         'bank': get_bank(lines),
         'swift': get_swift(lines),
         'iban': get_iban(lines),
-        'buyer_ico': get_buyer_ico(lines),
-        'supplier_ico': get_supplier_ico(lines),
+        'buyer_ico': buyer_ico,
+        'supplier_ico': supplier_ico,
         'supplier_data': supplier_data,
         'buyer_data': buyer_data
     }

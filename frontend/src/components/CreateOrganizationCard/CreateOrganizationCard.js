@@ -15,8 +15,6 @@ const CreateOrganizationCard = (props) => {
 
     const name = data.get("name");
     const description = data.get("description");
-    console.log("Creating Organization with name", name, description);
-
     try {
       const resp = await httpRequest.post(
         "http://localhost:5000/create_organization",
