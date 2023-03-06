@@ -5,6 +5,7 @@ import cv2
 
 paddleocr_bp = Blueprint('paddleocr', __name__)
 
+
 def load_image():
     file = request.files['file'].read()
     npimg = np.fromstring(file, np.uint8)
@@ -12,11 +13,12 @@ def load_image():
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     return img
 
+
 @paddleocr_bp.route('/paddleOCR', methods=['POST'])
 def paddleocr():
     img = load_image()
     ocr = PaddleOCR(use_angle_cls=True, lang='sk')
-    text=''
+    text = ''
     result = ocr.ocr(img, cls=True)
     text = ""
     for res in result:

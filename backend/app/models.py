@@ -3,7 +3,6 @@ from uuid import uuid4
 from enum import Enum
 import string
 import random
-import secrets
 
 db = SQLAlchemy()
 
@@ -22,6 +21,7 @@ def generate_invite_code(length):
 
 class UserRole(Enum):
     ADMIN = "admin"
+    OWNER = "owner"
     USER = "user"
 
 

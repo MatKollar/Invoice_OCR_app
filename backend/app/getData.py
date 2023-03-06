@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, session
-from app.models import Invoice, Organization, User
+from app.models import Invoice, User
 
 getData_bp = Blueprint('getdata', __name__)
 
