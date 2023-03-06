@@ -12,9 +12,19 @@ const UsersPage = () => {
   const [userName, setUserName] = useState();
 
   useEffect(() => {
-    if (role !== "admin") {
-      window.location.href = "/";
-    }
+    (async () => {
+      if (role !== "admin") {
+        window.location.href = "/";
+      } else {
+        try {
+          const resp = await httpRequest.get("http://localhost:5000/get-users");
+          console.log(resp.data);
+        } catch (error) {
+          console.log("Not authenticated");
+          window.location.href = "/login";
+        }
+      }
+    })();
   }, [role]);
 
   useEffect(() => {

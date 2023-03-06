@@ -56,3 +56,12 @@ def getOrganizations():
                          for org in user.organizations]
 
     return jsonify({'organizations': organization_data})
+
+
+@getData_bp.route('/get-users')
+def getUsers():
+    users = User.query.all()
+    user_data = [{'id': user.id, 'name': user.name, 'email': user.email, 'role': user.role.value}
+                 for user in users]
+
+    return jsonify({'users': user_data})

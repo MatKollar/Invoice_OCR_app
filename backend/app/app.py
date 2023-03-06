@@ -63,15 +63,3 @@ def get_current_user():
         "role": user.role.value
     })
 
-
-@app.route('/promoteuser/<string:user_id>', methods=['POST'])
-def promote_user(user_id):
-    user = User.query.filter_by(id=user_id).first()
-
-    if not user:
-        return jsonify({'message': 'User not found'}), 404
-
-    user.role = UserRole.ADMIN
-    db.session.commit()
-
-    return jsonify({'message': 'User has been promoted to admin'}), 200
