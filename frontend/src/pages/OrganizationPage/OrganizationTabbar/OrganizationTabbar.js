@@ -53,7 +53,7 @@ const OrganizationTabbar = (props) => {
             value={1}
             onClick={(e) => handleChange(e, 1, "JOIN")}
           />
-          {role == "admin" && (
+          {role !== "user" && (
             <Tab
               sx={{ mx: 5, p: 2 }}
               label={
