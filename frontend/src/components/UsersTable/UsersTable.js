@@ -1,12 +1,5 @@
 import { useState } from "react";
 import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Paper,
   Button,
   Modal,
   Box,
@@ -18,8 +11,9 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useStyles } from "./styles";
+import httpRequest from "../../httpRequest";
 
-function UsersTable({ users }) {
+function UsersTable({ users, onUserUpdated }) {
   const classes = useStyles();
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -43,10 +37,18 @@ function UsersTable({ users }) {
     setSelectedRole(event.target.value);
   };
 
-  const handleSave = () => {
-    console.log(
-      `Changing role of user ${selectedUser.name} to ${selectedRole}`
-    );
+  const handleSave = async () => {
+    try {
+      const resp = await httpRequest.post("http://localhost:5000/edit-role", {
+        user_id: selectedUser.id,
+        role: selectedRole,
+      });
+      console.log(resp);
+      onUserUpdated(selectedUser.id, selectedRole);
+    } catch (error) {
+      console.log("Error");
+    }
+
     setShowModal(false);
   };
 

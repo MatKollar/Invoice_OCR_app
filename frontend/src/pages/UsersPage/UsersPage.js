@@ -12,6 +12,7 @@ const UsersPage = () => {
   const role = userCtx.role;
   const [userName, setUserName] = useState();
   const [usersData, setUsersData] = useState([]);
+  const [updatedUser, setUpdatedUser] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -28,7 +29,7 @@ const UsersPage = () => {
         }
       }
     })();
-  }, [role]);
+  }, [role, updatedUser]);
 
   useEffect(() => {
     (async () => {
@@ -45,11 +46,16 @@ const UsersPage = () => {
     })();
   }, []);
 
+  const handleUserUpdated = (updatedUserID,updatedUserRole) => {
+    console.log("UPDATED");
+    setUpdatedUser({updatedUserID, updatedUserRole});
+  };
+
   return (
     <>
       <AppLayout userName={userName}>
         <div className={classes.tableContainer}>
-          <UsersTable users={usersData} />
+          <UsersTable users={usersData} onUserUpdated={handleUserUpdated} />
         </div>
       </AppLayout>
     </>

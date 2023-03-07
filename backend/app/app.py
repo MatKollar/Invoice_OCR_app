@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, session
+from flask import Flask, jsonify, session, request
 from flask_cors import CORS
 from flask_session import Session
 from config import ApplicationConfig
@@ -62,4 +62,15 @@ def get_current_user():
         "email": user.email,
         "role": user.role.value
     })
+
+@app.route("/edit-role", methods=["POST"])
+def edit_role():
+    role = request.json["role"]
+    user_id = request.json["user_id"]
+
+    user = User.query.filter_by(id=user_id).first()
+    user.role = UserRole[role]
+    db.session.commit()
+    
+    return jsonify({"success": True}), 200
 
