@@ -21,7 +21,7 @@ function UsersTable({ users, onUserUpdated }) {
   const [selectedRole, setSelectedRole] = useState("");
 
   const handleEdit = (event, user) => {
-    if (user.email === "admin@admin.com") {
+    if (user.email === "admin") {
       return;
     }
     setEditedRole(user.role);

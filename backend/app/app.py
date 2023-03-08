@@ -33,11 +33,11 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-    admin_user = User.query.filter_by(email='admin@admin.com').first()
+    admin_user = User.query.filter_by(email='admin').first()
     if not admin_user:
         hashed_password = bcrypt.generate_password_hash(
             'admin').decode('utf-8')
-        admin_user = User(email='admin@admin.com',
+        admin_user = User(email='admin',
                           name='Admin', password=hashed_password)
         admin_user.role = UserRole.ADMIN
         db.session.add(admin_user)
