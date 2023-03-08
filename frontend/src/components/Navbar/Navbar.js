@@ -4,11 +4,12 @@ import { useStyles } from "./styles";
 import { Grid, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import httpRequest from "../../httpRequest";
+import ChangePasswordModal from "../ChangePasswordModal/ChangePasswordModal";
 
 const Navbar = (props) => {
   const classes = useStyles();
-
   const [open, setOpen] = useState(null);
+  const [changePasswordOpen, setChangePasswordOpen] = useState(false);
 
   const handleMenuOpen = (event) => {
     setOpen(event.currentTarget);
@@ -18,14 +19,21 @@ const Navbar = (props) => {
     setOpen(null);
   };
 
+  const handlePasswordModalOpen = () => {
+    setChangePasswordOpen(true);
+    setOpen(null);
+  };
+
+  const handleClosPasswordModal = () => {
+    setChangePasswordOpen(false);
+  };
+
   const logoutUser = async () => {
     await httpRequest.post("//localhost:5000/logout");
     window.location.href = "/login";
   };
 
   const openProfile = () => {};
-
-  const changePassword = () => {};
 
   return (
     <>
@@ -49,7 +57,9 @@ const Navbar = (props) => {
               onClose={handleMenuClose}
             >
               <MenuItem onClick={openProfile}>Profile</MenuItem>
-              <MenuItem onClick={changePassword}>Change password</MenuItem>
+              <MenuItem onClick={handlePasswordModalOpen}>
+                Change password
+              </MenuItem>
               <MenuItem onClick={logoutUser}>Log out</MenuItem>
             </Menu>
             <Button
@@ -60,6 +70,10 @@ const Navbar = (props) => {
             >
               Log out
             </Button>
+            <ChangePasswordModal
+              open={changePasswordOpen}
+              onClose={handleClosPasswordModal}
+            />
           </Grid>
         </Grid>
       </div>
