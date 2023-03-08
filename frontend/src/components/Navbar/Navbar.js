@@ -5,11 +5,13 @@ import { Grid, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import httpRequest from "../../httpRequest";
 import ChangePasswordModal from "../ChangePasswordModal/ChangePasswordModal";
+import ProfileModal from "../ProfileModal/ProfileModal";
 
 const Navbar = (props) => {
   const classes = useStyles();
   const [open, setOpen] = useState(null);
   const [changePasswordOpen, setChangePasswordOpen] = useState(false);
+  const [showProfileOpen, setShowProfileOpen] = useState(false);
 
   const handleMenuOpen = (event) => {
     setOpen(event.currentTarget);
@@ -24,16 +26,23 @@ const Navbar = (props) => {
     setOpen(null);
   };
 
-  const handleClosPasswordModal = () => {
+  const handleClosePasswordModal = () => {
     setChangePasswordOpen(false);
+  };
+
+  const handleProfileModalOpen = () => {
+    setShowProfileOpen(true);
+    setOpen(null);
+  };
+
+  const handleCloseProfileModal = () => {
+    setShowProfileOpen(false);
   };
 
   const logoutUser = async () => {
     await httpRequest.post("//localhost:5000/logout");
     window.location.href = "/login";
   };
-
-  const openProfile = () => {};
 
   return (
     <>
@@ -56,7 +65,7 @@ const Navbar = (props) => {
               open={Boolean(open)}
               onClose={handleMenuClose}
             >
-              <MenuItem onClick={openProfile}>Profile</MenuItem>
+              <MenuItem onClick={handleProfileModalOpen}>Profile</MenuItem>
               <MenuItem onClick={handlePasswordModalOpen}>
                 Change password
               </MenuItem>
@@ -72,7 +81,11 @@ const Navbar = (props) => {
             </Button>
             <ChangePasswordModal
               open={changePasswordOpen}
-              onClose={handleClosPasswordModal}
+              onClose={handleClosePasswordModal}
+            />
+            <ProfileModal
+              open={showProfileOpen}
+              onClose={handleCloseProfileModal}
             />
           </Grid>
         </Grid>
