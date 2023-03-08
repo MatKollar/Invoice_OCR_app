@@ -7,22 +7,62 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
+import httpRequest from "../../httpRequest";
 
 const ChangePasswordModal = ({ open, onClose }) => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    console.log("Submitting form with old password:", oldPassword);
-    console.log("New password:", newPassword);
-    console.log("Confirm password:", confirmPassword);
+  const handleClose = () => {
+    setOldPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
     onClose();
   };
 
+  const validatePassword = () => {
+    if (newPassword !== confirmPassword) {
+      alert("Passwords do not match");
+      return false;
+    }
+
+    if (newPassword.length < 6) {
+      alert("Password must be at least 6 characters long");
+      return false;
+    }
+    return true;
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validatePassword(newPassword, confirmPassword)) {
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      return;
+    }
+
+    try {
+      const resp = await httpRequest.post(
+        "http://localhost:5000/change-password",
+        {
+          oldPassword,
+          newPassword,
+        }
+      );
+
+    } catch (error) {
+      if (error.response.status === 401) {
+        alert("Invalid credentials");
+      }
+    }
+    handleClose();
+  };
+
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={handleClose}>
       <form onSubmit={handleFormSubmit}>
         <DialogTitle>Change Password</DialogTitle>
         <DialogContent>
@@ -56,7 +96,7 @@ const ChangePasswordModal = ({ open, onClose }) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={handleClose}>Cancel</Button>
           <Button type="submit">Save</Button>
         </DialogActions>
       </form>

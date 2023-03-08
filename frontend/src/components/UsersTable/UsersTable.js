@@ -17,14 +17,12 @@ function UsersTable({ users, onUserUpdated }) {
   const classes = useStyles();
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [editedRole, setEditedRole] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
 
   const handleEdit = (event, user) => {
     if (user.email === "admin") {
       return;
     }
-    setEditedRole(user.role);
     setSelectedUser(user);
     setShowModal(true);
   };
@@ -43,7 +41,6 @@ function UsersTable({ users, onUserUpdated }) {
         user_id: selectedUser.id,
         role: selectedRole,
       });
-      console.log(resp);
       onUserUpdated(selectedUser.id, selectedRole);
     } catch (error) {
       console.log("Error");

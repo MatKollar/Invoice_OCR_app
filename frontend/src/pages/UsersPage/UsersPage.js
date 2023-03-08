@@ -21,7 +21,6 @@ const UsersPage = () => {
       } else {
         try {
           const resp = await httpRequest.get("http://localhost:5000/get-users");
-          console.log(resp.data.users);
           setUsersData(resp.data.users);
         } catch (error) {
           console.log("Not authenticated");
@@ -47,7 +46,6 @@ const UsersPage = () => {
   }, []);
 
   const handleUserUpdated = (updatedUserID,updatedUserRole) => {
-    console.log("UPDATED");
     setUpdatedUser({updatedUserID, updatedUserRole});
   };
 

@@ -27,7 +27,7 @@ const HomePage = () => {
         userCtx.setRole(resp.data.role);
         setUserName(resp.data.name);
       } catch (error) {
-        console.log("Not authenticated");
+        alert("Not authenticated");
         window.location.href = "/login";
       }
     })();

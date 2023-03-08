@@ -57,3 +57,23 @@ def login_user():
 def logout_user():
     session.pop("user_id")
     return "200"
+
+
+@authentication_bp.route("/change-password", methods=["POST"])
+def change_password():
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    user = User.query.filter_by(id=user_id).first()
+    old_password = request.json["oldPassword"]
+    new_password = request.json["newPassword"]
+
+    if not bcrypt.check_password_hash(user.password, old_password):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+    db.session.commit()
+
+    return jsonify({"success": True}), 200
