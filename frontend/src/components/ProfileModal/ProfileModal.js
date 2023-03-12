@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import UserContext from "../../context/user-context";
 import { useStyles } from "./styles";
+import httpRequest from "../../httpRequest";
 
 const ProfileModal = ({ open, onClose }) => {
   const classes = useStyles();
@@ -17,6 +18,11 @@ const ProfileModal = ({ open, onClose }) => {
   const [email, setEmail] = useState(userCtx.email);
   const [isChangingName, setIsChangingName] = useState(false);
   const [isChangingEmail, setIsChangingEmail] = useState(false);
+
+  useEffect(() => {
+    setName(userCtx.userName);
+    setEmail(userCtx.email);
+  }, [userCtx]);
 
   const handleClose = () => {
     setName(userCtx.userName);
@@ -27,8 +33,35 @@ const ProfileModal = ({ open, onClose }) => {
   };
 
   const handleSave = () => {
-    userCtx.setName(name);
-    userCtx.setEmail(email);
+    if (!validateEmail(email)) {
+      alert("Email is not valid!");
+    } else {
+      userCtx.setUserName(name);
+      userCtx.setEmail(email);
+      updateUser(name, email);
+    }
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (!emailRegex.test(email) && email.length > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const updateUser = async (name, email) => {
+    try {
+      const resp = await httpRequest.post("http://localhost:5000/update-user", {
+        name,
+        email,
+      });
+    } catch (error) {
+      if (error.response.status === 401) {
+        alert("Invalid credentials");
+      }
+    }
     handleClose();
   };
 

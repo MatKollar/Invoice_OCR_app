@@ -63,6 +63,7 @@ def get_current_user():
         "role": user.role.value
     })
 
+
 @app.route("/edit-role", methods=["POST"])
 def edit_role():
     role = request.json["role"]
@@ -71,6 +72,23 @@ def edit_role():
     user = User.query.filter_by(id=user_id).first()
     user.role = UserRole[role]
     db.session.commit()
-    
+
     return jsonify({"success": True}), 200
 
+
+@app.route("/update-user", methods=["POST"])
+def update_user():
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    user = User.query.filter_by(id=user_id).first()
+    name = request.json["name"]
+    email = request.json["email"]
+
+    user.name = name
+    user.email = email
+    db.session.commit()
+
+    return jsonify({"success": True}), 200
