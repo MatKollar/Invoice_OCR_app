@@ -30,18 +30,23 @@ def add_invoice_to_db(parsed_data):
         swift=parsed_data['swift'],
         iban=parsed_data['iban'],
         supplier_ico=parsed_data['supplier_ico'],
-        supplier_name=parsed_data['supplier_data']['Name'],
-        supplier_address=parsed_data['supplier_data']['Street'],
-        supplier_psc=parsed_data['supplier_data']['PSC'],
-        supplier_city=parsed_data['supplier_data']['City'],
-        supplier_dic=parsed_data['supplier_data']['DIC'],
         buyer_ico=parsed_data['buyer_ico'],
-        buyer_name=parsed_data['buyer_data']['Name'],
-        buyer_address=parsed_data['buyer_data']['Street'],
-        buyer_psc=parsed_data['buyer_data']['PSC'],
-        buyer_city=parsed_data['buyer_data']['City'],
-        buyer_dic=parsed_data['buyer_data']['DIC']
     )
+
+    if parsed_data['supplier_data'].get('Name'):
+        invoice.supplier_name = parsed_data['supplier_data']['Name']
+        invoice.supplier_address=parsed_data['supplier_data']['Street'],
+        invoice.supplier_psc=parsed_data['supplier_data']['PSC'],
+        invoice.supplier_city=parsed_data['supplier_data']['City'],
+        invoice.supplier_dic=parsed_data['supplier_data']['DIC'],
+    
+    if parsed_data['buyer_data'].get('Name'):
+        invoice.buyer_name = parsed_data['buyer_data']['Name']
+        invoice.buyer_address=parsed_data['buyer_data']['Street'],
+        invoice.buyer_psc=parsed_data['buyer_data']['PSC'],
+        invoice.buyer_city=parsed_data['buyer_data']['City'],
+        invoice.buyer_dic=parsed_data['buyer_data']['DIC'],
+
     db.session.add(invoice)
     db.session.commit()
 

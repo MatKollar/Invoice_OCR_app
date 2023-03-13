@@ -14,7 +14,6 @@ def getCompanyDetails():
 
     if id_response.status_code == 200:
         data = id_response.json()
-        print(data['id'][0])
     else:
         print(f"Error: {id_response.status_code}")
 
@@ -24,7 +23,6 @@ def getCompanyDetails():
 
     if details_response.status_code == 200:
         data = details_response.json()
-        print(data)
     else:
         print(f"Error: {details_response.status_code}")
 

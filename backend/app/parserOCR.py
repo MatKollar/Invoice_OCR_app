@@ -182,25 +182,26 @@ def get_supplier_ico(lines):
 
 def parse_text(text):
     lines = text.split('\n')
+    supplier_data = {}
+    buyer_data = {}
 
     supplier_ico = get_supplier_ico(lines)
-    details_url = f"http://localhost:5000/get_details?ico={supplier_ico}"
-    supplier_details = requests.post(details_url)
+    if supplier_ico:
+        details_url = f"http://localhost:5000/get_details?ico={supplier_ico}"
+        supplier_details = requests.post(details_url)
 
-    if supplier_details.status_code == 200:
-        supplier_data = supplier_details.json()['data']
-    else:
-        supplier_data = {}
+        if supplier_details.status_code == 200:
+            supplier_data = supplier_details.json()['data']
+            
 
     buyer_ico = get_buyer_ico(lines)
-    details_url = f"http://localhost:5000/get_details?ico={buyer_ico}"
-    buyer_details = requests.post(details_url)
-
-    if buyer_details.status_code == 200:
-        buyer_data = buyer_details.json()['data']
-    else:
-        buyer_data = {}
-
+    if buyer_ico:
+        details_url = f"http://localhost:5000/get_details?ico={buyer_ico}"
+        buyer_details = requests.post(details_url)
+    
+        if buyer_details.status_code == 200:
+            buyer_data = buyer_details.json()['data']
+            
     data = {
         'invoice_number': get_invoice_number(lines),
         'var_symbol': get_variable_symbol(lines),
