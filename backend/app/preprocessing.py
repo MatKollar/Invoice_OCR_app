@@ -4,6 +4,7 @@ import io
 import numpy as np
 import cv2
 import base64
+import imutils
 
 preprocessing_bp = Blueprint('preprocessing', __name__)
 
@@ -66,5 +67,39 @@ def skew_correction():
     M = cv2.getRotationMatrix2D(center, angle, 1.0)
     img = cv2.warpAffine(img, M, (w, h),
                          flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+
+    return jsonify({'image': convert_to_base64(img), 'filename': request.files['file'].filename})
+
+@preprocessing_bp.route('/remove_barcodes', methods=['POST'])
+def remove_barcodes():
+    img = load_image()
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    ddepth = cv2.cv.CV_32F if imutils.is_cv2() else cv2.CV_32F
+    gradX = cv2.Sobel(gray, ddepth=ddepth, dx=1, dy=0, ksize=-1)
+    gradY = cv2.Sobel(gray, ddepth=ddepth, dx=0, dy=1, ksize=-1)
+
+    gradient = cv2.subtract(gradX, gradY)
+    gradient = cv2.convertScaleAbs(gradient)
+
+    blurred = cv2.blur(gradient, (9, 9))
+    (_, thresh) = cv2.threshold(blurred, 225, 255, cv2.THRESH_BINARY)
+
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (21, 7))
+    closed = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
+
+    closed = cv2.erode(closed, None, iterations = 4)
+    closed = cv2.dilate(closed, None, iterations = 4)
+
+    cnts = cv2.findContours(closed.copy(), cv2.RETR_EXTERNAL,
+        cv2.CHAIN_APPROX_SIMPLE)
+    cnts = imutils.grab_contours(cnts)
+    c = sorted(cnts, key = cv2.contourArea, reverse = True)[0]
+
+    mask = np.zeros(img.shape[:2], dtype=np.uint8)
+    cv2.drawContours(mask, [c], -1, 255, -1)
+    mask = cv2.dilate(mask, None, iterations=10)
+
+    img[mask == 255] = [255, 255, 255]
 
     return jsonify({'image': convert_to_base64(img), 'filename': request.files['file'].filename})

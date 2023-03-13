@@ -102,6 +102,15 @@ const PreprocessingCard = () => {
               Skew Correction
             </Button>
           </Grid>
+          <Grid item xs={6}>
+            <Button
+              variant="contained"
+              onClick={() => handlePreprocessingMethod("remove_barcodes")}
+              sx={{ px: "10%" }}
+            >
+              Remove Barcodes
+            </Button>
+          </Grid>
         </Grid>
 
         <Button

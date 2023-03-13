@@ -7,6 +7,7 @@ flask-bcrypt
 python-dotenv
 flask-session
 opencv-python-headless
+imutils
 pytesseract
 paddlepaddle
 paddleocr
