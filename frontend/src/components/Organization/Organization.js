@@ -11,14 +11,19 @@ const Organization = (props) => {
   const userCtx = useContext(userContext);
 
   useEffect(() => {
-    if (userCtx.activeOrganization === orgData.id) {
-      setActiveOrganization(true);
+    console.log(userCtx.activeOrganization);
+    if (userCtx.activeOrganization) {
+      if (userCtx.activeOrganization.id === orgData.id) {
+        setActiveOrganization(true);
+      } else {
+        setActiveOrganization(false);
+      }
     }
   }, [userCtx.activeOrganization]);
 
   const setOrganizationAsActive = async () => {
     setActiveOrganization(true);
-    userCtx.setActiveOrganization(orgData.id);
+    userCtx.setActiveOrganization(orgData);
     try {
       const resp = await httpRequest.post(
         "http://localhost:5000/activate-organization",

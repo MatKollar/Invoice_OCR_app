@@ -18,10 +18,14 @@ const ProfileModal = ({ open, onClose }) => {
   const [email, setEmail] = useState(userCtx.email);
   const [isChangingName, setIsChangingName] = useState(false);
   const [isChangingEmail, setIsChangingEmail] = useState(false);
+  const [activeOrganization, setActiveOrganization] = useState("");
 
   useEffect(() => {
     setName(userCtx.userName);
     setEmail(userCtx.email);
+    if (userCtx.activeOrganization) {
+      setActiveOrganization(userCtx.activeOrganization);
+    }
   }, [userCtx]);
 
   const handleClose = () => {
@@ -119,6 +123,9 @@ const ProfileModal = ({ open, onClose }) => {
             margin="normal"
           />
         )}
+        <div className={classes.profile}>
+          <div>Active organization: {activeOrganization.name}</div>
+        </div>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>

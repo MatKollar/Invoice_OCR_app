@@ -55,7 +55,10 @@ def getOrganizations():
     organization_data = [{'id': org.id, 'name': org.name, 'description': org.description, 'invite_code': org.invite_code}
                          for org in user.organizations]
 
-    return jsonify({'organizations': organization_data})
+    active_organization_id = user.active_organization
+    active_organization = [org for org in organization_data if org['id'] == active_organization_id][0]
+
+    return jsonify({'organizations': organization_data, 'active_organization': active_organization})
 
 
 @getData_bp.route('/get-users')

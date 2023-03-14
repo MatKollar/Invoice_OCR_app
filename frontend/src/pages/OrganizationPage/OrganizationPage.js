@@ -43,6 +43,7 @@ const OrganizationPage = () => {
           "http://localhost:5000/get-organizations"
         );
         setOrganizationsData(resp.data.organizations);
+        userCtx.setActiveOrganization(resp.data.active_organization);
       } catch (error) {
         console.log("Error");
       }
