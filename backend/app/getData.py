@@ -1,14 +1,10 @@
-from flask import Blueprint, jsonify, session
+from flask import Blueprint, jsonify, session, request
 from app.models import Invoice, User
 
 getData_bp = Blueprint('getdata', __name__)
 
 
-@getData_bp.route('/get-invoices')
-def getInvoices():
-    user_id = session.get("user_id")
-
-    invoices = Invoice.query.filter_by(user_id=user_id).all()
+def serializableInvoices(invoices):
     invoice_data = []
     for invoice in invoices:
         supplier_data = {
@@ -44,6 +40,16 @@ def getInvoices():
         }
         invoice_data.append(invoice_dict)
 
+    return invoice_data
+
+
+@getData_bp.route('/get-invoices')
+def getInvoices():
+    user_id = session.get("user_id")
+
+    invoices = Invoice.query.filter_by(user_id=user_id).all()
+    invoice_data = serializableInvoices(invoices)
+
     return jsonify({'invoices': invoice_data})
 
 
@@ -55,8 +61,11 @@ def getOrganizations():
     organization_data = [{'id': org.id, 'name': org.name, 'description': org.description, 'invite_code': org.invite_code}
                          for org in user.organizations]
 
-    active_organization_id = user.active_organization
-    active_organization = [org for org in organization_data if org['id'] == active_organization_id][0]
+    active_organization_id = user.active_organization_id
+    active_organization = None
+    if active_organization_id:
+        active_organization = [
+            org for org in organization_data if org['id'] == active_organization_id][0]
 
     return jsonify({'organizations': organization_data, 'active_organization': active_organization})
 
@@ -68,3 +77,13 @@ def getUsers():
                  for user in users]
 
     return jsonify({'users': user_data})
+
+
+@getData_bp.route('/get-organization-invoices', methods=['POST'])
+def getOrganizationInvoices():
+    organization_id = request.json['organization_id']
+
+    invoices = Invoice.query.filter_by(organization_id=organization_id).all()
+    invoice_data = serializableInvoices(invoices)
+
+    return jsonify({'invoices': invoice_data})

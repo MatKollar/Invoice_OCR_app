@@ -42,7 +42,7 @@ class User(db.Model):
     invoices = db.relationship("Invoice", backref="user")
     organizations = db.relationship(
         "Organization", secondary=user_organization, backref=db.backref('users', lazy='dynamic'))
-    active_organization = db.Column(db.String(32), unique=True)
+    active_organization_id = db.Column(db.String(32), unique=True)
 
 
 class Organization(db.Model):
@@ -53,6 +53,7 @@ class Organization(db.Model):
     description = db.Column(db.String(1000))
     invite_code = db.Column(db.String(5), unique=True,
                             default=lambda: generate_invite_code(5))
+    invoices = db.relationship("Invoice", backref="organization")
 
 
 class Invoice(db.Model):
@@ -60,6 +61,8 @@ class Invoice(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.String(32), db.ForeignKey(
         'users.id'), nullable=False)
+    organization_id = db.Column(db.String(32), db.ForeignKey(
+        'organizations.id'))
     invoice_number = db.Column(db.String(100))
     var_symbol = db.Column(db.String(100))
     date_of_issue = db.Column(db.String(100))

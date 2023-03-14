@@ -60,7 +60,7 @@ def activate_organization():
         return jsonify({"error": "User not logged in."}), 401
 
     user = User.query.get(user_id)
-    user.active_organization = organization_id
+    user.active_organization_id = organization_id
 
     return jsonify({"message": "Organization activated successfully!"}), 201
 
@@ -75,6 +75,6 @@ def deactivate_organization():
         return jsonify({"error": "User not logged in."}), 401
 
     user = User.query.get(user_id)
-    user.active_organization = None
+    user.active_organization_id = None
 
     return jsonify({"message": "Organization deactivated successfully!"}), 201

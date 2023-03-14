@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, session
 from app.parserOCR import parse_text
-from app.models import db, Invoice
+from app.models import db, Invoice, User
 import numpy as np
 import cv2
 import pytesseract
@@ -17,8 +17,14 @@ def load_image():
 
 
 def add_invoice_to_db(parsed_data):
+    user_id = session.get("user_id")
+
+    user = User.query.get(user_id)
+    active_org_id = user.active_organization_id
+
     invoice = Invoice(
         user_id=session.get("user_id"),
+        organization_id=None,
         invoice_number=parsed_data['invoice_number'],
         var_symbol=parsed_data['var_symbol'],
         date_of_issue=parsed_data['date_of_issue'],
@@ -46,6 +52,9 @@ def add_invoice_to_db(parsed_data):
         invoice.buyer_psc=parsed_data['buyer_data']['PSC'],
         invoice.buyer_city=parsed_data['buyer_data']['City'],
         invoice.buyer_dic=parsed_data['buyer_data']['DIC'],
+    
+    if active_org_id:
+        invoice.organization_id = active_org_id
 
     db.session.add(invoice)
     db.session.commit()

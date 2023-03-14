@@ -11,7 +11,21 @@ const Organization = (props) => {
   const userCtx = useContext(userContext);
 
   useEffect(() => {
-    console.log(userCtx.activeOrganization);
+    (async () => {
+      try {
+        const resp = await httpRequest.post(
+          "http://localhost:5000/get-organization-invoices", {
+            organization_id: orgData.id,
+          }
+        );
+        console.log(resp.data.invoices);
+      } catch (error) {
+        console.log("Error");
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
     if (userCtx.activeOrganization) {
       if (userCtx.activeOrganization.id === orgData.id) {
         setActiveOrganization(true);
