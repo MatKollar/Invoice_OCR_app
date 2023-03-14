@@ -1,8 +1,8 @@
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles({
-    rootContainer: {
-        textAlign: "center",
-        color: "black",
-    },
+  rootContainer: {
+    textAlign: "center",
+    color: "black",
+  },
 });

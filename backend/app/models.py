@@ -42,6 +42,7 @@ class User(db.Model):
     invoices = db.relationship("Invoice", backref="user")
     organizations = db.relationship(
         "Organization", secondary=user_organization, backref=db.backref('users', lazy='dynamic'))
+    active_organization = db.Column(db.String(32), unique=True)
 
 
 class Organization(db.Model):

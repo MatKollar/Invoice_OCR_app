@@ -49,3 +49,32 @@ def join_organization():
         return jsonify({"message": "Organization joined successfully!"}), 201
     else:
         return jsonify({"message": "Invalid invite code"}), 400
+    
+
+@organizations_bp.route('/activate-organization', methods=['POST'])
+def activate_organization():
+    user_id = session.get("user_id")
+    organization_id = request.json['organization_id']
+
+    if not user_id:
+        return jsonify({"error": "User not logged in."}), 401
+
+    user = User.query.get(user_id)
+    user.active_organization = organization_id
+
+    return jsonify({"message": "Organization activated successfully!"}), 201
+
+
+
+@organizations_bp.route('/deactivate-organization', methods=['POST'])
+def deactivate_organization():
+    user_id = session.get("user_id")
+    organization_id = request.json['organization_id']
+
+    if not user_id:
+        return jsonify({"error": "User not logged in."}), 401
+
+    user = User.query.get(user_id)
+    user.active_organization = None
+
+    return jsonify({"message": "Organization deactivated successfully!"}), 201
