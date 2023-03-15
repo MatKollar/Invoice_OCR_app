@@ -30,7 +30,6 @@ const HistoryPage = () => {
   }, []);
 
   const openSummary = (invoiceData) => {
-    console.log(invoiceData);
     setIsSummaryOpen(true);
     setSelectedInvoice(invoiceData);
   };

@@ -84,4 +84,5 @@ class Invoice(db.Model):
     buyer_psc = db.Column(db.String(100))
     buyer_address = db.Column(db.String(100))
     buyer_city = db.Column(db.String(100))
-    buyer_dic = db.Column(db.String(100))    
+    buyer_dic = db.Column(db.String(100))
+    text = db.Column(db.String(100000))    

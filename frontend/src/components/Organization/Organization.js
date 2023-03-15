@@ -78,11 +78,9 @@ const Organization = (props) => {
   };
 
   const openSummary = (invoiceData) => {
-    console.log(invoiceData);
     setIsSummaryOpen(true);
     setSelectedInvoice(invoiceData);
   };
-
 
   return (
     <div className={classes.rootContainer}>
@@ -110,10 +108,7 @@ const Organization = (props) => {
       <Grid container sx={{ m: 0, mt: 5 }}>
         {!isSummaryOpen && (
           <div className={classes.table}>
-            <InvoiceTable
-              invoiceData={invoices}
-              openSummary={openSummary}
-            />
+            <InvoiceTable invoiceData={invoices} openSummary={openSummary} />
           </div>
         )}
       </Grid>
