@@ -1,7 +1,7 @@
-import { Paper, Grid } from "@mui/material";
+import { Paper } from "@mui/material";
 import { useStyles } from "./styles";
 
-const InvoiceCard = (props) => {
+const Card = (props) => {
   const classes = useStyles();
 
   return (
@@ -9,7 +9,7 @@ const InvoiceCard = (props) => {
       <Paper
         elevation={3}
         className={classes.card}
-        sx={{ p: 2, borderRadius: 5 }}
+        sx={{ p: 2, borderRadius: 5, textAlign: "center" }}
       >
         {props.data}
       </Paper>
@@ -17,4 +17,4 @@ const InvoiceCard = (props) => {
   );
 };
 
-export default InvoiceCard;
+export default Card;

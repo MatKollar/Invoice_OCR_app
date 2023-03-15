@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 
 import httpRequest from "../../httpRequest";
 import AppLayout from "../../components/AppLayout/AppLayout";
-import InvoiceCard from "../../components/InvoiceCard/InvoiceCard";
+import Card from "../../components/Card/Card";
 import { Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
 import { useStyles } from "./styles";
 import SummaryCard from "../../components/SummaryCard/SummaryCard";
+import InvoiceTable from "../../components/InvoiceTable/InvoiceTable";
 
 const HistoryPage = () => {
   const classes = useStyles();
@@ -29,6 +30,7 @@ const HistoryPage = () => {
   }, []);
 
   const openSummary = (invoiceData) => {
+    console.log(invoiceData);
     setIsSummaryOpen(true);
     setSelectedInvoice(invoiceData);
   };
@@ -36,15 +38,14 @@ const HistoryPage = () => {
   return (
     <AppLayout>
       <Grid container sx={{ m: 0, mt: 5 }}>
-        {invoicesData &&
-          !isSummaryOpen &&
-          invoicesData.map((invoiceData) => (
-            <Grid key={invoiceData.id} item md={2}>
-              <div onClick={() => openSummary(invoiceData)}>
-                <InvoiceCard data={invoiceData.invoice_number} />
-              </div>
-            </Grid>
-          ))}
+        {!isSummaryOpen && (
+          <div className={classes.table}>
+            <InvoiceTable
+              invoiceData={invoicesData}
+              openSummary={openSummary}
+            />
+          </div>
+        )}
       </Grid>
       {isSummaryOpen && (
         <div>

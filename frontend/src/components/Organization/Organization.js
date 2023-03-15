@@ -1,24 +1,32 @@
 import { useState, useContext, useEffect } from "react";
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import IconButton from "@mui/material/IconButton";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 import userContext from "../../context/user-context";
+import InvoiceTable from "../InvoiceTable/InvoiceTable";
+import SummaryCard from "../SummaryCard/SummaryCard";
 
 const Organization = (props) => {
   const classes = useStyles();
   const orgData = props.dataFromDB;
   const [activeOrganization, setActiveOrganization] = useState(false);
+  const [invoices, setInvoices] = useState([]);
+  const [selectedInvoice, setSelectedInvoice] = useState({});
+  const [isSummaryOpen, setIsSummaryOpen] = useState(false);
   const userCtx = useContext(userContext);
 
   useEffect(() => {
     (async () => {
       try {
         const resp = await httpRequest.post(
-          "http://localhost:5000/get-organization-invoices", {
+          "http://localhost:5000/get-organization-invoices",
+          {
             organization_id: orgData.id,
           }
         );
-        console.log(resp.data.invoices);
+        setInvoices(resp.data.invoices);
       } catch (error) {
         console.log("Error");
       }
@@ -69,6 +77,13 @@ const Organization = (props) => {
     }
   };
 
+  const openSummary = (invoiceData) => {
+    console.log(invoiceData);
+    setIsSummaryOpen(true);
+    setSelectedInvoice(invoiceData);
+  };
+
+
   return (
     <div className={classes.rootContainer}>
       {activeOrganization && (
@@ -92,6 +107,24 @@ const Organization = (props) => {
 
       <h1>{orgData.name}</h1>
       <h3>INVITE CODE: {orgData.invite_code}</h3>
+      <Grid container sx={{ m: 0, mt: 5 }}>
+        {!isSummaryOpen && (
+          <div className={classes.table}>
+            <InvoiceTable
+              invoiceData={invoices}
+              openSummary={openSummary}
+            />
+          </div>
+        )}
+      </Grid>
+      {isSummaryOpen && (
+        <div>
+          <IconButton onClick={() => setIsSummaryOpen(false)}>
+            <ArrowBackIcon />
+          </IconButton>
+          <SummaryCard dataFromDB={selectedInvoice} />
+        </div>
+      )}
     </div>
   );
 };

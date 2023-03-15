@@ -9,7 +9,7 @@ import CreateOrganizationCard from "../../components/CreateOrganizationCard/Crea
 import userContext from "../../context/user-context";
 import OrganizationTabbar from "./OrganizationTabbar/OrganizationTabbar";
 import httpRequest from "../../httpRequest";
-import InvoiceCard from "../../components/InvoiceCard/InvoiceCard";
+import Card from "../../components/Card/Card";
 import Organization from "../../components/Organization/Organization";
 
 const OrganizationPage = () => {
@@ -76,7 +76,7 @@ const OrganizationPage = () => {
                 organizationsData.map((organizationData) => (
                   <Grid key={organizationData.id} item md={2}>
                     <div onClick={() => openOrganization(organizationData)}>
-                      <InvoiceCard data={organizationData.name} />
+                      <Card data={organizationData.name} />
                     </div>
                   </Grid>
                 ))}
