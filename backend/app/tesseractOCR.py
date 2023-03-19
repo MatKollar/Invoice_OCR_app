@@ -16,7 +16,7 @@ def load_image():
     return img
 
 
-def add_invoice_to_db(parsed_data, text, pdf_file):
+def add_invoice_to_db(parsed_data, text, pdf_file, img_file):
     user_id = session.get("user_id")
 
     user = User.query.get(user_id)
@@ -38,8 +38,13 @@ def add_invoice_to_db(parsed_data, text, pdf_file):
         supplier_ico=parsed_data['supplier_ico'],
         buyer_ico=parsed_data['buyer_ico'],
         text=text,
-        pdf_file=pdf_file
     )
+
+    if pdf_file:
+        invoice.pdf_file = pdf_file
+
+    if img_file:
+        invoice.image_file = img_file
 
     if parsed_data['supplier_data'].get('Name'):
         invoice.supplier_name = parsed_data['supplier_data']['Name']
@@ -67,6 +72,11 @@ def tesseract():
     img = load_image()
     text = pytesseract.image_to_string(img, lang='slk')
     parsed_data = parse_text(text)
-    pdf_file = request.files['pdf'].read()
-    add_invoice_to_db(parsed_data, text, pdf_file)
+    pdf_file = None
+    image_file = None
+    if request.files.get('pdf'): 
+        pdf_file = request.files['pdf'].read()
+    elif request.files.get('image'):
+        image_file = request.files['image'].read()
+    add_invoice_to_db(parsed_data, text, pdf_file, image_file)
     return jsonify({'text': text, 'parsed_data': parsed_data})

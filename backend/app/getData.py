@@ -44,6 +44,12 @@ def serializableInvoices(invoices):
             pdf_file = invoice.pdf_file
             encoded_pdf = base64.b64encode(pdf_file).decode()
             invoice_dict['pdf_file'] = encoded_pdf
+
+        if invoice.image_file:
+            img_file = invoice.image_file
+            encoded_img = base64.b64encode(img_file).decode()
+            invoice_dict['image_file'] = encoded_img
+
         invoice_data.append(invoice_dict)
 
     return invoice_data
