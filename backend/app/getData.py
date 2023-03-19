@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, session, request
 from app.models import Invoice, User
+import base64
 
 getData_bp = Blueprint('getdata', __name__)
 
@@ -37,7 +38,12 @@ def serializableInvoices(invoices):
             'iban': invoice.iban,
             'supplier_data': supplier_data,
             'buyer_data': buyer_data,
+            'text': invoice.text,
         }
+        if invoice.pdf_file:
+            pdf_file = invoice.pdf_file
+            encoded_pdf = base64.b64encode(pdf_file).decode()
+            invoice_dict['pdf_file'] = encoded_pdf
         invoice_data.append(invoice_dict)
 
     return invoice_data

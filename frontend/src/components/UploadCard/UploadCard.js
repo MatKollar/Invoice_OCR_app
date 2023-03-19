@@ -57,6 +57,7 @@ const UploadCard = () => {
 
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
+    ocrCtx.setFile(file);
     if (file.type === "application/pdf") {
       const image = convertPdfToImages(file);
       image.then(async (image) => {

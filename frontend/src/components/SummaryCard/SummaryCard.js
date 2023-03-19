@@ -11,6 +11,20 @@ const SummaryCard = (props) => {
   const ocrCtx = useContext(OCRContext);
   const [showText, setShowText] = useState(true);
 
+  const pdfBase64 = props.dataFromDB.pdf_file;
+
+  const handleOpenPdf = () => {
+    const byteCharacters = atob(pdfBase64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: "application/pdf" });
+    const dataUrl = URL.createObjectURL(blob);
+    window.open(dataUrl, "_blank");
+  };
+
   return (
     <>
       <div className={classes.rootContainer}>
@@ -36,6 +50,14 @@ const SummaryCard = (props) => {
             sx={{ margin: "5px", px: "10%" }}
           >
             {showText ? "HIDE TEXT" : "SHOW TEXT"}
+          </Button>
+
+          <Button
+            variant="contained"
+            onClick={handleOpenPdf}
+            sx={{ margin: "5px", px: "10%" }}
+          >
+            OPEN PDF
           </Button>
         </div>
 

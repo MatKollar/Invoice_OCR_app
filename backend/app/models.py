@@ -86,3 +86,4 @@ class Invoice(db.Model):
     buyer_city = db.Column(db.String(100))
     buyer_dic = db.Column(db.String(100))
     text = db.Column(db.String(100000))    
+    pdf_file = db.Column(db.LargeBinary)
