@@ -2,17 +2,22 @@ import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles({
   rootContainer: {
-    display: "flex",
     margin: "0 auto",
-    marginTop: 70,
+  },
+  iconContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
   },
   textContainer: {
-    marginLeft: 75,
-    marginRight: 75,
-    width: "35%",
+    marginLeft: 70,
+    marginRight: 70,
+    width: "70%",
+    height: "100%",
+    textAlign: "center",
   },
   tables: {
-    width: "50%",
+    width: "90%",
     height: "100%",
   },
   tableContainer: {
