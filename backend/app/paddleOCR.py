@@ -16,8 +16,14 @@ def load_image():
 
 @paddleocr_bp.route('/paddleOCR', methods=['POST'])
 def paddleocr():
+    ocr = PaddleOCR(
+        det_model_dir='paddle_models/en_PP-OCRv3_det_infer',
+        rec_model_dir='paddle_models/latin_PP-OCRv3_rec_infer',
+        cls_model_dir='paddle_models/ch_ppocr_mobile_v2.0_cls_infer',
+        use_angle_cls=True,
+        lang='sk'
+    )
     img = load_image()
-    ocr = PaddleOCR(use_angle_cls=True, lang='sk')
     text = ''
     result = ocr.ocr(img, cls=True)
     text = ""
