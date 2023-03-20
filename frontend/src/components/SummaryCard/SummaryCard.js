@@ -24,7 +24,11 @@ const SummaryCard = (props) => {
   }
 
   const handleOpenFile = () => {
-    console.log(props.dataFromDB);
+    if (Object.keys(props).length === 0) {
+      const fileURL = URL.createObjectURL(ocrCtx.file);
+      window.open(fileURL, "_blank");
+    }
+
     if (pdfBase64) {
       const byteCharacters = atob(pdfBase64);
       const byteNumbers = new Array(byteCharacters.length);
@@ -48,7 +52,18 @@ const SummaryCard = (props) => {
     }
   };
 
-  const handleDownloadFile = () => {
+  const handleDownloadFile = async () => {
+    if (Object.keys(props).length == 0) {
+      const fileURL = URL.createObjectURL(ocrCtx.file);
+      const link = document.createElement("a");
+      link.href = fileURL;
+      link.download = "file." + ocrCtx.file.type.split("/")[1]; 
+      link.click();
+      setTimeout(() => {
+        URL.revokeObjectURL(fileURL);
+      }, 100);
+    }
+
     if (pdfBase64) {
       const byteCharacters = atob(pdfBase64);
       const byteNumbers = new Array(byteCharacters.length);
