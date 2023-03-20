@@ -1,14 +1,17 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import OCRContext from "../../context/ocr-context";
-import { Button, Typography, Grid } from "@mui/material";
+import { Button, Typography, Grid, CircularProgress } from "@mui/material";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 
 const OCRCard = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
+  const [loading, setLoading] = useState(false);
 
   const handleOCRmethod = async (OCRmethod) => {
+    setLoading(true);
+
     let formData = new FormData();
     formData.append("file", ocrCtx.actualImage);
     if (ocrCtx.file.type === "application/pdf") {
@@ -31,6 +34,8 @@ const OCRCard = () => {
     } catch (error) {
       console.log("Error");
     }
+
+    setLoading(false);
     ocrCtx.setActivePage(3);
   };
 
@@ -47,6 +52,7 @@ const OCRCard = () => {
               variant="contained"
               onClick={() => handleOCRmethod("tesseract")}
               sx={{ px: "10%" }}
+              disabled={loading}
             >
               Tesseract
             </Button>
@@ -56,11 +62,14 @@ const OCRCard = () => {
               variant="contained"
               onClick={() => handleOCRmethod("paddleOCR")}
               sx={{ px: "10%" }}
+              disabled={loading}
             >
               PaddleOCR
             </Button>
           </Grid>
         </Grid>
+
+        {loading && <CircularProgress sx={{ mt: "15px" }} />}
       </div>
     </>
   );
