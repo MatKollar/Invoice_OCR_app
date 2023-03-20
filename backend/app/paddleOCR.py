@@ -1,17 +1,9 @@
 from flask import Blueprint, request, jsonify
 from paddleocr import PaddleOCR
-import numpy as np
-import cv2
+from app.parserOCR import parse_text
+from app.operations import load_image, add_invoice_to_db
 
 paddleocr_bp = Blueprint('paddleocr', __name__)
-
-
-def load_image():
-    file = request.files['file'].read()
-    npimg = np.fromstring(file, np.uint8)
-    img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    return img
 
 
 @paddleocr_bp.route('/paddleOCR', methods=['POST'])
@@ -24,10 +16,19 @@ def paddleocr():
         lang='sk'
     )
     img = load_image()
-    text = ''
     result = ocr.ocr(img, cls=True)
     text = ""
     for res in result:
         for line in res:
             text += line[1][0] + "\n"
+    parsed_data = parse_text(text)
+    pdf_file = None
+    image_file = None
+    if request.files.get('pdf'): 
+        pdf_file = request.files['pdf'].read()
+    elif request.files.get('image'):
+        image_file = request.files['image'].read()
+    add_invoice_to_db(parsed_data, text, pdf_file, image_file)
+    return jsonify({'text': text, 'parsed_data': parsed_data})
+
     return jsonify({'text': text})

@@ -57,7 +57,7 @@ const SummaryCard = (props) => {
       const fileURL = URL.createObjectURL(ocrCtx.file);
       const link = document.createElement("a");
       link.href = fileURL;
-      link.download = "file." + ocrCtx.file.type.split("/")[1]; 
+      link.download = "file." + ocrCtx.file.type.split("/")[1];
       link.click();
       setTimeout(() => {
         URL.revokeObjectURL(fileURL);
@@ -125,7 +125,9 @@ const SummaryCard = (props) => {
                     fullWidth
                     rows={20}
                     variant={"standard"}
-                    defaultValue={ocrCtx.textResult}
+                    defaultValue={
+                      props.dataFromDB ? props.dataFromDB.text : ocrCtx.textResult
+                    }
                   />
                 </Paper>
               )}

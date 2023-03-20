@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from app.operations import load_image
 from PIL import Image
 import io
 import numpy as np
@@ -7,14 +8,6 @@ import base64
 import imutils
 
 preprocessing_bp = Blueprint('preprocessing', __name__)
-
-
-def load_image():
-    file = request.files['file'].read()
-    npimg = np.fromstring(file, np.uint8)
-    img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    return img
 
 
 def convert_to_base64(img):
