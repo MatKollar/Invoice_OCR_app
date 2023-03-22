@@ -49,7 +49,7 @@ def join_organization():
         return jsonify({"message": "Organization joined successfully!"}), 201
     else:
         return jsonify({"message": "Invalid invite code"}), 400
-    
+
 
 @organizations_bp.route('/activate-organization', methods=['POST'])
 def activate_organization():
@@ -63,7 +63,6 @@ def activate_organization():
     user.active_organization_id = organization_id
 
     return jsonify({"message": "Organization activated successfully!"}), 201
-
 
 
 @organizations_bp.route('/deactivate-organization', methods=['POST'])

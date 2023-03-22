@@ -24,7 +24,7 @@ def paddleocr():
     parsed_data = parse_text(text)
     pdf_file = None
     image_file = None
-    if request.files.get('pdf'): 
+    if request.files.get('pdf'):
         pdf_file = request.files['pdf'].read()
     elif request.files.get('image'):
         image_file = request.files['image'].read()

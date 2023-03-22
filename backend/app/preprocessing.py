@@ -63,6 +63,7 @@ def skew_correction():
 
     return jsonify({'image': convert_to_base64(img), 'filename': request.files['file'].filename})
 
+
 @preprocessing_bp.route('/remove_barcodes', methods=['POST'])
 def remove_barcodes():
     img = load_image()
@@ -81,13 +82,13 @@ def remove_barcodes():
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (21, 7))
     closed = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
 
-    closed = cv2.erode(closed, None, iterations = 4)
-    closed = cv2.dilate(closed, None, iterations = 4)
+    closed = cv2.erode(closed, None, iterations=4)
+    closed = cv2.dilate(closed, None, iterations=4)
 
     cnts = cv2.findContours(closed.copy(), cv2.RETR_EXTERNAL,
-        cv2.CHAIN_APPROX_SIMPLE)
+                            cv2.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)
-    c = sorted(cnts, key = cv2.contourArea, reverse = True)[0]
+    c = sorted(cnts, key=cv2.contourArea, reverse=True)[0]
 
     mask = np.zeros(img.shape[:2], dtype=np.uint8)
     cv2.drawContours(mask, [c], -1, 255, -1)

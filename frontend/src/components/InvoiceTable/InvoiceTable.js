@@ -42,7 +42,7 @@ const InvoiceTable = ({ invoiceData, openSummary }) => {
 
   const openInvoiceSummary = (invoiceRowData) => {
     const invoiceDataSelected = invoiceData.filter(
-      (invoice) => invoice.invoice_number === invoiceRowData.inv_number
+      (invoice) => invoice.invoice_number === invoiceRowData.inv_number,
     );
     openSummary(invoiceDataSelected[0]);
   };
@@ -53,9 +53,9 @@ const InvoiceTable = ({ invoiceData, openSummary }) => {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
+              {columns.map((column, index) => (
                 <TableCell
-                  key={column.id}
+                  key={index}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
@@ -67,13 +67,13 @@ const InvoiceTable = ({ invoiceData, openSummary }) => {
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((row, index) => {
                 return (
                   <TableRow
                     hover
                     role="checkbox"
                     tabIndex={-1}
-                    key={row.code}
+                    key={index}
                     onClick={() => openInvoiceSummary(row)}
                   >
                     {columns.map((column) => {

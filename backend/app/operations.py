@@ -4,7 +4,6 @@ import numpy as np
 import cv2
 
 
-
 def load_image():
     file = request.files['file'].read()
     npimg = np.fromstring(file, np.uint8)
@@ -45,18 +44,18 @@ def add_invoice_to_db(parsed_data, text, pdf_file, img_file):
 
     if parsed_data['supplier_data'].get('Name'):
         invoice.supplier_name = parsed_data['supplier_data']['Name']
-        invoice.supplier_address=parsed_data['supplier_data']['Street'],
-        invoice.supplier_psc=parsed_data['supplier_data']['PSC'],
-        invoice.supplier_city=parsed_data['supplier_data']['City'],
-        invoice.supplier_dic=parsed_data['supplier_data']['DIC'],
-    
+        invoice.supplier_address = parsed_data['supplier_data']['Street'],
+        invoice.supplier_psc = parsed_data['supplier_data']['PSC'],
+        invoice.supplier_city = parsed_data['supplier_data']['City'],
+        invoice.supplier_dic = parsed_data['supplier_data']['DIC'],
+
     if parsed_data['buyer_data'].get('Name'):
         invoice.buyer_name = parsed_data['buyer_data']['Name']
-        invoice.buyer_address=parsed_data['buyer_data']['Street'],
-        invoice.buyer_psc=parsed_data['buyer_data']['PSC'],
-        invoice.buyer_city=parsed_data['buyer_data']['City'],
-        invoice.buyer_dic=parsed_data['buyer_data']['DIC'],
-    
+        invoice.buyer_address = parsed_data['buyer_data']['Street'],
+        invoice.buyer_psc = parsed_data['buyer_data']['PSC'],
+        invoice.buyer_city = parsed_data['buyer_data']['City'],
+        invoice.buyer_dic = parsed_data['buyer_data']['DIC'],
+
     if active_org_id:
         invoice.organization_id = active_org_id
 
