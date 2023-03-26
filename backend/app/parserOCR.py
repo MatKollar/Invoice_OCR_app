@@ -5,22 +5,28 @@ import requests
 def get_invoice_number(lines):
     invoice_number = ''
     after_word = False
+    pattern = re.compile(r'\d+')
     for line in lines:
-        if 'faktúra' in line.lower() or 'číslo' in line.lower():
+        if any([kw in line.lower() for kw in ('faktúra', 'faktúra:', 'číslo')]):
             words = line.split()
             for word in words:
-                if word.lower() == 'faktúra' or word.lower() == 'číslo':
+                if any([kw in word.lower() for kw in ('faktúra', 'faktúra:', 'číslo')]):
                     after_word = True
                 if word.isdigit() and after_word:
                     invoice_number = word
                     return invoice_number
+                else:
+                    match = pattern.search(word)
+                    if match and after_word:
+                        invoice_number = match.group()
+                        return invoice_number
     return invoice_number
 
 
 def get_variable_symbol(lines):
     var_symbol = ''
     for line in lines:
-        if 'variabilný' in line.lower():
+        if any([kw in line.lower() for kw in ('variabilný', 'var.symbol', 'vs:')]):
             words = line.split()
             for word in words:
                 if word.isdigit():
@@ -31,62 +37,61 @@ def get_variable_symbol(lines):
 
 def get_date_of_issue(lines):
     date_of_issue = ''
-    date_pattern = re.compile(r"\d{1,2}\.\d{1,2}\.\d{4}")
+    date_pattern = re.compile(r"\d{1,2}\s*[-.:]\s*\d{1,2}\s*[-.:]\s*\d{2,4}")
     for line in lines:
         if 'd%tum' in line.lower():
             if line.find('vystaven'):
-                words = line.split()
-                for word in words:
-                    if date_pattern.match(word):
-                        date_of_issue = word
-                        return date_of_issue
-        if (('dátum' in line.lower() and 'vystavenia' in line.lower() or 'vyhotovenia' in line.lower()) or 'vyhotovená:' in line.lower() or 'vystavenia:' in line.lower()):
-            words = line.split()
-            for word in words:
-                if date_pattern.match(word):
-                    date_of_issue = word
-                    return date_of_issue
+                match = date_pattern.search(line)
+            if match:
+                date_of_issue = match.group()
+                return date_of_issue
+        if any([kw in line.lower() for kw in ('dátum vystavenia', 'dátum vyhotovenia', 'dátum vyhotovenia:', 'vyhotovená:', 'vystavenia:', 'vyštavenia')]):
+            match = date_pattern.search(line)
+            if match:
+                date_of_issue = match.group()
+                return date_of_issue
     return date_of_issue
 
 
 def get_due_date(lines):
     due_date = ''
-    date_pattern = re.compile(r"\d{1,2}\.\d{1,2}\.\d{4}")
+    date_pattern = re.compile(r"\d{1,2}\s*[-.:]\s*\d{1,2}\s*[-.:]\s*\d{2,4}")
     for line in lines:
-        if (('dátum' in line.lower() and 'splatnosti' in line.lower()) or 'splatnosť:' in line.lower() or 'splatnosti:' in line.lower()):
-            words = line.split()
-            for word in words:
-                if date_pattern.match(word):
-                    due_date = word
-                    return due_date
+        if any([kw in line.lower() for kw in ('dátum splatnosti', 'splatnosť', 'splatnosť:', 'splatnosti:', 'splatností')]):
+            match = date_pattern.search(line)
+            if match:
+                due_date = match.group()
+                return due_date
     return due_date
 
 
 def get_delivery_date(lines):
     delivery_date = ''
-    date_pattern = re.compile(r"\d{1,2}\.\d{1,2}\.\d{4}")
+    date_pattern = re.compile(r"\d{1,2}\s*[-.:]\s*\d{1,2}\s*[-.:]\s*\d{2,4}")
     for line in lines:
-        if 'dátum' in line.lower() and ('dodania' in line.lower() or 'uskut.' in line.lower()
-                                        or 'plnenia' in line.lower()) or 'dodanie' in line.lower() or 'dodania' in line.lower():
-            words = line.split()
-            for word in words:
-                if date_pattern.match(word):
-                    delivery_date = word
-                    return delivery_date
+        if any([kw in line.lower() for kw in ('dátum dodania', 'dátum uskut.', 'dátum plnenia', 'dodanie', 'dodania', 'dátum daň. povin.', 'daňová povinnosť')]):
+            match = date_pattern.search(line)
+            if match:
+                delivery_date = match.group()
+                return delivery_date
     return delivery_date
 
 
 def get_payment_method(lines):
     payment_method = ''
     for line in lines:
-        if (('forma' in line.lower() or 'spôsob' in line.lower()) and ('úhrady'.rstrip('.') in line.lower() or 'platby'.rstrip(':') in line.lower())) or 'úhrada'.rstrip(':') in line.lower():
+        if any([kw in line.lower() for kw in ('forma úhrady', 'spôsob úhrady', 'forma platby', 'spôsob platby', 'spôs. úhrady', 'úhrada', 'platba')]):
             words = line.split()
             for i, word in enumerate(words):
-                if word.lower().rstrip('.:') == 'úhrady' or word.lower().rstrip('.:') == 'úhrada' or word.lower().rstrip('.:') == 'platby':
+                if word.lower().rstrip('.:') == 'úhrady' or word.lower().rstrip('.:') == 'úhrada' or word.lower().rstrip('.:') == 'platby' or word.lower().rstrip('.:') == 'platba':
                     if any(x in words for x in ['prevod', 'Prevod', 'prevodom', 'Prevodom']):
                         payment_method = 'Bankovým prevodom'
                     elif any(x in words for x in ['hotovosť', 'Hotovosť', 'hotovosťou', 'Hotovosťou', 'hotovosti']):
                         payment_method = 'Hotovosťou'
+                    elif any(x in words for x in ['dobierka', 'Dobierka', 'dobierkou', 'Dobierkou']):
+                        payment_method = 'Dobierkou'
+                    elif ':PP' in words:
+                        payment_method = 'PP'
                     else:
                         if i+1 < len(words) and words[i + 1].isalpha():
                             payment_method = words[i + 1]
@@ -98,10 +103,14 @@ def get_payment_method(lines):
 
 def get_total_price(lines):
     total_price = ''
-    pattern = re.compile(r"\b\d+(?:[,\s]\d+)*\b")
+    pattern = re.compile(r"€?\b\d+(?:[,\s]\d+)*\b")
     for line in lines:
-        if ((('celkom' in line.lower() or 'spolu' in line.lower()) and ('€' in line or 'eur' in line.lower())) or
-                (('celková' in line.lower() or 'fakturovaná' in line.lower()) and ('suma' in line.lower() or 'hodnota' in line.lower()))):
+        if any([kw1 in line.lower() and kw2 in line.lower() for kw1, kw2 in (('celkom', '€'), ('spolu', '€'), ('celkom', 'eur'), ('spolu', 'eur'),
+                                                                             ('celková', 'suma'), ('fakturovaná', 'suma'), (
+                                                                                 'celková', 'hodnota'),
+                                                                             ('spolu', 'úhradu'), ('fakturovaná', 'hodnota'), (
+                                                                                 'celkom', 'úhrade'),
+                                                                             ('na', 'zaplatenie'))]):
             line = re.sub(r'(\d)\s+(\d)', r'\1\2', line)
             words = line.split()
             for word in words:
@@ -114,7 +123,10 @@ def get_total_price(lines):
 def get_bank(lines):
     bank = ''
     for line in lines:
-        if 'čsob' in line.lower():
+        if 'všeobecná' in line.lower() or 'vúb' in line.lower():
+            bank = 'Všeobecná úverová banka'
+            return bank
+        if 'čsob' in line.lower() or 'československá obchodná' in line.lower():
             bank = 'ČSOB'
             return bank
         if 'tatrabanka' in line.lower() or 'tatra' in line.lower():
@@ -134,13 +146,18 @@ def get_swift(lines):
     swift = ''
     pattern = re.compile(r'^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$')
     for line in lines:
-        if 'swift' in line.lower() or 'swft' in line.lower():
+        if any([kw in line.lower() for kw in ('swift', 'swft', 'swiet', 'bic')]):
             words = line.split()
             for word in words:
                 if len(word) >= 8:
                     if pattern.match(word):
                         swift = word
                         return swift
+                    elif 'swift:' in word.lower():
+                        possible_swift = word.split(':')[1]
+                        if pattern.match(possible_swift):
+                            swift = possible_swift
+                            return swift
             for i, word in enumerate(words):
                 last_word_index = len(words) - 1
                 if word.lower() == 'swift:' and i != last_word_index:
@@ -152,21 +169,14 @@ def get_swift(lines):
 def get_iban(lines):
     iban = ''
     pattern = re.compile(
-        r'[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}')
+        r'[a-zA-Z]{2}\s*[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}')
     for line in lines:
         if 'iban' in line.lower() or 'účet'.rstrip(':') in line.lower():
             line = re.sub(r'(\d)\s+(\d)', r'\1\2', line)
-            words = line.split()
-            for word in words:
-                if len(word) >= 15:
-                    if pattern.match(word):
-                        iban = word
-                        return iban
-            for i, word in enumerate(words):
-                last_word_index = len(words) - 1
-                if word.lower() == 'iban:' and i != last_word_index:
-                    iban = words[i + 1]
-                    return iban
+            match = pattern.search(line)
+            if match:
+                iban = match.group()
+                return iban
     return iban
 
 
@@ -174,8 +184,9 @@ def get_supplier_ico(lines):
     ico = ''
     pattern = re.compile(r"\b\d{8}\b")
     for i, line in enumerate(lines):
-        if ('ičo' in line.lower() or '1čo'.rstrip(':') in line.lower() or '1ičo' in line.lower() or
-                '1č0' in line.lower()) and 'odberateľ' not in line.lower():
+        keywords = ('ičo', '1čo:', '1ičo', 'ič', '1č0', 'ičq')
+        count = sum([line.lower().count(kw) for kw in keywords])
+        if count >= 2 or (count == 1 and 'odberateľ' not in line.lower()):
             words = line.split()
             for j, word in enumerate(words):
                 if pattern.match(word):
@@ -191,7 +202,7 @@ def get_buyer_ico(lines):
     ico = ''
     pattern = re.compile(r"\b\d{8}\b")
     for i, line in enumerate(lines):
-        if 'ičo' in line.lower() or '1čo'.rstrip(':') in line.lower() or '1ičo' in line.lower() or '1č0' in line.lower():
+        if any([kw in line.lower() for kw in ('ičo', '1čo:', '1ičo', 'ič', '1č0', 'ičq')]):
             words = line.split()
             for j, word in enumerate(words):
                 if pattern.match(word):
@@ -200,6 +211,11 @@ def get_buyer_ico(lines):
                     del words[j]
                     lines[i] = ' '.join(words)
                     return ico
+                if ':' in word:
+                    possible_ico = word.split(':')[1]
+                    if pattern.match(possible_ico):
+                        ico = possible_ico
+                        return ico
     return ico
 
 
