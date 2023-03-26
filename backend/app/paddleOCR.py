@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from paddleocr import PaddleOCR
-from app.parserOCR import parse_text
+from app.paddleParser import parse_text
 from app.operations import load_image, add_invoice_to_db
 
 paddleocr_bp = Blueprint('paddleocr', __name__)
@@ -13,7 +13,7 @@ def paddleocr():
         rec_model_dir='paddle_models/latin_PP-OCRv3_rec_infer',
         cls_model_dir='paddle_models/ch_ppocr_mobile_v2.0_cls_infer',
         use_angle_cls=True,
-        lang='sk'
+        lang='en'
     )
     img = load_image()
     result = ocr.ocr(img, cls=True)
@@ -31,4 +31,3 @@ def paddleocr():
     add_invoice_to_db(parsed_data, text, pdf_file, image_file)
     return jsonify({'text': text, 'parsed_data': parsed_data})
 
-    return jsonify({'text': text})

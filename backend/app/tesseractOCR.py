@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.parserOCR import parse_text
+from app.tesseractParser import parse_text
 from app.operations import load_image, add_invoice_to_db
 import pytesseract
 
