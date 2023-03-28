@@ -2,16 +2,19 @@ import { useContext, useState } from "react";
 import OCRContext from "../../context/ocr-context";
 import { TextField, Button, Paper, IconButton, Grid } from "@mui/material";
 import { useStyles } from "./styles";
+import DoughnutChart from "../../components/DoughnutChart/DoughnutChart";
 import SellerTable from "./SellerTable/SellerTable";
 import BuyerTable from "./BuyerTable/BuyerTable";
 import InvoiceTable from "./InvoiceTable/InvoiceTable";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import DownloadIcon from "@mui/icons-material/Download";
+import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 
 const SummaryCard = (props) => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
   const [showText, setShowText] = useState(true);
+  const [chartOpen, setChartOpen] = useState(false);
 
   let pdfBase64;
   let imageBase64;
@@ -101,69 +104,86 @@ const SummaryCard = (props) => {
     }
   };
 
+  const handleOpenChart = () => {
+    setChartOpen(true);
+  };
+
+  const handleCloseChart = () => {
+    setChartOpen(false);
+  };
+
   return (
     <>
       <div className={classes.rootContainer}>
-        <Grid container>
-          <Grid item xs={12} sx={{ textAlign: "right", marginRight: 10 }}>
-            <IconButton sx={{ padding: "10px" }} onClick={handleDownloadFile}>
-              <DownloadIcon fontSize="large" />
-            </IconButton>
-            <IconButton sx={{ padding: "10px" }} onClick={handleOpenFile}>
-              <OpenInNewIcon fontSize="large" />
-            </IconButton>
-          </Grid>
-          <Grid item xs={6}>
-            <div className={classes.textContainer}>
-              {showText && (
-                <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
-                  <TextField
-                    id="outlined-multiline-static"
-                    sx={{ backgroundColor: "white", borderRadius: "20px" }}
-                    label="Text from OCR"
-                    multiline
-                    fullWidth
-                    rows={20}
-                    variant={"standard"}
-                    defaultValue={
-                      props.dataFromDB ? props.dataFromDB.text : ocrCtx.textResult
+        {chartOpen ? (
+          <DoughnutChart handleCloseChart={handleCloseChart} />
+        ) : (
+          <Grid container>
+            <Grid item xs={12} sx={{ textAlign: "right", marginRight: 10 }}>
+              <IconButton sx={{ padding: "10px" }} onClick={handleOpenChart}>
+                <DonutSmallIcon fontSize="large" />
+              </IconButton>
+              <IconButton sx={{ padding: "10px" }} onClick={handleDownloadFile}>
+                <DownloadIcon fontSize="large" />
+              </IconButton>
+              <IconButton sx={{ padding: "10px" }} onClick={handleOpenFile}>
+                <OpenInNewIcon fontSize="large" />
+              </IconButton>
+            </Grid>
+            <Grid item xs={6}>
+              <div className={classes.textContainer}>
+                {showText && (
+                  <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
+                    <TextField
+                      id="outlined-multiline-static"
+                      sx={{ backgroundColor: "white", borderRadius: "20px" }}
+                      label="Text from OCR"
+                      multiline
+                      fullWidth
+                      rows={20}
+                      variant={"standard"}
+                      defaultValue={
+                        props.dataFromDB
+                          ? props.dataFromDB.text
+                          : ocrCtx.textResult
+                      }
+                    />
+                  </Paper>
+                )}
+
+                <Button
+                  variant="contained"
+                  onClick={() => setShowText(!showText)}
+                  sx={{ margin: "5px", px: "10%" }}
+                >
+                  {showText ? "HIDE TEXT" : "SHOW TEXT"}
+                </Button>
+              </div>
+            </Grid>
+
+            <Grid item xs={6}>
+              <div className={classes.tables}>
+                <InvoiceTable
+                  data={
+                    props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData
+                  }
+                />
+                <div className={classes.tableContainer}>
+                  <SellerTable
+                    data={
+                      props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData
                     }
                   />
-                </Paper>
-              )}
-
-              <Button
-                variant="contained"
-                onClick={() => setShowText(!showText)}
-                sx={{ margin: "5px", px: "10%" }}
-              >
-                {showText ? "HIDE TEXT" : "SHOW TEXT"}
-              </Button>
-            </div>
-          </Grid>
-
-          <Grid item xs={6}>
-            <div className={classes.tables}>
-              <InvoiceTable
-                data={
-                  props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData
-                }
-              />
-              <div className={classes.tableContainer}>
-                <SellerTable
-                  data={
-                    props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData
-                  }
-                />
-                <BuyerTable
-                  data={
-                    props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData
-                  }
-                />
+                  <BuyerTable
+                    data={
+                      props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData
+                    }
+                  />
+                </div>
               </div>
-            </div>
+            </Grid>
           </Grid>
-        </Grid>
+        )}
       </div>
     </>
   );

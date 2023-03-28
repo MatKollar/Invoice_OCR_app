@@ -48,7 +48,7 @@ const InvoiceTable = ({ invoiceData, openSummary }) => {
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+    <Paper sx={{ width: "100%", overflow: "hidden", mt: 5 }}>
       <TableContainer sx={{ maxHeight: 700 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>

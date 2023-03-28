@@ -36,7 +36,7 @@ const HistoryPage = () => {
 
   return (
     <AppLayout>
-      <Grid container sx={{ m: 0, mt: 5 }}>
+      <Grid container>
         {!isSummaryOpen && (
           <div className={classes.table}>
             <InvoiceTable
