@@ -88,3 +88,7 @@ class Invoice(db.Model):
     text = db.Column(db.String(100000))    
     pdf_file = db.Column(db.LargeBinary)
     image_file = db.Column(db.LargeBinary)
+    average_score = db.Column(db.Float)
+    recognition_time = db.Column(db.Float)
+    parsing_time = db.Column(db.Float)
+    other_time = db.Column(db.Float)

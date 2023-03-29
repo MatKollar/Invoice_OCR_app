@@ -99,3 +99,28 @@ def getOrganizationInvoices():
     invoice_data = serializableInvoices(invoices)
 
     return jsonify({'invoices': invoice_data})
+
+
+@getData_bp.route('/save-time-other', methods=['POST'])
+def saveTimeOther():
+    invoice_id = request.json['invoice_id']
+    time_other = request.json['time_other']
+
+    invoice = Invoice.query.get(invoice_id)
+    invoice.other_time = time_other
+
+    return jsonify({'success': True})
+
+
+@getData_bp.route('/get-performance-data', methods=['POST'])
+def getPerformanceData():
+    invoice_id = request.json['invoice_id']
+
+    invoice = Invoice.query.get(invoice_id)
+    average_score = invoice.average_score
+    recognition_time = invoice.recognition_time
+    parsing_time = invoice.parsing_time
+    other_time = invoice.other_time
+
+    return jsonify({'average_score': average_score, 'recognition_time':
+                    recognition_time, 'parsing_time': parsing_time, 'other_time': other_time})

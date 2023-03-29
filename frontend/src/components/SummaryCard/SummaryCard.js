@@ -116,7 +116,12 @@ const SummaryCard = (props) => {
     <>
       <div className={classes.rootContainer}>
         {chartOpen ? (
-          <DoughnutChart handleCloseChart={handleCloseChart} />
+          <DoughnutChart
+            handleCloseChart={handleCloseChart}
+            invoice_id={
+              props.dataFromDB ? props.dataFromDB.id : ocrCtx.invoiceId
+            }
+          />
         ) : (
           <Grid container>
             <Grid item xs={12} sx={{ textAlign: "right", marginRight: 10 }}>

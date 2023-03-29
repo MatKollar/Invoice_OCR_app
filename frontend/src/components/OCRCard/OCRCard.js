@@ -25,12 +25,20 @@ const OCRCard = () => {
     }
 
     try {
+      const startTime = performance.now();
       const resp = await httpRequest.post(
         `http://localhost:5000/${OCRmethod}`,
-        formData
+        formData,
       );
+      const endTime = performance.now();
+      const duration = (endTime - startTime) / 1000;
+      const time_other = duration - resp.data.time.recognition + resp.data.time.parsing;
+      const time = resp["data"]["time"];
+      time["other"] = time_other;
       ocrCtx.setTextResult(resp["data"]["text"]);
       ocrCtx.setExtractedData(resp["data"]["parsed_data"]);
+      ocrCtx.setInvoiceId(resp["data"]["invoice_id"]);
+      saveTimeOther(resp["data"]["invoice_id"], time_other);
     } catch (error) {
       console.log("Error");
     }
@@ -38,6 +46,21 @@ const OCRCard = () => {
     setLoading(false);
     ocrCtx.setActivePage(3);
   };
+
+  const saveTimeOther = async (invoice_id, time_other) => {
+    try {
+      const resp = await httpRequest.post(
+        "http://localhost:5000/save-time-other",
+        {
+          invoice_id: invoice_id,
+          time_other: time_other,
+        }
+      );
+    } catch (error) {
+      console.log("Error");
+    }
+  };
+
 
   return (
     <>

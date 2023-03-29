@@ -23,9 +23,14 @@ def paddleocr():
     recognition_time = time.time() - start_time_recognition
 
     text = ""
+    total_score = 0
+    num_words = 0
     for res in result:
         for line in res:
             text += line[1][0] + "\n"
+            total_score += line[1][1]
+            num_words += 1
+    average_score = total_score / num_words if num_words > 0 else 0
 
     start_time_parsing = time.time()
     parsed_data = parse_text(text)
@@ -37,13 +42,16 @@ def paddleocr():
         pdf_file = request.files['pdf'].read()
     elif request.files.get('image'):
         image_file = request.files['image'].read()
-    add_invoice_to_db(parsed_data, text, pdf_file, image_file)
+    invoice_id = add_invoice_to_db(parsed_data, text, pdf_file, image_file,
+                      average_score*100, recognition_time, parsing_time)
 
     return jsonify({
+        'invoice_id': invoice_id,
         'text': text,
         'parsed_data': parsed_data,
         'time': {
             'recognition': recognition_time,
-            'parsing': parsing_time
-        }
+            'parsing': parsing_time,
+        },
+        'average_score': average_score*100
     })
