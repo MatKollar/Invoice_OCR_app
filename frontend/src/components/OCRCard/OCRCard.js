@@ -32,7 +32,8 @@ const OCRCard = () => {
       );
       const endTime = performance.now();
       const duration = (endTime - startTime) / 1000;
-      const time_other = duration - resp.data.time.recognition + resp.data.time.parsing;
+      const time_other =
+        duration - resp.data.time.recognition + resp.data.time.parsing;
       const time = resp["data"]["time"];
       time["other"] = time_other;
       ocrCtx.setTextResult(resp["data"]["text"]);
@@ -54,13 +55,12 @@ const OCRCard = () => {
         {
           invoice_id: invoice_id,
           time_other: time_other,
-        }
+        },
       );
     } catch (error) {
       console.log("Error");
     }
   };
-
 
   return (
     <>

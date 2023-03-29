@@ -17,6 +17,7 @@ def paddleocr():
         lang='sk'
     )
     img = load_image()
+    ocr_method = 'PaddleOCR'
 
     start_time_recognition = time.time()
     result = ocr.ocr(img, cls=True)
@@ -43,7 +44,7 @@ def paddleocr():
     elif request.files.get('image'):
         image_file = request.files['image'].read()
     invoice_id = add_invoice_to_db(parsed_data, text, pdf_file, image_file,
-                      average_score*100, recognition_time, parsing_time)
+                      average_score*100, recognition_time, parsing_time, ocr_method)
 
     return jsonify({
         'invoice_id': invoice_id,

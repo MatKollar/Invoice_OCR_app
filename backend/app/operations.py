@@ -12,7 +12,7 @@ def load_image():
     return img
 
 
-def add_invoice_to_db(parsed_data, text, pdf_file, img_file, average_score, recognition_time, parsing_time):
+def add_invoice_to_db(parsed_data, text, pdf_file, img_file, average_score, recognition_time, parsing_time, ocr_method):
     user_id = session.get("user_id")
 
     user = User.query.get(user_id)
@@ -36,7 +36,8 @@ def add_invoice_to_db(parsed_data, text, pdf_file, img_file, average_score, reco
         text=text,
         average_score=average_score,
         recognition_time=recognition_time,
-        parsing_time=parsing_time
+        parsing_time=parsing_time,
+        ocr_method=ocr_method
     )
 
     if pdf_file:

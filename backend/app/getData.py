@@ -121,6 +121,7 @@ def getPerformanceData():
     recognition_time = invoice.recognition_time
     parsing_time = invoice.parsing_time
     other_time = invoice.other_time
+    ocr_method = invoice.ocr_method
 
     return jsonify({'average_score': average_score, 'recognition_time':
-                    recognition_time, 'parsing_time': parsing_time, 'other_time': other_time})
+                    recognition_time, 'parsing_time': parsing_time, 'other_time': other_time, 'ocr_method': ocr_method})

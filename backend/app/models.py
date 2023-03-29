@@ -92,3 +92,4 @@ class Invoice(db.Model):
     recognition_time = db.Column(db.Float)
     parsing_time = db.Column(db.Float)
     other_time = db.Column(db.Float)
+    ocr_method = db.Column(db.String(100))

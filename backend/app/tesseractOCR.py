@@ -10,6 +10,7 @@ tesseract_bp = Blueprint('tesseract', __name__)
 @tesseract_bp.route('/tesseract', methods=['POST'])
 def tesseract():
     img = load_image()
+    ocr_method = 'Tesseract'
 
     start_time_recognition = time.time()
     data = pytesseract.image_to_data(img, lang='slk', output_type='dict')
@@ -42,7 +43,7 @@ def tesseract():
     elif request.files.get('image'):
         image_file = request.files['image'].read()
     invoice_id = add_invoice_to_db(parsed_data, text, pdf_file, image_file,
-                                   average_score, recognition_time, parsing_time)
+                                   average_score, recognition_time, parsing_time, ocr_method)
 
     return jsonify({
         'invoice_id': invoice_id,

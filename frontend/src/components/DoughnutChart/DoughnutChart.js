@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { Paper } from "@mui/material";
+import { Paper, Tooltip as MuiTooltip } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 
@@ -14,6 +15,7 @@ const DoughnutChart = ({ handleCloseChart, invoice_id }) => {
   const [parsing, setParsing] = useState(null);
   const [other, setOther] = useState(null);
   const [score, setScore] = useState(null);
+  const [ocrMethod, setOcrMethod] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,6 +30,7 @@ const DoughnutChart = ({ handleCloseChart, invoice_id }) => {
         setParsing(resp.data.parsing_time);
         setOther(resp.data.other_time);
         setScore(resp.data.average_score);
+        setOcrMethod(resp.data.ocr_method);
       } catch (error) {
         console.log("Error");
       }
@@ -71,21 +74,35 @@ const DoughnutChart = ({ handleCloseChart, invoice_id }) => {
           sx={{
             pl: 15,
             pr: 15,
-            pt: 2,
+            pt: 0,
             pb: 10,
             borderRadius: 10,
             textAlign: "left",
           }}
         >
-          <IconButton onClick={handleIsChartOpen}>
-            <ArrowBackIcon />
-          </IconButton>
           {recognition ? (
             <>
+              <div className={classes.titleContainer}>
+                <IconButton onClick={handleIsChartOpen}>
+                  <ArrowBackIcon />
+                </IconButton>
+                <h4 className={classes.title}>{ocrMethod} performance</h4>
+                <MuiTooltip title="Tesseract and PaddleOCR score represents different metrics and are calculated using different methods so they cannot be directly compared based on this score.">
+                  <PriorityHighIcon className={classes.icon} />
+                </MuiTooltip>
+              </div>
               <div className={classes.chartContainer}>
                 <Doughnut data={data} />
               </div>
-              <p className={classes.centerScore}>{score.toFixed(2)}%</p>
+              {ocrMethod === "Tesseract" ? (
+                <MuiTooltip title="Percentage indicating how confident the OCR engine was in the correctness of the recognized text.">
+                  <p className={classes.centerScore}>{score.toFixed(2)}%</p>
+                </MuiTooltip>
+              ) : (
+                <MuiTooltip title="Recognition score represents the probability of the recognized text being correct, calculated by the recognition model.">
+                  <p className={classes.centerScore}>{score.toFixed(2)}%</p>
+                </MuiTooltip>
+              )}
               <p className={classes.paragraph}>
                 Total invoice processing time:{" "}
                 <strong>

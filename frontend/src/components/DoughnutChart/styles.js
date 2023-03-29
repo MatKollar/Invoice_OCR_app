@@ -6,7 +6,21 @@ export const useStyles = makeStyles({
     top: "50%",
     left: "55%",
     transform: "translate(-50%, -50%)",
-    width: "600px",
+    width: "650px",
+  },
+  title: {
+    textAlign: "center",
+    margin: 15,
+    fontWeight: "bold",
+  },
+  titleContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  icon: {
+    color: "red",
+    marginTop: 15,
+    marginLeft: 10,
   },
   centerScore: {
     position: "absolute",
@@ -16,6 +30,7 @@ export const useStyles = makeStyles({
     fontSize: "2rem",
     fontWeight: "bold",
     color: "black",
+    cursor: "pointer",
   },
   centerText: {
     position: "absolute",
@@ -39,5 +54,5 @@ export const useStyles = makeStyles({
     transform: "translate(-50%, -50%)",
     fontSize: "1.2rem",
     width: "400px",
-  }
+  },
 });
