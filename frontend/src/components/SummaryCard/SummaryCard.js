@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import OCRContext from "../../context/ocr-context";
 import { TextField, Button, Paper, IconButton, Grid } from "@mui/material";
 import { useStyles } from "./styles";
@@ -15,6 +15,11 @@ const SummaryCard = (props) => {
   const ocrCtx = useContext(OCRContext);
   const [showText, setShowText] = useState(true);
   const [chartOpen, setChartOpen] = useState(false);
+  const [isInvoice, setIsInvoice] = useState(false);
+
+  useEffect(() => {
+    setIsInvoice(ocrCtx.isInvoice);
+  }, []);
 
   let pdfBase64;
   let imageBase64;
@@ -125,9 +130,11 @@ const SummaryCard = (props) => {
         ) : (
           <Grid container>
             <Grid item xs={12} sx={{ textAlign: "right", marginRight: 10 }}>
-              <IconButton sx={{ padding: "10px" }} onClick={handleOpenChart}>
-                <DonutSmallIcon fontSize="large" />
-              </IconButton>
+              {isInvoice && (
+                <IconButton sx={{ padding: "10px" }} onClick={handleOpenChart}>
+                  <DonutSmallIcon fontSize="large" />
+                </IconButton>
+              )}
               <IconButton sx={{ padding: "10px" }} onClick={handleDownloadFile}>
                 <DownloadIcon fontSize="large" />
               </IconButton>
@@ -166,27 +173,44 @@ const SummaryCard = (props) => {
               </div>
             </Grid>
 
-            <Grid item xs={6}>
-              <div className={classes.tables}>
-                <InvoiceTable
-                  data={
-                    props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData
-                  }
-                />
-                <div className={classes.tableContainer}>
-                  <SellerTable
+            {!props.dataFromDB && isInvoice ? (
+              <Grid item xs={6}>
+                <div className={classes.tables}>
+                  <InvoiceTable
                     data={
                       props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData
                     }
                   />
-                  <BuyerTable
-                    data={
-                      props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData
-                    }
-                  />
+                  <div className={classes.tableContainer}>
+                    <SellerTable
+                      data={
+                        props.dataFromDB
+                          ? props.dataFromDB
+                          : ocrCtx.extractedData
+                      }
+                    />
+                    <BuyerTable
+                      data={
+                        props.dataFromDB
+                          ? props.dataFromDB
+                          : ocrCtx.extractedData
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-            </Grid>
+              </Grid>
+            ) : (
+              <Grid item xs={5}>
+                <Paper
+                  elevation={3}
+                  sx={{ mt: 15, p: 10, borderRadius: 5, height: 200 }}
+                >
+                  <h4 style={{ textAlign: "center", marginTop: "-15px" }}>
+                    The recognized document is probably not an invoice!
+                  </h4>
+                </Paper>
+              </Grid>
+            )}
           </Grid>
         )}
       </div>

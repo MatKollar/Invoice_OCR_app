@@ -37,15 +37,37 @@ const OCRCard = () => {
       const time = resp["data"]["time"];
       time["other"] = time_other;
       ocrCtx.setTextResult(resp["data"]["text"]);
+      const isInvoice = checkIfInvoice(resp["data"]);
       ocrCtx.setExtractedData(resp["data"]["parsed_data"]);
       ocrCtx.setInvoiceId(resp["data"]["invoice_id"]);
-      saveTimeOther(resp["data"]["invoice_id"], time_other);
+      if (isInvoice) {
+        saveTimeOther(resp["data"]["invoice_id"], time_other);
+      }
     } catch (error) {
       console.log("Error");
     }
 
     setLoading(false);
     ocrCtx.setActivePage(3);
+  };
+
+  const checkIfInvoice = (data) => {
+    if (
+      data["parsed_data"]["invoice_number"] === "" &&
+      data["parsed_data"]["var_symbol"] === "" &&
+      data["parsed_data"]["total_price"] === "" &&
+      data["parsed_data"]["due_date"] === "" &&
+      data["parsed_data"]["iban"] === "" &&
+      data["parsed_data"]["buyer_ico"] === "" &&
+      data["parsed_data"]["supplier_ico"] === "" &&
+      data["parsed_data"]["bank"] === ""
+    ) {
+      ocrCtx.setIsInvoice(false);
+      return false;
+    } else {
+      ocrCtx.setIsInvoice(true);
+      return true;
+    }
   };
 
   const saveTimeOther = async (invoice_id, time_other) => {

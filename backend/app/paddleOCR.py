@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 import time
 from paddleocr import PaddleOCR
 from app.paddleParser import parse_text
-from app.operations import load_image, add_invoice_to_db
+from app.operations import load_image, add_invoice_to_db, check_if_invoice
 
 paddleocr_bp = Blueprint('paddleocr', __name__)
 
@@ -37,17 +37,30 @@ def paddleocr():
     parsed_data = parse_text(text)
     parsing_time = time.time() - start_time_parsing
 
-    pdf_file = None
-    image_file = None
-    if request.files.get('pdf'):
-        pdf_file = request.files['pdf'].read()
-    elif request.files.get('image'):
-        image_file = request.files['image'].read()
-    invoice_id = add_invoice_to_db(parsed_data, text, pdf_file, image_file,
-                      average_score*100, recognition_time, parsing_time, ocr_method)
+    isInvoice = check_if_invoice(parsed_data)
+
+    if isInvoice:
+        pdf_file = None
+        image_file = None
+        if request.files.get('pdf'):
+            pdf_file = request.files['pdf'].read()
+        elif request.files.get('image'):
+            image_file = request.files['image'].read()
+        invoice_id = add_invoice_to_db(parsed_data, text, pdf_file, image_file,
+                                       average_score*100, recognition_time, parsing_time, ocr_method)
+
+        return jsonify({
+            'invoice_id': invoice_id,
+            'text': text,
+            'parsed_data': parsed_data,
+            'time': {
+                'recognition': recognition_time,
+                'parsing': parsing_time,
+            },
+            'average_score': average_score*100
+        })
 
     return jsonify({
-        'invoice_id': invoice_id,
         'text': text,
         'parsed_data': parsed_data,
         'time': {
