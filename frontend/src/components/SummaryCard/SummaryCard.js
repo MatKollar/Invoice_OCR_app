@@ -5,7 +5,7 @@ import { useStyles } from "./styles";
 import DoughnutChart from "../../components/DoughnutChart/DoughnutChart";
 import SellerTable from "./SellerTable/SellerTable";
 import BuyerTable from "./BuyerTable/BuyerTable";
-import InvoiceTable from "./InvoiceTable/InvoiceTable";
+import InvoiceDataTable from "./InvoiceDataTable/InvoiceDataTable";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import DownloadIcon from "@mui/icons-material/Download";
 import DonutSmallIcon from "@mui/icons-material/DonutSmall";
@@ -173,10 +173,10 @@ const SummaryCard = (props) => {
               </div>
             </Grid>
 
-            {!props.dataFromDB && isInvoice ? (
+            {props.dataFromDB || isInvoice ? (
               <Grid item xs={6}>
                 <div className={classes.tables}>
-                  <InvoiceTable
+                  <InvoiceDataTable
                     data={
                       props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData
                     }
