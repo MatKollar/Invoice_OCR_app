@@ -8,6 +8,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  TextField,
+  Paper,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useStyles } from "./styles";
@@ -18,6 +20,7 @@ function UsersTable({ users, onUserUpdated }) {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedRole, setSelectedRole] = useState("");
+  const [search, setSearch] = useState("");
 
   const handleEdit = (event, user) => {
     if (user.email === "admin") {
@@ -49,32 +52,55 @@ function UsersTable({ users, onUserUpdated }) {
     setShowModal(false);
   };
 
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+  };
+
+  const filteredUsers = users.filter((user) => {
+    const searchString = search.toLowerCase();
+    return (
+      user.name.toLowerCase().includes(searchString) ||
+      user.email.toLowerCase().includes(searchString) ||
+      user.role.toLowerCase().includes(searchString)
+    );
+  });
+
   return (
     <>
-      <DataGrid
-        rows={users}
-        columns={[
-          { field: "name", headerName: "Name", flex: 1 },
-          { field: "email", headerName: "Email", flex: 1 },
-          { field: "role", headerName: "Role", flex: 1 },
-          {
-            field: "actions",
-            headerName: "Actions",
-            flex: 1,
-            renderCell: (params) => (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={(event) => handleEdit(event, params.row)}
-              >
-                Edit Role
-              </Button>
-            ),
-          },
-        ]}
-        autoHeight
-        sx={{ backgroundColor: "white", marginBottom: "30px" }}
-      />
+      <Paper elevation={3} className={classes.paper}>
+        <TextField
+          label="Search"
+          variant="outlined"
+          size="small"
+          value={search}
+          onChange={handleSearchChange}
+          sx={{ m: 1, width: "25ch" }}
+        />
+        <DataGrid
+          rows={filteredUsers}
+          columns={[
+            { field: "name", headerName: "Name", flex: 1 },
+            { field: "email", headerName: "Email", flex: 1 },
+            { field: "role", headerName: "Role", flex: 1 },
+            {
+              field: "actions",
+              headerName: "Actions",
+              flex: 1,
+              renderCell: (params) => (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={(event) => handleEdit(event, params.row)}
+                >
+                  Edit Role
+                </Button>
+              ),
+            },
+          ]}
+          autoHeight
+          sx={{ backgroundColor: "white", marginBottom: "30px" }}
+        />
+      </Paper>
 
       <Modal open={showModal} onClose={handleModalClose}>
         <Box
