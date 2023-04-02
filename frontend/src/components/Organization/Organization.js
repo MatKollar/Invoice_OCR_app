@@ -19,19 +19,23 @@ const Organization = (props) => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const resp = await httpRequest.post(
-          "http://localhost:5000/get-organization-invoices",
-          {
-            organization_id: orgData.id,
-          }
-        );
-        setInvoices(resp.data.invoices);
-      } catch (error) {
-        console.log("Error");
-      }
+      await fetchInvoiceData();
     })();
   }, []);
+
+  const fetchInvoiceData = async () => {
+    try {
+      const resp = await httpRequest.post(
+        "http://localhost:5000/get-organization-invoices",
+        {
+          organization_id: orgData.id,
+        },
+      );
+      setInvoices(resp.data.invoices);
+    } catch (error) {
+      console.log("Error");
+    }
+  };
 
   useEffect(() => {
     if (userCtx.activeOrganization) {
@@ -51,7 +55,7 @@ const Organization = (props) => {
         "http://localhost:5000/activate-organization",
         {
           organization_id: orgData.id,
-        }
+        },
       );
     } catch (error) {
       if (error.response.status === 401) {
@@ -68,7 +72,7 @@ const Organization = (props) => {
         "http://localhost:5000/deactivate-organization",
         {
           organization_id: orgData.id,
-        }
+        },
       );
     } catch (error) {
       if (error.response.status === 401) {
@@ -108,7 +112,11 @@ const Organization = (props) => {
       <Grid container sx={{ m: 0, mt: 5 }}>
         {!isSummaryOpen && (
           <div className={classes.table}>
-            <InvoiceTable invoiceData={invoices} openSummary={openSummary} />
+            <InvoiceTable
+              invoiceData={invoices}
+              openSummary={openSummary}
+              refreshInvoiceData={fetchInvoiceData}
+            />
           </div>
         )}
       </Grid>

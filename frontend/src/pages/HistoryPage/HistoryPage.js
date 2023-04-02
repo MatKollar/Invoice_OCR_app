@@ -18,16 +18,18 @@ const HistoryPage = () => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const resp = await httpRequest.get(
-          "http://localhost:5000/get-invoices"
-        );
-        setInvoicesData(resp.data.invoices);
-      } catch (error) {
-        console.log("Error");
-      }
+      await fetchInvoiceData();
     })();
   }, []);
+
+  const fetchInvoiceData = async () => {
+    try {
+      const resp = await httpRequest.get("http://localhost:5000/get-invoices");
+      setInvoicesData(resp.data.invoices);
+    } catch (error) {
+      console.log("Error");
+    }
+  };
 
   const openSummary = (invoiceData) => {
     setIsSummaryOpen(true);
@@ -42,6 +44,7 @@ const HistoryPage = () => {
             <InvoiceTable
               invoiceData={invoicesData}
               openSummary={openSummary}
+              refreshInvoiceData={fetchInvoiceData}
             />
           </div>
         )}

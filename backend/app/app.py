@@ -2,7 +2,7 @@ from flask import Flask, jsonify, session, request
 from flask_cors import CORS
 from flask_session import Session
 from config import ApplicationConfig
-from app.models import db, User, UserRole
+from app.models import db, User, UserRole, Invoice
 from app.authentication import authentication_bp
 from app.preprocessing import preprocessing_bp
 from app.tesseractOCR import tesseract_bp
@@ -92,3 +92,21 @@ def update_user():
     db.session.commit()
 
     return jsonify({"success": True}), 200
+
+
+@app.route('/delete-invoice', methods=['DELETE'])
+def delete_invoice():
+    invoice_id = request.args.get('id', type=int)
+
+    if not invoice_id:
+        return jsonify({"error": "ID parameter is missing"}), 400
+
+    invoice = Invoice.query.get(invoice_id)
+
+    if not invoice:
+        return jsonify({"error": "Invoice not found"}), 404
+
+    db.session.delete(invoice)
+    db.session.commit()
+
+    return jsonify({"message": f"Invoice {invoice_id} has been deleted"}), 200
