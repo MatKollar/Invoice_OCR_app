@@ -1,52 +1,40 @@
 import { Paper, TextField } from "@mui/material";
+import { useState, useEffect } from "react";
 
 function DataTable(props) {
   const { data } = props;
+  const [localData, setLocalData] = useState(data);
+
+  useEffect(() => {
+    setLocalData(data);
+  }, [data]);
+
+  const handleChange = (event, field) => {
+    const newData = { ...localData, [field]: event.target.value };
+    setLocalData(newData);
+    props.onDataChange(newData);
+  };
+
+  const renderTextField = (field, label) => (
+    <TextField
+      label={label}
+      value={localData[field] || ""}
+      onChange={(event) => handleChange(event, field)}
+      sx={{ mb: 1 }}
+      variant="standard"
+      fullWidth
+    />
+  );
 
   return (
     <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
-      <TextField
-        label="Name"
-        defaultValue={data ? data.Name : ""}
-        sx={{ mb: 1 }}
-        variant="standard"
-        fullWidth
-      />
-      <TextField
-        label="Address"
-        defaultValue={data ? data.Street : ""}
-        sx={{ mb: 1 }}
-        variant="standard"
-        fullWidth
-      />
-      <TextField
-        label="City"
-        defaultValue={data ? data.PSC + " " + data.City : ""}
-        sx={{ mb: 1 }}
-        variant="standard"
-        fullWidth
-      />
-      <TextField
-        label="IČO"
-        defaultValue={data ? data.ICO : ""}
-        sx={{ mb: 1 }}
-        variant="standard"
-        fullWidth
-      />
-      <TextField
-        label="DIČ"
-        defaultValue={data ? data.DIC : ""}
-        sx={{ mb: 1 }}
-        variant="standard"
-        fullWidth
-      />
-      <TextField
-        label="IČ DPH"
-        defaultValue={data ? "SK" + data.DIC : ""}
-        sx={{ mb: 1 }}
-        variant="standard"
-        fullWidth
-      />
+      {renderTextField("Name", "Name")}
+      {renderTextField("Street", "Address")}
+      {renderTextField("City", "City")}
+      {renderTextField("PSC", "PSC")}
+      {renderTextField("ICO", "IČO")}
+      {renderTextField("DIC", "DIČ")}
+      {renderTextField("IC_DPH", "IČ DPH")}
     </Paper>
   );
 }

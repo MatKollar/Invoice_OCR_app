@@ -86,6 +86,10 @@ const Organization = (props) => {
     setSelectedInvoice(invoiceData);
   };
 
+  const handleDataChange = () => {
+    fetchInvoiceData();
+  };
+
   return (
     <div className={classes.rootContainer}>
       {activeOrganization && (
@@ -125,7 +129,10 @@ const Organization = (props) => {
           <IconButton onClick={() => setIsSummaryOpen(false)}>
             <ArrowBackIcon />
           </IconButton>
-          <SummaryCard dataFromDB={selectedInvoice} />
+          <SummaryCard
+            dataFromDB={selectedInvoice}
+            dataChanged={handleDataChange}
+          />
         </div>
       )}
     </div>

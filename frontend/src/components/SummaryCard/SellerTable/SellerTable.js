@@ -6,7 +6,10 @@ const SellerTable = (props) => {
 
   return (
     <div className={classes.table}>
-      <DataTable data={props.data ? props.data.supplier_data : ""} />
+      <DataTable
+        data={props.data ? props.data.supplier_data : ""}
+        onDataChange={props.onDataChange}
+      />
     </div>
   );
 };

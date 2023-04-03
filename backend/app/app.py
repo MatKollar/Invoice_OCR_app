@@ -110,3 +110,54 @@ def delete_invoice():
     db.session.commit()
 
     return jsonify({"message": f"Invoice {invoice_id} has been deleted"}), 200
+
+
+@app.route('/update-invoice', methods=['POST'])
+def update_invoice():
+    new_data = request.json["new_data"]
+    invoice_id = new_data["id"]
+
+    if not invoice_id:
+        return jsonify({"error": "ID parameter is missing"}), 400
+
+    invoice = Invoice.query.get(invoice_id)
+
+    if not invoice:
+        return jsonify({"error": "Invoice not found"}), 404
+
+    invoice.invoice_number = new_data.get(
+        "invoice_number", invoice.invoice_number)
+
+    invoice.var_symbol = new_data.get("var_symbol", invoice.var_symbol)
+    invoice.date_of_issue = new_data.get(
+        "date_of_issue", invoice.date_of_issue)
+    invoice.due_date = new_data.get("due_date", invoice.due_date)
+    invoice.delivery_date = new_data.get(
+        "delivery_date", invoice.delivery_date)
+    invoice.payment_method = new_data.get(
+        "payment_method", invoice.payment_method)
+    invoice.total_price = new_data.get("total_price", invoice.total_price)
+    invoice.bank = new_data.get("bank", invoice.bank)
+    invoice.swift = new_data.get("swift", invoice.swift)
+    invoice.iban = new_data.get("iban", invoice.iban)
+
+    supplier_data = new_data.get("supplier_data", {})
+    invoice.supplier_ico = supplier_data.get("ICO", invoice.supplier_ico)
+    invoice.supplier_name = supplier_data.get("Name", invoice.supplier_name)
+    invoice.supplier_address = supplier_data.get(
+        "Street", invoice.supplier_address)
+    invoice.supplier_psc = supplier_data.get("PSC", invoice.supplier_psc)
+    invoice.supplier_city = supplier_data.get("City", invoice.supplier_city)
+    invoice.supplier_dic = supplier_data.get("DIC", invoice.supplier_dic)
+
+    buyer_data = new_data.get("buyer_data", {})
+    invoice.buyer_ico = buyer_data.get("ICO", invoice.buyer_ico)
+    invoice.buyer_name = buyer_data.get("Name", invoice.buyer_name)
+    invoice.buyer_psc = buyer_data.get("PSC", invoice.buyer_psc)
+    invoice.buyer_address = buyer_data.get("Street", invoice.buyer_address)
+    invoice.buyer_city = buyer_data.get("City", invoice.buyer_city)
+    invoice.buyer_dic = buyer_data.get("DIC", invoice.buyer_dic)
+
+    db.session.commit()
+
+    return jsonify({"message": f"Invoice has been updated"}), 200

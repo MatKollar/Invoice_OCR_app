@@ -36,6 +36,10 @@ const HistoryPage = () => {
     setSelectedInvoice(invoiceData);
   };
 
+  const handleDataChange = () => {
+    fetchInvoiceData();
+  }
+
   return (
     <AppLayout>
       <Grid container>
@@ -54,7 +58,7 @@ const HistoryPage = () => {
           <IconButton onClick={() => setIsSummaryOpen(false)}>
             <ArrowBackIcon />
           </IconButton>
-          <SummaryCard dataFromDB={selectedInvoice} />
+          <SummaryCard dataFromDB={selectedInvoice} dataChanged={handleDataChange}/>
         </div>
       )}
     </AppLayout>

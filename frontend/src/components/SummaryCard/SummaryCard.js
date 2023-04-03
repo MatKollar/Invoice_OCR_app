@@ -9,6 +9,7 @@ import InvoiceDataTable from "./InvoiceDataTable/InvoiceDataTable";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import DownloadIcon from "@mui/icons-material/Download";
 import DonutSmallIcon from "@mui/icons-material/DonutSmall";
+import httpRequest from "../../httpRequest";
 
 const SummaryCard = (props) => {
   const classes = useStyles();
@@ -16,10 +17,17 @@ const SummaryCard = (props) => {
   const [showText, setShowText] = useState(true);
   const [chartOpen, setChartOpen] = useState(false);
   const [isInvoice, setIsInvoice] = useState(false);
+  const [dataChanged, setDataChanged] = useState(false);
+  const [initialData, setInitialData] = useState({});
+  const [newData, setNewData] = useState({});
 
   useEffect(() => {
     setIsInvoice(ocrCtx.isInvoice);
   }, []);
+
+  useEffect(() => {
+    setInitialData(props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData);
+  }, [props.dataFromDB, ocrCtx.extractedData]);
 
   let pdfBase64;
   let imageBase64;
@@ -117,6 +125,34 @@ const SummaryCard = (props) => {
     setChartOpen(false);
   };
 
+  const handleDataChange = (updatedData) => {
+    setNewData(updatedData);
+    if (JSON.stringify(updatedData) !== JSON.stringify(initialData)) {
+      setDataChanged(true);
+    } else {
+      setDataChanged(false);
+    }
+  };
+
+  const handleSave = async () => {
+    console.log(newData);
+
+    try {
+      const resp = await httpRequest.post(
+        "http://localhost:5000/update-invoice",
+        {
+          new_data: newData,
+        },
+      );
+      props.dataChanged();
+      console.log(resp);
+    } catch (error) {
+      console.log("error");
+    }
+
+    setDataChanged(false);
+  };
+
   return (
     <>
       <div className={classes.rootContainer}>
@@ -129,18 +165,38 @@ const SummaryCard = (props) => {
           />
         ) : (
           <Grid container>
-            <Grid item xs={12} sx={{ textAlign: "right", marginRight: 10 }}>
-              {isInvoice && (
-                <IconButton sx={{ padding: "10px" }} onClick={handleOpenChart}>
-                  <DonutSmallIcon fontSize="large" />
+            <Grid container item xs={12} sx={{ marginRight: 10 }}>
+              <Grid item xs={6} sx={{ textAlign: "right" }}>
+                {dataChanged && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSave}
+                    sx={{ mt: 2 }}
+                  >
+                    Save
+                  </Button>
+                )}
+              </Grid>
+              <Grid item xs={6} sx={{ textAlign: "right" }}>
+                {isInvoice && (
+                  <IconButton
+                    sx={{ padding: "10px" }}
+                    onClick={handleOpenChart}
+                  >
+                    <DonutSmallIcon fontSize="large" />
+                  </IconButton>
+                )}
+                <IconButton
+                  sx={{ padding: "10px" }}
+                  onClick={handleDownloadFile}
+                >
+                  <DownloadIcon fontSize="large" />
                 </IconButton>
-              )}
-              <IconButton sx={{ padding: "10px" }} onClick={handleDownloadFile}>
-                <DownloadIcon fontSize="large" />
-              </IconButton>
-              <IconButton sx={{ padding: "10px" }} onClick={handleOpenFile}>
-                <OpenInNewIcon fontSize="large" />
-              </IconButton>
+                <IconButton sx={{ padding: "10px" }} onClick={handleOpenFile}>
+                  <OpenInNewIcon fontSize="large" />
+                </IconButton>
+              </Grid>
             </Grid>
             <Grid item xs={6}>
               <div className={classes.textContainer}>
@@ -172,7 +228,6 @@ const SummaryCard = (props) => {
                 </Button>
               </div>
             </Grid>
-
             {props.dataFromDB || isInvoice ? (
               <Grid item xs={6}>
                 <div className={classes.tables}>
@@ -180,6 +235,7 @@ const SummaryCard = (props) => {
                     data={
                       props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData
                     }
+                    onDataChange={handleDataChange}
                   />
                   <div className={classes.tableContainer}>
                     <SellerTable
@@ -188,6 +244,7 @@ const SummaryCard = (props) => {
                           ? props.dataFromDB
                           : ocrCtx.extractedData
                       }
+                      onDataChange={handleDataChange}
                     />
                     <BuyerTable
                       data={
@@ -195,6 +252,7 @@ const SummaryCard = (props) => {
                           ? props.dataFromDB
                           : ocrCtx.extractedData
                       }
+                      onDataChange={handleDataChange}
                     />
                   </div>
                 </div>

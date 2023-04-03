@@ -38,7 +38,11 @@ const OCRCard = () => {
       time["other"] = time_other;
       ocrCtx.setTextResult(resp["data"]["text"]);
       const isInvoice = checkIfInvoice(resp["data"]);
-      ocrCtx.setExtractedData(resp["data"]["parsed_data"]);
+      const extractedData = {
+        ...resp["data"]["parsed_data"],
+        id: resp["data"]["invoice_id"],
+      };
+      ocrCtx.setExtractedData(extractedData);
       ocrCtx.setInvoiceId(resp["data"]["invoice_id"]);
       if (isInvoice) {
         saveTimeOther(resp["data"]["invoice_id"], time_other);
