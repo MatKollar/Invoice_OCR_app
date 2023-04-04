@@ -145,7 +145,6 @@ const SummaryCard = (props) => {
         },
       );
       props.dataChanged();
-      console.log(resp);
     } catch (error) {
       console.log("error");
     }

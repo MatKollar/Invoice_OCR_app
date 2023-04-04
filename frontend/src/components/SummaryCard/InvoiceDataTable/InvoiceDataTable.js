@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 const InvoiceTable = (props) => {
   const classes = useStyles();
-  const invoiceData = props.data;
+  const invoiceData = props.data || {};
   const [localData, setLocalData] = useState(invoiceData);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const InvoiceTable = (props) => {
     {
       field: "total_price",
       label: "Total amount",
-      value: localData["total_price"] ? localData["total_price"] + " €" : "",
+      value: localData && localData["total_price"] ? localData["total_price"] + " €" : "",
     },
   ];
 

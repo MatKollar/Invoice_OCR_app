@@ -144,7 +144,6 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
   });
 
   const handleDeleteConfirmation = async () => {
-    console.log(invoiceToDelete.id);
     try {
       const response = await httpRequest.delete(`/delete-invoice`, {
         params: {
@@ -199,7 +198,7 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
                   </TableSortLabel>
                 </TableCell>
               ))}
-              <TableCell align="right">Actions</TableCell>{" "}
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
