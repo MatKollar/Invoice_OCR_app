@@ -8,22 +8,26 @@ getData_bp = Blueprint('getdata', __name__)
 def serializableInvoices(invoices):
     invoice_data = []
     for invoice in invoices:
-        supplier_data = {
-            'ICO': invoice.supplier_ico,
-            'Name': invoice.supplier_name,
-            'Street': invoice.supplier_address,
-            'PSC': invoice.supplier_psc,
-            'City': invoice.supplier_city,
-            'DIC': invoice.supplier_dic,
-        }
-        buyer_data = {
-            'ICO': invoice.buyer_ico,
-            'Name': invoice.buyer_name,
-            'Street': invoice.buyer_address,
-            'PSC': invoice.buyer_psc,
-            'City': invoice.buyer_city,
-            'DIC': invoice.buyer_dic,
-        }
+        supplier_data = {}
+        if invoice.supplier:
+            supplier_data = {
+                'ICO': invoice.supplier.ico,
+                'Name': invoice.supplier.name,
+                'Street': invoice.supplier.address,
+                'PSC': invoice.supplier.psc,
+                'City': invoice.supplier.city,
+                'DIC': invoice.supplier.dic,
+            }
+        buyer_data = {}
+        if invoice.buyer:
+            buyer_data = {
+                'ICO': invoice.buyer.ico,
+                'Name': invoice.buyer.name,
+                'Street': invoice.buyer.address,
+                'PSC': invoice.buyer.psc,
+                'City': invoice.buyer.city,
+                'DIC': invoice.buyer.dic,
+            }
         invoice_dict = {
             'id': invoice.id,
             'invoice_number': invoice.invoice_number,

@@ -26,9 +26,11 @@ class UserRole(Enum):
 
 
 user_organization = db.Table('user_organization', db.metadata,
-    db.Column('user_id', db.String(32), db.ForeignKey('users.id')),
-    db.Column('organization_id', db.String(32), db.ForeignKey('organizations.id'))
-)
+                             db.Column('user_id', db.String(32),
+                                       db.ForeignKey('users.id')),
+                             db.Column('organization_id', db.String(32),
+                                       db.ForeignKey('organizations.id'))
+                             )
 
 
 class User(db.Model):
@@ -73,23 +75,37 @@ class Invoice(db.Model):
     bank = db.Column(db.String(100))
     swift = db.Column(db.String(100))
     iban = db.Column(db.String(100))
-    supplier_ico = db.Column(db.String(100))
-    supplier_name = db.Column(db.String(100))
-    supplier_address = db.Column(db.String(100))
-    supplier_psc = db.Column(db.String(100))
-    supplier_city = db.Column(db.String(100))
-    supplier_dic = db.Column(db.String(100))
-    buyer_ico = db.Column(db.String(100))
-    buyer_name = db.Column(db.String(100))
-    buyer_psc = db.Column(db.String(100))
-    buyer_address = db.Column(db.String(100))
-    buyer_city = db.Column(db.String(100))
-    buyer_dic = db.Column(db.String(100))
-    text = db.Column(db.String(100000))    
+    supplier_id = db.Column(db.Integer, db.ForeignKey('suppliers.id'))
+    buyer_id = db.Column(db.Integer, db.ForeignKey('buyers.id'))
+    text = db.Column(db.String(100000))
     pdf_file = db.Column(db.LargeBinary)
     image_file = db.Column(db.LargeBinary)
     performance_id = db.Column(db.Integer, db.ForeignKey('performance.id'))
-    
+
+
+class Supplier(db.Model):
+    __tablename__ = "suppliers"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    ico = db.Column(db.String(100))
+    name = db.Column(db.String(100))
+    address = db.Column(db.String(100))
+    psc = db.Column(db.String(100))
+    city = db.Column(db.String(100))
+    dic = db.Column(db.String(100))
+    invoices = db.relationship("Invoice", backref="supplier")
+
+
+class Buyer(db.Model):
+    __tablename__ = "buyers"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    ico = db.Column(db.String(100))
+    name = db.Column(db.String(100))
+    psc = db.Column(db.String(100))
+    address = db.Column(db.String(100))
+    city = db.Column(db.String(100))
+    dic = db.Column(db.String(100))
+    invoices = db.relationship("Invoice", backref="buyer")
+
 
 class Performance(db.Model):
     __tablename__ = "performance"
