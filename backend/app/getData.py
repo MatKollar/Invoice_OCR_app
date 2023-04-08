@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, session, request
-from app.models import Invoice, User
+from app.models import db, Invoice, User
 import base64
 
 getData_bp = Blueprint('getdata', __name__)
@@ -107,9 +107,16 @@ def saveTimeOther():
     time_other = request.json['time_other']
 
     invoice = Invoice.query.get(invoice_id)
-    invoice.other_time = time_other
+    performance = invoice.performance
 
-    return jsonify({'success': True})
+    if performance:
+        performance.other_time = time_other
+        db.session.commit()
+        return jsonify({'success': True})
+    else:
+        return jsonify({
+            'error': 'No performance data found for the given invoice_id.'
+        }), 404
 
 
 @getData_bp.route('/get-performance-data', methods=['POST'])
@@ -117,11 +124,23 @@ def getPerformanceData():
     invoice_id = request.json['invoice_id']
 
     invoice = Invoice.query.get(invoice_id)
-    average_score = invoice.average_score
-    recognition_time = invoice.recognition_time
-    parsing_time = invoice.parsing_time
-    other_time = invoice.other_time
-    ocr_method = invoice.ocr_method
+    performance = invoice.performance
 
-    return jsonify({'average_score': average_score, 'recognition_time':
-                    recognition_time, 'parsing_time': parsing_time, 'other_time': other_time, 'ocr_method': ocr_method})
+    if performance:
+        average_score = performance.average_score
+        recognition_time = performance.recognition_time
+        parsing_time = performance.parsing_time
+        other_time = performance.other_time
+        ocr_method = performance.ocr_method
+
+        return jsonify({
+            'average_score': average_score,
+            'recognition_time': recognition_time,
+            'parsing_time': parsing_time,
+            'other_time': other_time,
+            'ocr_method': ocr_method
+        })
+    else:
+        return jsonify({
+            'error': 'No performance data found for the given invoice_id.'
+        }), 404

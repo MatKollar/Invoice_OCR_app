@@ -1,5 +1,5 @@
 from flask import request, session
-from app.models import db, Invoice, User
+from app.models import db, Invoice, User, Performance
 import numpy as np
 import cv2
 
@@ -18,6 +18,17 @@ def add_invoice_to_db(parsed_data, text, pdf_file, img_file, average_score, reco
     user = User.query.get(user_id)
     active_org_id = user.active_organization_id
 
+    performance = Performance(
+        average_score=average_score,
+        recognition_time=recognition_time,
+        parsing_time=parsing_time,
+        other_time=None, 
+        ocr_method=ocr_method
+    )
+
+    db.session.add(performance)
+    db.session.flush()
+
     invoice = Invoice(
         user_id=session.get("user_id"),
         organization_id=None,
@@ -34,10 +45,7 @@ def add_invoice_to_db(parsed_data, text, pdf_file, img_file, average_score, reco
         supplier_ico=parsed_data['supplier_ico'],
         buyer_ico=parsed_data['buyer_ico'],
         text=text,
-        average_score=average_score,
-        recognition_time=recognition_time,
-        parsing_time=parsing_time,
-        ocr_method=ocr_method
+        performance_id=performance.id
     )
 
     if pdf_file:

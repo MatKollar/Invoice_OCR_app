@@ -88,8 +88,15 @@ class Invoice(db.Model):
     text = db.Column(db.String(100000))    
     pdf_file = db.Column(db.LargeBinary)
     image_file = db.Column(db.LargeBinary)
+    performance_id = db.Column(db.Integer, db.ForeignKey('performance.id'))
+    
+
+class Performance(db.Model):
+    __tablename__ = "performance"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     average_score = db.Column(db.Float)
     recognition_time = db.Column(db.Float)
     parsing_time = db.Column(db.Float)
     other_time = db.Column(db.Float)
     ocr_method = db.Column(db.String(100))
+    invoice = db.relationship("Invoice", backref="performance", uselist=False)
