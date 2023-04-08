@@ -2,7 +2,7 @@ from flask import Flask, jsonify, session, request
 from flask_cors import CORS
 from flask_session import Session
 from config import ApplicationConfig
-from app.models import db, User, UserRole, Invoice
+from app.models import db, User, UserRole, Invoice, Supplier, Buyer
 from app.authentication import authentication_bp
 from app.preprocessing import preprocessing_bp
 from app.tesseractOCR import tesseract_bp
@@ -105,6 +105,21 @@ def delete_invoice():
 
     if not invoice:
         return jsonify({"error": "Invoice not found"}), 404
+
+    if invoice.supplier_id:
+        supplier = Supplier.query.get(invoice.supplier_id)
+        if supplier:
+            db.session.delete(supplier)
+
+    if invoice.buyer_id:
+        buyer = Buyer.query.get(invoice.buyer_id)
+        if buyer:
+            db.session.delete(buyer)
+
+    performance = invoice.performance
+
+    if performance:
+        db.session.delete(performance)
 
     db.session.delete(invoice)
     db.session.commit()
