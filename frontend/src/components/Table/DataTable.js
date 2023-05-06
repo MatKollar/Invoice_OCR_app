@@ -2,12 +2,12 @@ import { Paper, TextField } from "@mui/material";
 import { useState, useEffect } from "react";
 
 function DataTable(props) {
-  const { data } = props;
+  const { data, ico } = props;
   const [localData, setLocalData] = useState(data);
 
   useEffect(() => {
-    setLocalData(data);
-  }, [data]);
+    setLocalData({ ...data, ICO: ico });
+  }, [data, ico]);
 
   const handleChange = (event, field) => {
     const newData = { ...localData, [field]: event.target.value };
@@ -34,7 +34,6 @@ function DataTable(props) {
       {renderTextField("PSC", "PSC")}
       {renderTextField("ICO", "IČO")}
       {renderTextField("DIC", "DIČ")}
-      {renderTextField("IC_DPH", "IČ DPH")}
     </Paper>
   );
 }

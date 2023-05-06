@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { SnackbarProvider } from "notistack";
 
 import "./index.css";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
@@ -14,9 +15,11 @@ root.render(
     <UserContextProvider>
       <OCRContextProvider>
         <BrowserRouter>
-          <App />
+          <SnackbarProvider maxSnack={3}>
+            <App />
+          </SnackbarProvider>
         </BrowserRouter>
       </OCRContextProvider>
     </UserContextProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

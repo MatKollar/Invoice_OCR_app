@@ -135,15 +135,10 @@ const SummaryCard = (props) => {
   };
 
   const handleSave = async () => {
-    console.log(newData);
-
     try {
-      const resp = await httpRequest.post(
-        "http://localhost:5000/update-invoice",
-        {
-          new_data: newData,
-        },
-      );
+      const resp = await httpRequest.post("http://localhost:5000/update-invoice", {
+        new_data: newData,
+      });
       props.dataChanged();
     } catch (error) {
       console.log("error");
@@ -158,9 +153,7 @@ const SummaryCard = (props) => {
         {chartOpen ? (
           <DoughnutChart
             handleCloseChart={handleCloseChart}
-            invoice_id={
-              props.dataFromDB ? props.dataFromDB.id : ocrCtx.invoiceId
-            }
+            invoice_id={props.dataFromDB ? props.dataFromDB.id : ocrCtx.invoiceId}
           />
         ) : (
           <Grid container>
@@ -179,17 +172,11 @@ const SummaryCard = (props) => {
               </Grid>
               <Grid item xs={6} sx={{ textAlign: "right" }}>
                 {isInvoice && (
-                  <IconButton
-                    sx={{ padding: "10px" }}
-                    onClick={handleOpenChart}
-                  >
+                  <IconButton sx={{ padding: "10px" }} onClick={handleOpenChart}>
                     <DonutSmallIcon fontSize="large" />
                   </IconButton>
                 )}
-                <IconButton
-                  sx={{ padding: "10px" }}
-                  onClick={handleDownloadFile}
-                >
+                <IconButton sx={{ padding: "10px" }} onClick={handleDownloadFile}>
                   <DownloadIcon fontSize="large" />
                 </IconButton>
                 <IconButton sx={{ padding: "10px" }} onClick={handleOpenFile}>
@@ -210,9 +197,7 @@ const SummaryCard = (props) => {
                       rows={20}
                       variant={"standard"}
                       defaultValue={
-                        props.dataFromDB
-                          ? props.dataFromDB.text
-                          : ocrCtx.textResult
+                        props.dataFromDB ? props.dataFromDB.text : ocrCtx.textResult
                       }
                     />
                   </Paper>
@@ -231,26 +216,16 @@ const SummaryCard = (props) => {
               <Grid item xs={6}>
                 <div className={classes.tables}>
                   <InvoiceDataTable
-                    data={
-                      props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData
-                    }
+                    data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
                     onDataChange={handleDataChange}
                   />
                   <div className={classes.tableContainer}>
                     <SellerTable
-                      data={
-                        props.dataFromDB
-                          ? props.dataFromDB
-                          : ocrCtx.extractedData
-                      }
+                      data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
                       onDataChange={handleDataChange}
                     />
                     <BuyerTable
-                      data={
-                        props.dataFromDB
-                          ? props.dataFromDB
-                          : ocrCtx.extractedData
-                      }
+                      data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
                       onDataChange={handleDataChange}
                     />
                   </div>
@@ -258,10 +233,7 @@ const SummaryCard = (props) => {
               </Grid>
             ) : (
               <Grid item xs={5}>
-                <Paper
-                  elevation={3}
-                  sx={{ mt: 15, p: 10, borderRadius: 5, height: 200 }}
-                >
+                <Paper elevation={3} sx={{ mt: 15, p: 10, borderRadius: 5, height: 200 }}>
                   <h4 style={{ textAlign: "center", marginTop: "-15px" }}>
                     The recognized document is probably not an invoice!
                   </h4>
