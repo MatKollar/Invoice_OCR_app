@@ -11,10 +11,10 @@ paddleocr_bp = Blueprint('paddleocr', __name__)
 def paddleocr():
     ocr = PaddleOCR(
         det_model_dir='paddle_models/en_PP-OCRv3_det_infer',
-        rec_model_dir='paddle_models/latin_PP-OCRv3_rec_infer',
+        rec_model_dir='paddle_models/en_PP-OCRv3_rec_infer',
         cls_model_dir='paddle_models/ch_ppocr_mobile_v2.0_cls_infer',
         use_angle_cls=True,
-        lang='sk'
+        lang='en'
     )
     img = load_image()
     ocr_method = 'PaddleOCR'

@@ -13,16 +13,15 @@ def tesseract():
     ocr_method = 'Tesseract'
 
     start_time_recognition = time.time()
-    data = pytesseract.image_to_data(img, lang='slk', output_type='dict')
+    text = pytesseract.image_to_string(img, lang='slk')
+    data = pytesseract.image_to_data(img, lang='slk', output_type="dict")
     recognition_time = time.time() - start_time_recognition
 
-    text = ""
     total_confidence = 0
     num_confident_words = 0
     num_words = len(data['text'])
     for i in range(num_words):
         if int(data['conf'][i]) > 0:
-            text += data['text'][i] + " "
             total_confidence += int(data['conf'][i])
             num_confident_words += 1
 
