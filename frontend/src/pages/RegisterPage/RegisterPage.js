@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,6 +10,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { FadeLoader } from "react-spinners";
 
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
@@ -19,6 +21,8 @@ const RegisterPage = () => {
   const [nameValid, setNameValid] = useState(true);
   const [emailValid, setEmailValid] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
+  const { enqueueSnackbar } = useSnackbar();
+  const [loading, setLoading] = useState(false);
 
   const validateName = (event) => {
     const name = event.target.value;
@@ -57,17 +61,24 @@ const RegisterPage = () => {
     const password = data.get("password");
 
     if (nameValid && emailValid && passwordValid) {
+      setLoading(true);
       try {
-        const resp = await httpRequest.post("http://localhost:5000/register", {
+        await httpRequest.post("http://localhost:5000/register", {
           name,
           email,
           password,
         });
-
         window.location.href = "/";
       } catch (error) {
+        setLoading(false);
         if (error.response.status === 401) {
-          alert("Invalid credentials");
+          enqueueSnackbar("Invalid credentials", {
+            variant: "error",
+          });
+        } else {
+          enqueueSnackbar("Server error", {
+            variant: "error",
+          });
         }
       }
     }
@@ -75,85 +86,100 @@ const RegisterPage = () => {
 
   return (
     <Container component="main" maxWidth="xs" className={classes.rootContainer}>
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Typography component="h1" variant="h5">
-          Register
-        </Typography>
-        <Box component="form" onSubmit={submitHandler} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                error={!nameValid}
-                helperText={
-                  !nameValid ? "Name must be at least 3 characters." : ""
-                }
-                autoComplete="off"
-                name="name"
-                required
-                fullWidth
-                id="name"
-                label="Name"
-                onBlur={validateName}
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                error={!emailValid}
-                helperText={!emailValid ? "Incorrect email format." : ""}
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                onBlur={validateEmail}
-                autoComplete="off"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                error={!passwordValid}
-                helperText={
-                  !passwordValid
-                    ? "Password must be at least 6 characters."
-                    : ""
-                }
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                onBlur={validatePassword}
-                autoComplete="off"
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+      {loading ? (
+        <FadeLoader
+          color="#1d67d5"
+          size={50}
+          style={{ position: "absolute", top: "40%", left: "50%" }}
+        />
+      ) : (
+        <>
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            Register
-          </Button>
-          <Grid container justifyContent="flex-start">
-            <Grid item>
-              <Link href="#" variant="body2" onClick={() => navigate("/login")}>
-                Already have an account? Login
-              </Link>
-            </Grid>
-          </Grid>
-        </Box>
-      </Box>
+            <Typography
+              component="h1"
+              variant="h4"
+              sx={{ fontFamily: "Oxanium, cursive", fontWeight: 600 }}
+            >
+              REGISTER
+            </Typography>
+            <Box component="form" onSubmit={submitHandler} sx={{ mt: 3 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    error={!nameValid}
+                    helperText={!nameValid ? "Name must be at least 3 characters." : ""}
+                    autoComplete="off"
+                    name="name"
+                    required
+                    fullWidth
+                    id="name"
+                    label="Name"
+                    onBlur={validateName}
+                    autoFocus
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    error={!emailValid}
+                    helperText={!emailValid ? "Incorrect email format." : ""}
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    onBlur={validateEmail}
+                    autoComplete="off"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    error={!passwordValid}
+                    helperText={
+                      !passwordValid ? "Password must be at least 6 characters." : ""
+                    }
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    onBlur={validatePassword}
+                    autoComplete="off"
+                  />
+                </Grid>
+              </Grid>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2, fontFamily: "Oxanium, cursive", fontWeight: 600 }}
+              >
+                Register
+              </Button>
+              <Grid container justifyContent="flex-start">
+                <Grid item>
+                  <Link
+                    href="#"
+                    variant="body2"
+                    onClick={() => navigate("/login")}
+                    sx={{ fontFamily: "Oxanium, cursive" }}
+                  >
+                    Already have an account? Login
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+        </>
+      )}
     </Container>
   );
 };
