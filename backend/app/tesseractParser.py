@@ -7,10 +7,10 @@ def get_invoice_number(lines):
     after_word = False
     pattern = re.compile(r'\d+')
     for line in lines:
-        if any([kw in line.lower() for kw in ('faktúra', 'faktúra:', 'číslo')]):
+        if any([kw in line.lower() for kw in ('faktúra', 'faktúra:', 'faktury')]):
             words = line.split()
             for word in words:
-                if any([kw in word.lower() for kw in ('faktúra', 'faktúra:', 'číslo')]):
+                if any([kw in word.lower() for kw in ('faktúra', 'faktúra:', 'faktury')]):
                     after_word = True
                 if word.isdigit() and after_word:
                     invoice_number = word
@@ -26,7 +26,7 @@ def get_invoice_number(lines):
 def get_variable_symbol(lines):
     var_symbol = ''
     for line in lines:
-        if any([kw in line.lower() for kw in ('variabilný', 'var.symbol', 'vs:')]):
+        if any([kw in line.lower() for kw in ('variabilný', 'var.symbol', 'vs:', 'v.s.', 'variabilný:')]):
             words = line.split()
             for word in words:
                 if word.isdigit():
@@ -107,7 +107,7 @@ def get_total_price(lines):
     for line in lines:
         if any([kw1 in line.lower() and kw2 in line.lower() for kw1, kw2 in (('celkom', '€'), ('spolu', '€'), ('celkom', 'eur'), ('spolu', 'eur'),
                                                                              ('celková', 'suma'), ('fakturovaná', 'suma'), (
-                                                                                 'celková', 'hodnota'),
+                                                                                 'celková', 'hodnota'), ('suma', ' úhradu:'),
                                                                              ('spolu', 'úhradu'), ('fakturovaná', 'hodnota'), (
                                                                                  'celkom', 'úhrade'),
                                                                              ('na', 'zaplatenie'))]):
@@ -184,7 +184,7 @@ def get_supplier_ico(lines):
     ico = ''
     pattern = re.compile(r"\b\d{8}\b")
     for i, line in enumerate(lines):
-        keywords = ('ičo', '1čo:', '1ičo', 'ič', '1č0', 'ičq')
+        keywords = ('ičo', '1čo:', '1ičo', 'ič ', '1č0', 'ičq')
         count = sum([line.lower().count(kw) for kw in keywords])
         if count >= 2 or (count == 1 and 'odberateľ' not in line.lower()):
             words = line.split()
@@ -202,7 +202,7 @@ def get_buyer_ico(lines):
     ico = ''
     pattern = re.compile(r"\b\d{8}\b")
     for i, line in enumerate(lines):
-        if any([kw in line.lower() for kw in ('ičo', '1čo:', '1ičo', 'ič', '1č0', 'ičq')]):
+        if any([kw in line.lower() for kw in ('ičo', '1čo:', '1ičo', 'ič ', '1č0', 'ičq')]):
             words = line.split()
             for j, word in enumerate(words):
                 if pattern.match(word):

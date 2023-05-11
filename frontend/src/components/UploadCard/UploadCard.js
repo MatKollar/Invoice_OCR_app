@@ -29,12 +29,13 @@ const UploadCard = () => {
     const pdf = await PDFJS.getDocument(data).promise;
     const canvas = document.createElement("canvas");
     const page = await pdf.getPage(1);
-    const viewport = page.getViewport({ scale: 2.2 });
+    const viewport = page.getViewport({ scale: 8.6 });
     const context = canvas.getContext("2d");
     canvas.height = viewport.height;
     canvas.width = viewport.width;
+    canvas.style.width = "100%";
     await page.render({ canvasContext: context, viewport: viewport }).promise;
-    image = canvas.toDataURL();
+    image = canvas.toDataURL('image/png', 1.0);
     canvas.remove();
     return image;
   };

@@ -28,18 +28,17 @@ def get_invoice_number(words):
 def get_variable_symbol(words):
     var_symbol = ''
     for i, word in enumerate(words):
-        if any([kw in word.lower() for kw in ('variabilny', 'var.symbol', 'vs:')]):
+        if any([kw in word.lower() for kw in ('variabilny', 'var.symbol', 'vs:', 'v.s.')]):
             parts = word.split()
             for part in parts:
                 if part.isdigit():
                     var_symbol = part
                     return var_symbol
-                next_words = words[i+1]
-                next_words = next_words.split()
-                for next_word in next_words:
-                    if next_word.isdigit():
-                        return next_word
-
+            next_words = words[i+1]
+            next_words = next_words.split()
+            for next_word in next_words:
+                if next_word.isdigit():
+                    return next_word
     return var_symbol
 
 
@@ -99,7 +98,7 @@ def get_delivery_date(words):
 
     for i, word in enumerate(words):
         if any([kw in word.lower().rstrip(':') for kw in ('datum dodania', 'datum uskut.', 'datum plnenia', 'dodanie', 'dodania', 'datum dan.', 
-                                                          'danova povinnost', 'datum dod.', 'povinnost')]):
+                                                          'danova povinnost', 'datum dod.', 'povinnost', 'datum zdanitelneho')]):
             word = re.sub(r'(\d{1,2})\.\s+(\d{1,2})\.\s+(\d{2,4})', r'\1.\2.\3', word)
             word_parts = word.split()
             for part in word_parts:
@@ -179,7 +178,7 @@ def get_bank(words):
             return 'Fio banka'
         if 'unicredit' in word_lower or 'uni credit' in word_lower:
             return 'UniCredit Bank'
-        if 'slovenska sporitelna' in word_lower or 'sporitelna' in word_lower:
+        if 'slovenska sporite' in word_lower or 'sporitelna' in word_lower or 'sporiteľna' in word_lower:
             return 'Slovenská sporiteľňa'
         if 'banka' in word_lower:
             next_word_lower = words[i + 1].lower()
@@ -189,6 +188,12 @@ def get_bank(words):
                 return 'ČSOB'
             if 'tatrabanka' in next_word_lower or 'tatra' in next_word_lower:
                 return 'Tatrabanka'
+            if 'fio' in word_lower or 'fio banka' in word_lower:
+                return 'Fio banka'
+            if 'unicredit' in word_lower or 'uni credit' in word_lower:
+                return 'UniCredit Bank'
+            if 'slovenska sporite' in word_lower or 'sporitelna' in word_lower or 'sporiteľna' in word_lower:
+                return 'Slovenská sporiteľňa'
     return ''
 
 
@@ -248,7 +253,7 @@ def get_supplier_ico(words):
     ico = ''
     pattern = re.compile(r"\b(?:ICO|1CO:|1ICO|IC|1C0|ICQ)?(\d{8})\b", re.IGNORECASE)
     for i, word in enumerate(words):
-        if any([kw in word.lower() for kw in ('ico', '1co:', '1ico', 'ic:', '1c0', 'icq')]):
+        if any([kw in word.lower() for kw in ('ico', '1co:', '1ico', 'ic:', '1c0', 'icq', 'ic0')]):
             match = pattern.search(word)
             if match:
                 ico = match.group(1)
@@ -268,7 +273,7 @@ def get_buyer_ico(words):
     ico = ''
     pattern = re.compile(r"\b(?:ICO|1CO:|1ICO|IC|1C0|ICQ)?(\d{8})\b", re.IGNORECASE)
     for i, word in enumerate(words):
-        if any([kw in word.lower() for kw in ('ico', '1co:', '1ico', 'ic:', '1c0', 'icq')]):
+        if any([kw in word.lower() for kw in ('ico', '1co:', '1ico', 'ic:', '1c0', 'icq', 'ic0')]):
             match = pattern.search(word)
             if match:
                 ico = match.group(1)
