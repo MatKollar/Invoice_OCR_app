@@ -6,63 +6,59 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import HistoryIcon from "@mui/icons-material/History";
 import BusinessIcon from "@mui/icons-material/Business";
 import GroupIcon from "@mui/icons-material/Group";
+import IconButton from "@mui/material/IconButton";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 import userContext from "../../context/user-context";
 import { useStyles } from "./styles";
 
-const SideMenu = () => {
+const LinkItem = ({ to, Icon, text }) => {
+  const classes = useStyles();
+  return (
+    <div className={classes.linkItem}>
+      <Link to={to} className={classes.link}>
+        <Typography variant="h7">
+          <Icon />
+          {text}
+        </Typography>
+      </Link>
+    </div>
+  );
+};
+
+const SideMenu = (props) => {
   const userCtx = useContext(userContext);
-  const role = userCtx.role;
+  const { role } = userCtx;
   const classes = useStyles();
 
   return (
-    <>
-      <div className={classes.rootContainer}>
-        <Typography variant="h4" sx={{ my: 4 }}>
-          OCR app
-        </Typography>
-        <Divider />
-        <div className={classes.linkContainer}>
-          <div>
-            <Link to="/" className={classes.link}>
-              <Typography variant="h7">
-                <DashboardIcon />
-                Dashboard
-              </Typography>
-            </Link>
+    <div
+      className={`${classes.rootContainer} ${
+        props.visible ? "" : classes.rootContainerCollapsed
+      }`}
+    >
+      {props.visible && (
+        <>
+          <div className={classes.closeContainer}>
+            <IconButton onClick={props.onClose} className={classes.closeButton}>
+              <ArrowBackIosIcon sx={{ color: "white" }} />
+            </IconButton>
           </div>
-          <br />
-          <div>
-            <Link to="/history" className={classes.link}>
-              <Typography variant="h7">
-                <HistoryIcon />
-                Your scans
-              </Typography>
-            </Link>
+          <Typography variant="h4" sx={{ mb: 4 }}>
+            OCR app
+          </Typography>
+          <Divider />
+          <div className={classes.linkContainer}>
+            <LinkItem to="/" Icon={DashboardIcon} text="Dashboard" />
+            <LinkItem to="/history" Icon={HistoryIcon} text="Your scans" />
+            <LinkItem to="/organization" Icon={BusinessIcon} text="Organization" />
+            {role === "admin" && (
+              <LinkItem to="/users" Icon={GroupIcon} text="Manage users" />
+            )}
           </div>
-          <br />
-          <div>
-            <Link to="/organization" className={classes.link}>
-              <Typography variant="h7">
-                <BusinessIcon />
-                Organization
-              </Typography>
-            </Link>
-          </div>
-          <br />
-          {role == "admin" && (
-            <div>
-              <Link to="/users" className={classes.link}>
-                <Typography variant="h7">
-                  <GroupIcon />
-                  Manage users
-                </Typography>
-              </Link>
-            </div>
-          )}
-        </div>
-      </div>
-    </>
+        </>
+      )}
+    </div>
   );
 };
 

@@ -1,4 +1,5 @@
 import Button from "@mui/material/Button";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import { useStyles } from "./styles";
 import { Grid, IconButton, Menu, MenuItem, Typography } from "@mui/material";
@@ -49,26 +50,24 @@ const Navbar = (props) => {
       <div className={classes.rootContainer}>
         <Grid container spacing={2}>
           <Grid item xs={9} sx={{ mt: 1, textAlign: "left" }}>
-            <Typography variant="h5" sx={{ ml: 4 }}>
-              Welcome Back {props.userName}!
-            </Typography>
+            <div className={classes.headingContainer}>
+              {!props.sideMenuVisible && (
+                <IconButton onClick={props.toggleSideMenu}>
+                  <MenuIcon sx={{ color: "white" }} />
+                </IconButton>
+              )}
+              <Typography variant="h5" sx={{ ml: 4 }}>
+                Welcome Back {props.userName}!
+              </Typography>
+            </div>
           </Grid>
           <Grid item xs={3} sx={{ mt: 1, textAlign: "right" }}>
-            <IconButton
-              sx={{ p: 0.1, color: "white" }}
-              onClick={handleMenuOpen}
-            >
+            <IconButton sx={{ p: 0.1, color: "white" }} onClick={handleMenuOpen}>
               <AccountCircleIcon fontSize="large" />
             </IconButton>
-            <Menu
-              anchorEl={open}
-              open={Boolean(open)}
-              onClose={handleMenuClose}
-            >
+            <Menu anchorEl={open} open={Boolean(open)} onClose={handleMenuClose}>
               <MenuItem onClick={handleProfileModalOpen}>Profile</MenuItem>
-              <MenuItem onClick={handlePasswordModalOpen}>
-                Change password
-              </MenuItem>
+              <MenuItem onClick={handlePasswordModalOpen}>Change password</MenuItem>
               <MenuItem onClick={logoutUser}>Log out</MenuItem>
             </Menu>
             <Button
@@ -83,10 +82,7 @@ const Navbar = (props) => {
               open={changePasswordOpen}
               onClose={handleClosePasswordModal}
             />
-            <ProfileModal
-              open={showProfileOpen}
-              onClose={handleCloseProfileModal}
-            />
+            <ProfileModal open={showProfileOpen} onClose={handleCloseProfileModal} />
           </Grid>
         </Grid>
       </div>

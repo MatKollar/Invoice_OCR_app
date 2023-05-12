@@ -1,16 +1,31 @@
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles({
-    rootContainer: {
-        color: "white",
-        width: "15%",
-        backgroundColor: "#222222",
-        textAlign: "center"
-    },
-    linkContainer: {
-        marginTop: 40,
-    },
-    link: {
-        color: "white",
-    },
+  rootContainer: {
+    position: "relative",
+    color: "white",
+    backgroundColor: "#222222",
+    textAlign: "center",
+    width: "250px",
+    transition: "width 0.3s ease-in-out",
+  },
+  rootContainerCollapsed: {
+    width: "0",
+  },
+  closeContainer: {
+    textAlign: "right",
+  },
+  linkContainer: {
+    marginTop: 10,
+  },
+  linkItem: {
+    marginTop: 20,
+  },
+  link: {
+    color: "white",
+  },
+  closeButton: {
+    textAlign: "right",
+    color: "white",
+  },
 });

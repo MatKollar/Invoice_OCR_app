@@ -1,15 +1,26 @@
+import { useState } from "react";
+import { CSSTransition } from "react-transition-group";
 import SideMenu from "../SideMenu/SideMenu";
 import Navbar from "../Navbar/Navbar";
 import { useStyles } from "./styles";
 
 const AppLayout = (props) => {
   const classes = useStyles();
+  const [sideMenuVisible, setSideMenuVisible] = useState(true);
 
   return (
     <div className={classes.pageWrapper}>
-      <SideMenu />
-      <div className={classes.contentWrapper}>
-        <Navbar userName={props.userName}/>
+      <SideMenu visible={sideMenuVisible} onClose={() => setSideMenuVisible(false)} />
+      <div
+        className={`${classes.contentWrapper} ${
+          sideMenuVisible ? "" : classes.contentWrapperExpanded
+        }`}
+      >
+        <Navbar
+          userName={props.userName}
+          sideMenuVisible={sideMenuVisible}
+          toggleSideMenu={() => setSideMenuVisible(!sideMenuVisible)}
+        />
         {props.children}
       </div>
     </div>
