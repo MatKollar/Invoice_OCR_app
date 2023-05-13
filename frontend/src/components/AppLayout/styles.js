@@ -8,6 +8,7 @@ export const useStyles = makeStyles({
   },
   contentWrapper: {
     width: "100%",
+    flexGrow: 1,
     backgroundColor: "#B2B2B2",
   },
   contentWrapperExpanded: {

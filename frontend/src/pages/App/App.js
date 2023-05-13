@@ -6,11 +6,13 @@ import HistoryPage from "../HistoryPage/HistoryPage";
 import HomePage from "../HomePage/HomePage";
 import OrganizationPage from "../OrganizationPage/OrganizationPage";
 import UsersPage from "../UsersPage/UsersPage";
+import { useStyles } from "./styles";
 
 const App = () => {
+  const classes = useStyles();
 
   return (
-    <div className="App">
+    <div className={classes.appContainer}>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />

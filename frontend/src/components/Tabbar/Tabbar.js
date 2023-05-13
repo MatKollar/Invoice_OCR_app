@@ -21,53 +21,50 @@ const Tabbar = (props) => {
   };
 
   return (
-    <>
-      <div className={classes.rootContainer}>
-        <Tabs
-          className={classes.tabsContainer}
-          centered
-          value={ocrCtx.activePage}
-          onChange={handleChange}
-        >
-          <Tab
-            sx={{ mx: 5, p: 2 }}
-            label={
-              <Typography>
-                <FileUploadIcon />
-                UPLOAD
-              </Typography>
-            }
-          />
-          <Tab
-            sx={{ mx: 5, p: 2 }}
-            label={
-              <Typography>
-                <CleanIcon />
-                PREPROCESSING
-              </Typography>
-            }
-          />
-          <Tab
-            sx={{ mx: 5, p: 2 }}
-            label={
-              <Typography>
-                <EyeIcon />
-                OCR
-              </Typography>
-            }
-          />
-          <Tab
-            sx={{ mx: 5, p: 2 }}
-            label={
-              <Typography>
-                <SummaryIcon />
-                SUMMARY
-              </Typography>
-            }
-          />
-        </Tabs>
-      </div>
-    </>
+    <div className={classes.rootContainer}>
+      <Tabs
+        className={classes.tabsContainer}
+        value={ocrCtx.activePage}
+        onChange={handleChange}
+      >
+        <Tab
+          sx={{ mx: 4, p: 2 }}
+          label={
+            <Typography>
+              <FileUploadIcon />
+              UPLOAD
+            </Typography>
+          }
+        />
+        <Tab
+          sx={{ mx: 4, p: 2 }}
+          label={
+            <Typography>
+              <CleanIcon />
+              PREPROCESSING
+            </Typography>
+          }
+        />
+        <Tab
+          sx={{ mx: 4, p: 2 }}
+          label={
+            <Typography>
+              <EyeIcon />
+              OCR
+            </Typography>
+          }
+        />
+        <Tab
+          sx={{ mx: 4, p: 2 }}
+          label={
+            <Typography>
+              <SummaryIcon />
+              SUMMARY
+            </Typography>
+          }
+        />
+      </Tabs>
+    </div>
   );
 };
 

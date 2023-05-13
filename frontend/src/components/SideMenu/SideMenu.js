@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Divider, Typography } from "@mui/material";
+import { Divider, Tooltip, Typography } from "@mui/material";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import HistoryIcon from "@mui/icons-material/History";
@@ -17,10 +17,12 @@ const LinkItem = ({ to, Icon, text }) => {
   return (
     <div className={classes.linkItem}>
       <Link to={to} className={classes.link}>
-        <Typography variant="h7">
-          <Icon />
-          {text}
-        </Typography>
+        <Tooltip title={text} placement="right">
+          <Typography variant="h7" sx={{ fontFamily: "Oxanium, cursive" }}>
+            <Icon className={classes.linkIcon} />
+            <span className={classes.mobileHide}>{text}</span>
+          </Typography>
+        </Tooltip>
       </Link>
     </div>
   );
