@@ -4,7 +4,6 @@ export const useStyles = makeStyles({
   appContainer: {
     height: "100vh",
     width: "100%",
-    backgroundColor: "#B2B2B2",
     overflow: "auto",
     overflowX: "hidden",
   },
