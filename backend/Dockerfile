@@ -7,10 +7,6 @@ ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
-    libleptonica-dev \
-    libtesseract-dev \
-    build-essential \
-    cmake \
     libopencv-dev \
     python3-opencv
 
