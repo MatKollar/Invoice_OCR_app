@@ -58,7 +58,9 @@ const SideMenu = (props) => {
             </div>
           </div>
           <div className={classes.footerContainer}>
-            <ProfileIcon />
+            <div>
+              <ProfileIcon />
+            </div>
             <IconButton onClick={logoutUser}>
               <LogoutIcon sx={{ color: "white", fontSize: 30, mt: 2 }} />
             </IconButton>

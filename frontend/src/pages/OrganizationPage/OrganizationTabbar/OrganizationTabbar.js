@@ -1,74 +1,69 @@
 import { useState, useContext, useEffect } from "react";
-
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { useStyles } from "./styles";
+import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import { Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import userContext from "../../../context/user-context";
+import { useStyles } from "./styles";
 
-const OrganizationTabbar = (props) => {
+const tabs = [
+  { label: "ORGANIZATIONS", icon: <CorporateFareIcon sx={{ mr: 1 }} />, value: 0 },
+  { label: "JOIN", icon: <GroupAddIcon sx={{ mr: 1 }} />, value: 1 },
+  {
+    label: "CREATE",
+    icon: <AddCircleIcon sx={{ mr: 1 }} />,
+    value: 2,
+    restricted: ["user"],
+  },
+];
+
+const OrganizationTabbar = ({ activePage, onPageChange }) => {
   const classes = useStyles();
+  const { role } = useContext(userContext);
+
   const [value, setValue] = useState(0);
-  const userCtx = useContext(userContext);
-  const role = userCtx.role;
 
   useEffect(() => {
-    setValue(props.activePage);
-  }, [props.activePage]);
+    setValue(activePage);
+  }, [activePage]);
 
   const handleChange = (event, newValue, tabName) => {
     setValue(newValue);
-    props.onPageChange(newValue, tabName);
+    onPageChange(newValue, tabName);
   };
 
   return (
-    <>
-      <div className={classes.rootContainer}>
+    <Grid container className={classes.rootContainer}>
+      <Grid item xs={12} container justifyContent="center" flexWrap="wrap">
         <Tabs
           className={classes.tabsContainer}
-          centered
           value={value}
+          variant="scrollable"
+          centered
         >
-          <Tab
-            sx={{ mx: 5, p: 2 }}
-            label={
-              <Typography>
-                <GroupAddIcon />
-                ORGANIZATIONS
-              </Typography>
-            }
-            value={0}
-            onClick={(e) => handleChange(e, 0, "ORGANIZATIONS")}
-          />
-          <Tab
-            sx={{ mx: 5, p: 2 }}
-            label={
-              <Typography>
-                <GroupAddIcon />
-                JOIN
-              </Typography>
-            }
-            value={1}
-            onClick={(e) => handleChange(e, 1, "JOIN")}
-          />
-          {role !== "user" && (
-            <Tab
-              sx={{ mx: 5, p: 2 }}
-              label={
-                <Typography>
-                  <AddCircleIcon />
-                  CREATE
-                </Typography>
-              }
-              value={2}
-              onClick={(e) => handleChange(e, 2, "CREATE")}
-            />
+          {tabs.map(
+            (tab) =>
+              (!tab.restricted || !tab.restricted.includes(role)) && (
+                <Tab
+                  key={tab.value}
+                  sx={{ mx: { xs: 0, sm: 1, md: 3, lg: 5 }, p: 2 }}
+                  label={
+                    <Typography sx={{ display: "flex", fontFamily: "Oxanium, cursive" }}>
+                      {tab.icon}
+                      <div className={classes.text}>{tab.label}</div>
+                    </Typography>
+                  }
+                  value={tab.value}
+                  onClick={(e) => handleChange(e, tab.value, tab.label)}
+                />
+              ),
           )}
         </Tabs>
-      </div>
-    </>
+      </Grid>
+    </Grid>
   );
 };
 

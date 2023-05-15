@@ -27,7 +27,7 @@ export const useStyles = makeStyles({
     display: "none",
   },
 
-  "@media (max-width:520px)": {
+  "@media (max-width:590px)": {
     footerContainer: {
       display: "block",
     },

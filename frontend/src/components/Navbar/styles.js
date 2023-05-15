@@ -15,10 +15,7 @@ export const useStyles = makeStyles({
   },
   rightButtons: {
     marginRight: "20px",
-    "@media (max-width: 780px)": {
-      marginRight: "70px", 
-    },
-    "@media (max-width: 520px)": {
+    "@media (max-width: 590px)": {
       display: 'none'
     },
   },
