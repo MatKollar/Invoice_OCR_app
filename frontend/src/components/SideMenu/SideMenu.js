@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Divider, Typography } from "@mui/material";
+import { Divider } from "@mui/material";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import HistoryIcon from "@mui/icons-material/History";
@@ -8,17 +8,21 @@ import GroupIcon from "@mui/icons-material/Group";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useMediaQuery } from "@mui/material";
 
 import userContext from "../../context/user-context";
 import httpRequest from "../../httpRequest";
 import { useStyles } from "./styles";
 import ProfileIcon from "../ProfileIcon/ProfileIcon";
 import LinkItem from "./LinkItem/LinkItem";
+import OCR_LOGO from "../../images/OCR-logo.png";
 
 const SideMenu = (props) => {
   const userCtx = useContext(userContext);
   const { role } = userCtx;
   const classes = useStyles();
+  const isSmallScreen = useMediaQuery("(max-width:540px)");
+  const isExtraSmallScreen = useMediaQuery("(max-width:470px)");
 
   const logoutUser = async () => {
     await httpRequest.post("//localhost:5000/logout");
@@ -44,9 +48,16 @@ const SideMenu = (props) => {
                 <ArrowBackIosIcon sx={{ color: "white" }} />
               </IconButton>
             </div>
-            <Typography variant="h4" sx={{ mb: 4 }}>
-              OCR app
-            </Typography>
+            <img
+              src={OCR_LOGO}
+              alt="logo"
+              className={classes.logo}
+              width={isSmallScreen ? "40px" : "74px"}
+              style={{
+                marginTop: isExtraSmallScreen ? "5px" : "-26px",
+                marginBottom: "20px",
+              }}
+            />
             <Divider />
             <div className={classes.linkContainer}>
               <LinkItem to="/" Icon={DashboardIcon} text="Dashboard" />
