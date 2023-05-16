@@ -29,9 +29,7 @@ export const UserContextProvider = (props) => {
   };
 
   return (
-    <userContext.Provider value={contextValue}>
-      {props.children}
-    </userContext.Provider>
+    <userContext.Provider value={contextValue}>{props.children}</userContext.Provider>
   );
 };
 

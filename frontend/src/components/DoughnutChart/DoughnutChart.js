@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { Paper, Tooltip as MuiTooltip } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
+
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 
@@ -51,11 +53,7 @@ const DoughnutChart = ({ handleCloseChart, invoice_id }) => {
             "rgba(54, 162, 235)",
             "rgba(255, 206, 86)",
           ],
-          borderColor: [
-            "rgba(255, 99, 132)",
-            "rgba(54, 162, 235)",
-            "rgba(255, 206, 86)",
-          ],
+          borderColor: ["rgba(255, 99, 132)", "rgba(54, 162, 235)", "rgba(255, 206, 86)"],
           borderWidth: 1,
         },
       ],

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
+import { useSnackbar } from "notistack";
 import { useStyles } from "./styles";
 import DataTable from "../../Table/DataTable";
-import { useSnackbar } from "notistack";
 
 const BuyerTable = (props) => {
   const classes = useStyles();

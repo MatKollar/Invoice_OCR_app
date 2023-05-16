@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import OCRContext from "../../context/ocr-context";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -8,9 +7,11 @@ import CleanIcon from "@mui/icons-material/CleaningServices";
 import EyeIcon from "@mui/icons-material/RemoveRedEye";
 import SummaryIcon from "@mui/icons-material/List";
 import Grid from "@mui/material/Grid";
+import { Typography } from "@mui/material";
 import { useStyles } from "./styles";
-import { Typography, useTheme } from "@mui/material";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import OCRContext from "../../context/ocr-context";
+
+
 
 const tabList = [
   { label: "UPLOAD", icon: <FileUploadIcon sx={{ mr: 0.5 }} /> },
@@ -22,7 +23,6 @@ const tabList = [
 const Tabbar = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
-  const theme = useTheme();
 
   const handleChange = (event, newValue) => {
     ocrCtx.setActivePage(newValue);

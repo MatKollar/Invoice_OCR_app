@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
-import OCRContext from "../../context/ocr-context";
+
 import { Button, Typography, Grid, CircularProgress } from "@mui/material";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
+import OCRContext from "../../context/ocr-context";
 
 const OCRCard = () => {
   const classes = useStyles();
@@ -26,14 +27,10 @@ const OCRCard = () => {
 
     try {
       const startTime = performance.now();
-      const resp = await httpRequest.post(
-        `http://localhost:5000/${OCRmethod}`,
-        formData,
-      );
+      const resp = await httpRequest.post(`http://localhost:5000/${OCRmethod}`, formData);
       const endTime = performance.now();
       const duration = (endTime - startTime) / 1000;
-      const time_other =
-        duration - resp.data.time.recognition + resp.data.time.parsing;
+      const time_other = duration - resp.data.time.recognition + resp.data.time.parsing;
       const time = resp["data"]["time"];
       time["other"] = time_other;
       ocrCtx.setTextResult(resp["data"]["text"]);
@@ -76,13 +73,10 @@ const OCRCard = () => {
 
   const saveTimeOther = async (invoice_id, time_other) => {
     try {
-      const resp = await httpRequest.post(
-        "http://localhost:5000/save-time-other",
-        {
-          invoice_id: invoice_id,
-          time_other: time_other,
-        },
-      );
+      await httpRequest.post("http://localhost:5000/save-time-other", {
+        invoice_id: invoice_id,
+        time_other: time_other,
+      });
     } catch (error) {
       console.log("Error");
     }

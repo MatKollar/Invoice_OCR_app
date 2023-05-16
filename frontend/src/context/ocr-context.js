@@ -52,11 +52,7 @@ export const OCRContextProvider = (props) => {
     setIsInvoice: setIsInvoice,
   };
 
-  return (
-    <OCRContext.Provider value={contextValue}>
-      {props.children}
-    </OCRContext.Provider>
-  );
+  return <OCRContext.Provider value={contextValue}>{props.children}</OCRContext.Provider>;
 };
 
 export default OCRContext;

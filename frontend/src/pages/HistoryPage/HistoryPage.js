@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 
-import httpRequest from "../../httpRequest";
-import AppLayout from "../../components/AppLayout/AppLayout";
-import Card from "../../components/Card/Card";
 import { Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
 import { useStyles } from "./styles";
 import SummaryCard from "../../components/SummaryCard/SummaryCard";
 import InvoiceTable from "../../components/InvoiceTable/InvoiceTable";
+import httpRequest from "../../httpRequest";
+import AppLayout from "../../components/AppLayout/AppLayout";
 
 const HistoryPage = () => {
   const classes = useStyles();
@@ -38,7 +37,7 @@ const HistoryPage = () => {
 
   const handleDataChange = () => {
     fetchInvoiceData();
-  }
+  };
 
   return (
     <AppLayout>
@@ -58,7 +57,7 @@ const HistoryPage = () => {
           <IconButton onClick={() => setIsSummaryOpen(false)}>
             <ArrowBackIcon />
           </IconButton>
-          <SummaryCard dataFromDB={selectedInvoice} dataChanged={handleDataChange}/>
+          <SummaryCard dataFromDB={selectedInvoice} dataChanged={handleDataChange} />
         </div>
       )}
     </AppLayout>

@@ -1,5 +1,4 @@
 import { makeStyles } from "@mui/styles";
-import { height } from "@mui/system";
 
 export const useStyles = makeStyles({
   rootContainer: {

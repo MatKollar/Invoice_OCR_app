@@ -1,7 +1,9 @@
 import { useContext, useState, useEffect } from "react";
+
 import { Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
+
 import AppLayout from "../../components/AppLayout/AppLayout";
 import { useStyles } from "./styles";
 import OrganizationCard from "../../components/OrganizationCard/OrganizationCard";
@@ -39,9 +41,7 @@ const OrganizationPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const resp = await httpRequest.get(
-          "http://localhost:5000/get-organizations"
-        );
+        const resp = await httpRequest.get("http://localhost:5000/get-organizations");
         setOrganizationsData(resp.data.organizations);
         userCtx.setActiveOrganization(resp.data.active_organization);
       } catch (error) {
@@ -64,10 +64,7 @@ const OrganizationPage = () => {
   return (
     <>
       <AppLayout>
-        <OrganizationTabbar
-          onPageChange={handlePageChange}
-          activePage={activePage}
-        />
+        <OrganizationTabbar onPageChange={handlePageChange} activePage={activePage} />
         {!isOrganizationOpen && (
           <div>
             <Grid container spacing={2}>

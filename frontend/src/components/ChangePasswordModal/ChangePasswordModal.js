@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Button,
   Dialog,
@@ -6,7 +7,6 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
 import httpRequest from "../../httpRequest";
 
 const ChangePasswordModal = ({ open, onClose }) => {
@@ -45,14 +45,10 @@ const ChangePasswordModal = ({ open, onClose }) => {
     }
 
     try {
-      const resp = await httpRequest.post(
-        "http://localhost:5000/change-password",
-        {
-          oldPassword,
-          newPassword,
-        }
-      );
-
+      await httpRequest.post("http://localhost:5000/change-password", {
+        oldPassword,
+        newPassword,
+      });
     } catch (error) {
       if (error.response.status === 401) {
         alert("Invalid credentials");

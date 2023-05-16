@@ -1,7 +1,9 @@
 import { useState, useContext, useEffect } from "react";
+
 import { Button, Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
+
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 import userContext from "../../context/user-context";
@@ -51,12 +53,9 @@ const Organization = (props) => {
     setActiveOrganization(true);
     userCtx.setActiveOrganization(orgData);
     try {
-      const resp = await httpRequest.post(
-        "http://localhost:5000/activate-organization",
-        {
-          organization_id: orgData.id,
-        },
-      );
+      await httpRequest.post("http://localhost:5000/activate-organization", {
+        organization_id: orgData.id,
+      });
     } catch (error) {
       if (error.response.status === 401) {
         alert("Invalid credentials");
@@ -68,12 +67,9 @@ const Organization = (props) => {
     setActiveOrganization(false);
     userCtx.setActiveOrganization(null);
     try {
-      const resp = await httpRequest.post(
-        "http://localhost:5000/deactivate-organization",
-        {
-          organization_id: orgData.id,
-        },
-      );
+      await httpRequest.post("http://localhost:5000/deactivate-organization", {
+        organization_id: orgData.id,
+      });
     } catch (error) {
       if (error.response.status === 401) {
         alert("Invalid credentials");
@@ -93,10 +89,7 @@ const Organization = (props) => {
   return (
     <div className={classes.rootContainer}>
       {activeOrganization && (
-        <Button
-          sx={{ position: "absolute", right: 20 }}
-          onClick={deactiveOrganization}
-        >
+        <Button sx={{ position: "absolute", right: 20 }} onClick={deactiveOrganization}>
           Organization Active
         </Button>
       )}
@@ -129,10 +122,7 @@ const Organization = (props) => {
           <IconButton onClick={() => setIsSummaryOpen(false)}>
             <ArrowBackIcon />
           </IconButton>
-          <SummaryCard
-            dataFromDB={selectedInvoice}
-            dataChanged={handleDataChange}
-          />
+          <SummaryCard dataFromDB={selectedInvoice} dataChanged={handleDataChange} />
         </div>
       )}
     </div>

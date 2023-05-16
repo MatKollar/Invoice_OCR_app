@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -127,8 +128,7 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
   const filteredRows = dataToSearch.filter((row) => {
     return Object.values(row).some(
       (value) =>
-        typeof value === "string" &&
-        value.toLowerCase().includes(search.toLowerCase()),
+        typeof value === "string" && value.toLowerCase().includes(search.toLowerCase()),
     );
   });
 
@@ -145,7 +145,7 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
 
   const handleDeleteConfirmation = async () => {
     try {
-      const response = await httpRequest.delete(`/delete-invoice`, {
+      await httpRequest.delete(`/delete-invoice`, {
         params: {
           id: invoiceToDelete.id,
         },

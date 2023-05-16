@@ -16,13 +16,10 @@ const CreateOrganizationCard = (props) => {
     const name = data.get("name");
     const description = data.get("description");
     try {
-      const resp = await httpRequest.post(
-        "http://localhost:5000/create_organization",
-        {
-          name,
-          description,
-        }
-      );
+      const resp = await httpRequest.post("http://localhost:5000/create_organization", {
+        name,
+        description,
+      });
       const status = resp.status;
       if (status === 201) {
         props.onPageChange(0, "ORGANIZATIONS");
@@ -39,11 +36,7 @@ const CreateOrganizationCard = (props) => {
 
   return (
     <>
-      <Paper
-        elevation={3}
-        className={classes.card}
-        sx={{ p: 2, borderRadius: 5 }}
-      >
+      <Paper elevation={3} className={classes.card} sx={{ p: 2, borderRadius: 5 }}>
         <Typography variant="h5">Create Organization</Typography>
         <br />
         <Box

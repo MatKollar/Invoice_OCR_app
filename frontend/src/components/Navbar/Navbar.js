@@ -1,10 +1,10 @@
+import { useLocation } from "react-router-dom";
 import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton, Typography } from "@mui/material";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 import ProfileIcon from "../ProfileIcon/ProfileIcon";
-import { useLocation } from "react-router-dom";
 
 const Navbar = (props) => {
   const classes = useStyles();

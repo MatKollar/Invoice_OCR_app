@@ -1,9 +1,10 @@
 import { useContext } from "react";
-import OCRContext from "../../context/ocr-context";
+
 import { Button, Grid, IconButton, Typography } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
+import OCRContext from "../../context/ocr-context";
 const cv = window.cv;
 
 const PreprocessingCard = () => {
@@ -17,7 +18,7 @@ const PreprocessingCard = () => {
     try {
       const resp = await httpRequest.post(
         `http://localhost:5000/${methodEndpoint}`,
-        formData
+        formData,
       );
       let bytestring = resp["data"]["image"];
       let image = bytestring.split("'")[1];

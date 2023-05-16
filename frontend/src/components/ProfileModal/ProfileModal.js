@@ -57,7 +57,7 @@ const ProfileModal = ({ open, onClose }) => {
 
   const updateUser = async (name, email) => {
     try {
-      const resp = await httpRequest.post("http://localhost:5000/update-user", {
+      await httpRequest.post("http://localhost:5000/update-user", {
         name,
         email,
       });
@@ -86,11 +86,7 @@ const ProfileModal = ({ open, onClose }) => {
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      PaperProps={{ style: { width: 500 } }}
-    >
+    <Dialog open={open} onClose={handleClose} PaperProps={{ style: { width: 500 } }}>
       <DialogTitle>Your Profile</DialogTitle>
       <DialogContent>
         {!isChangingName && (

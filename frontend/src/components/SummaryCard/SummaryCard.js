@@ -1,14 +1,16 @@
 import { useContext, useEffect, useState } from "react";
-import OCRContext from "../../context/ocr-context";
+
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import DownloadIcon from "@mui/icons-material/Download";
+import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 import { TextField, Button, Paper, IconButton, Grid } from "@mui/material";
+
+import OCRContext from "../../context/ocr-context";
 import { useStyles } from "./styles";
 import DoughnutChart from "../../components/DoughnutChart/DoughnutChart";
 import SellerTable from "./SellerTable/SellerTable";
 import BuyerTable from "./BuyerTable/BuyerTable";
 import InvoiceDataTable from "./InvoiceDataTable/InvoiceDataTable";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import DownloadIcon from "@mui/icons-material/Download";
-import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 import httpRequest from "../../httpRequest";
 
 const SummaryCard = (props) => {

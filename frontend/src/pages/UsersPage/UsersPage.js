@@ -45,8 +45,8 @@ const UsersPage = () => {
     })();
   }, []);
 
-  const handleUserUpdated = (updatedUserID,updatedUserRole) => {
-    setUpdatedUser({updatedUserID, updatedUserRole});
+  const handleUserUpdated = (updatedUserID, updatedUserRole) => {
+    setUpdatedUser({ updatedUserID, updatedUserRole });
   };
 
   return (

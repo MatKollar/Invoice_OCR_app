@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSnackbar } from "notistack";
 
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,6 +10,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { FadeLoader } from "react-spinners";
+import { useSnackbar } from "notistack";
 
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";

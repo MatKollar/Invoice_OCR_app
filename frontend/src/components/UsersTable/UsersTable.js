@@ -40,7 +40,7 @@ function UsersTable({ users, onUserUpdated }) {
 
   const handleSave = async () => {
     try {
-      const resp = await httpRequest.post("http://localhost:5000/edit-role", {
+      await httpRequest.post("http://localhost:5000/edit-role", {
         user_id: selectedUser.id,
         role: selectedRole,
       });
@@ -116,9 +116,7 @@ function UsersTable({ users, onUserUpdated }) {
             borderRadius: 2,
           }}
         >
-          <Typography variant="h6">
-            Edit Role for {selectedUser?.name}
-          </Typography>
+          <Typography variant="h6">Edit Role for {selectedUser?.name}</Typography>
           <FormControl fullWidth sx={{ my: 2 }}>
             <InputLabel id="select-role-label">Role</InputLabel>
             <Select

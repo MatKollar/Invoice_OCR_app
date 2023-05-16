@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import OCRContext from "../../context/ocr-context";
 import { Button, Typography } from "@mui/material";
+import OCRContext from "../../context/ocr-context";
 import { useStyles } from "./styles";
 const cv = window.cv;
 
@@ -35,7 +35,7 @@ const UploadCard = () => {
     canvas.width = viewport.width;
     canvas.style.width = "100%";
     await page.render({ canvasContext: context, viewport: viewport }).promise;
-    image = canvas.toDataURL('image/png', 1.0);
+    image = canvas.toDataURL("image/png", 1.0);
     canvas.remove();
     return image;
   };
@@ -46,7 +46,6 @@ const UploadCard = () => {
       const mat = cv.imread(img);
       cv.imshow("output", mat);
       mat.delete();
-     
     };
     return img;
   };
