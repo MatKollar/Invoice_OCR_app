@@ -11,6 +11,7 @@ export const useStyles = makeStyles(() => ({
     overflow: "hidden",
   },
   tabsContainer: {
+    marginTop: 4,
     textDecoration: "none",
   },
   text: {

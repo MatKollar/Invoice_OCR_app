@@ -4,9 +4,26 @@ import { IconButton, Typography } from "@mui/material";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 import ProfileIcon from "../ProfileIcon/ProfileIcon";
+import { useLocation } from "react-router-dom";
 
 const Navbar = (props) => {
   const classes = useStyles();
+  const location = useLocation();
+
+  const getPageTitle = () => {
+    switch (location.pathname) {
+      case "/":
+        return `Welcome Back ${props.userName}!`;
+      case "/history":
+        return "Your scans";
+      case "/organization":
+        return "Organizations";
+      case "/users":
+        return "Manage users";
+      default:
+        return "";
+    }
+  };
 
   const logoutUser = async () => {
     await httpRequest.post("//localhost:5000/logout");
@@ -23,9 +40,13 @@ const Navbar = (props) => {
         )}
         <Typography
           variant="h5"
-          sx={{ ml: 4, fontSize: { xs: "20px", sm: "24px", md: "26px" } }}
+          sx={{
+            ml: 4,
+            fontSize: { xs: "20px", sm: "24px", md: "26px" },
+            fontFamily: "Oxanium, cursive",
+          }}
         >
-          Welcome Back {props.userName}!
+          {getPageTitle()}
         </Typography>
       </div>
       <div className={classes.rightButtons}>

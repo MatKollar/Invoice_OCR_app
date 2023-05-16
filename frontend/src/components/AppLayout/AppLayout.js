@@ -2,7 +2,6 @@ import { useState } from "react";
 import SideMenu from "../SideMenu/SideMenu";
 import Navbar from "../Navbar/Navbar";
 import { useStyles } from "./styles";
-import Tabbar from "../Tabbar/Tabbar";
 
 const AppLayout = (props) => {
   const classes = useStyles();
