@@ -3,6 +3,7 @@ import os
 
 load_dotenv()
 
+
 class ApplicationConfig:
     SECRET_KEY = os.environ["SECRET_KEY"]
 

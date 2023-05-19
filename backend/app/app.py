@@ -44,11 +44,6 @@ with app.app_context():
         db.session.commit()
 
 
-@app.route("/hello")
-def hello():
-    return "Hello, World!"
-
-
 @app.route("/@me")
 def get_current_user():
     user_id = session.get("user_id")
@@ -56,7 +51,8 @@ def get_current_user():
     if not user_id:
         return jsonify({"error": "Unauthorized"}), 401
 
-    user = User.query.filter_by(id=user_id).first()
+    user = User.query.get(user_id)
+
     return jsonify({
         "name": user.name,
         "email": user.email,
@@ -69,7 +65,7 @@ def edit_role():
     role = request.json["role"]
     user_id = request.json["user_id"]
 
-    user = User.query.filter_by(id=user_id).first()
+    user = User.query.get(user_id)
     user.role = UserRole[role]
     db.session.commit()
 
@@ -83,12 +79,9 @@ def update_user():
     if not user_id:
         return jsonify({"error": "Unauthorized"}), 401
 
-    user = User.query.filter_by(id=user_id).first()
-    name = request.json["name"]
-    email = request.json["email"]
-
-    user.name = name
-    user.email = email
+    user = User.query.get(user_id)
+    user.name = request.json["name"]
+    user.email = request.json["email"]
     db.session.commit()
 
     return jsonify({"success": True}), 200
@@ -157,21 +150,25 @@ def update_invoice():
     invoice.iban = new_data.get("iban", invoice.iban)
 
     supplier_data = new_data.get("supplier_data", {})
-    invoice.supplier_ico = supplier_data.get("ICO", invoice.supplier_ico)
-    invoice.supplier_name = supplier_data.get("Name", invoice.supplier_name)
-    invoice.supplier_address = supplier_data.get(
-        "Street", invoice.supplier_address)
-    invoice.supplier_psc = supplier_data.get("PSC", invoice.supplier_psc)
-    invoice.supplier_city = supplier_data.get("City", invoice.supplier_city)
-    invoice.supplier_dic = supplier_data.get("DIC", invoice.supplier_dic)
+    if invoice.supplier:
+        invoice.supplier.ico = supplier_data.get("ICO", invoice.supplier.ico)
+        invoice.supplier.name = supplier_data.get(
+            "Name", invoice.supplier.name)
+        invoice.supplier.address = supplier_data.get(
+            "Street", invoice.supplier.address)
+        invoice.supplier.psc = supplier_data.get("PSC", invoice.supplier.psc)
+        invoice.supplier.city = supplier_data.get(
+            "City", invoice.supplier.city)
+        invoice.supplier.dic = supplier_data.get("DIC", invoice.supplier.dic)
 
     buyer_data = new_data.get("buyer_data", {})
-    invoice.buyer_ico = buyer_data.get("ICO", invoice.buyer_ico)
-    invoice.buyer_name = buyer_data.get("Name", invoice.buyer_name)
-    invoice.buyer_psc = buyer_data.get("PSC", invoice.buyer_psc)
-    invoice.buyer_address = buyer_data.get("Street", invoice.buyer_address)
-    invoice.buyer_city = buyer_data.get("City", invoice.buyer_city)
-    invoice.buyer_dic = buyer_data.get("DIC", invoice.buyer_dic)
+    if invoice.buyer:
+        invoice.buyer.ico = buyer_data.get("ICO", invoice.buyer.ico)
+        invoice.buyer.name = buyer_data.get("Name", invoice.buyer.name)
+        invoice.buyer.psc = buyer_data.get("PSC", invoice.buyer.psc)
+        invoice.buyer.address = buyer_data.get("Street", invoice.buyer.address)
+        invoice.buyer.city = buyer_data.get("City", invoice.buyer.city)
+        invoice.buyer.dic = buyer_data.get("DIC", invoice.buyer.dic)
 
     db.session.commit()
 

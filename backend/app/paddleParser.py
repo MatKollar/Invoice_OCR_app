@@ -8,7 +8,7 @@ def get_invoice_number(words):
         if 'faktura' in word.lower() or 'faktury' in word.lower():
             parts = word.split()
             for part in parts:
-                splitted_parts = part.lower().split('c.') 
+                splitted_parts = part.lower().split('c.')
                 if len(splitted_parts) > 1:
                     for splitted_part in splitted_parts:
                         if splitted_part.isdigit():
@@ -48,7 +48,8 @@ def get_date_of_issue(words):
 
     for i, word in enumerate(words):
         if any([kw in word.lower().rstrip(':') for kw in ('datum vystavenia', 'datum vyhotovenia', 'datum vyhotovenia', 'vyhotovena', 'vystavenia', 'fakturacie')]):
-            word = re.sub(r'(\d{1,2})\.\s+(\d{1,2})\.\s+(\d{2,4})', r'\1.\2.\3', word)
+            word = re.sub(
+                r'(\d{1,2})\.\s+(\d{1,2})\.\s+(\d{2,4})', r'\1.\2.\3', word)
             word_parts = word.split()
             for part in word_parts:
                 if date_pattern.match(part):
@@ -73,7 +74,8 @@ def get_due_date(words):
 
     for i, word in enumerate(words):
         if any([kw in word.lower().rstrip(':') for kw in ('datum splatnosti', 'splatnost', 'splatnost:', 'splatnosti', 'splatnosti')]):
-            word = re.sub(r'(\d{1,2})\.\s+(\d{1,2})\.\s+(\d{2,4})', r'\1.\2.\3', word)
+            word = re.sub(
+                r'(\d{1,2})\.\s+(\d{1,2})\.\s+(\d{2,4})', r'\1.\2.\3', word)
             word_parts = word.split()
             for part in word_parts:
                 if date_pattern.match(part):
@@ -97,9 +99,10 @@ def get_delivery_date(words):
     date_pattern = re.compile(r"\d{1,2}\s*[-.:]\s*\d{1,2}\s*[-.:]\s*\d{2,4}")
 
     for i, word in enumerate(words):
-        if any([kw in word.lower().rstrip(':') for kw in ('datum dodania', 'datum uskut.', 'datum plnenia', 'dodanie', 'dodania', 'datum dan.', 
+        if any([kw in word.lower().rstrip(':') for kw in ('datum dodania', 'datum uskut.', 'datum plnenia', 'dodanie', 'dodania', 'datum dan.',
                                                           'danova povinnost', 'datum dod.', 'povinnost', 'datum zdanitelneho')]):
-            word = re.sub(r'(\d{1,2})\.\s+(\d{1,2})\.\s+(\d{2,4})', r'\1.\2.\3', word)
+            word = re.sub(
+                r'(\d{1,2})\.\s+(\d{1,2})\.\s+(\d{2,4})', r'\1.\2.\3', word)
             word_parts = word.split()
             for part in word_parts:
                 if date_pattern.match(part):
@@ -238,7 +241,7 @@ def get_iban(words):
             for part in part_word:
                 match = pattern.search(part)
                 if match:
-                    return match.group()            
+                    return match.group()
             for j in range(i + 1, len(words)):
                 next_word = words[j]
                 next_word = re.sub(r'(\d)\s+(\d)', r'\1\2', next_word)
@@ -251,7 +254,8 @@ def get_iban(words):
 
 def get_supplier_ico(words):
     ico = ''
-    pattern = re.compile(r"\b(?:ICO|1CO:|1ICO|IC|1C0|ICQ)?(\d{8})\b", re.IGNORECASE)
+    pattern = re.compile(
+        r"\b(?:ICO|1CO:|1ICO|IC|1C0|ICQ)?(\d{8})\b", re.IGNORECASE)
     for i, word in enumerate(words):
         if any([kw in word.lower() for kw in ('ico', '1co:', '1ico', 'ic:', '1c0', 'icq', 'ic0')]):
             match = pattern.search(word)
@@ -271,7 +275,8 @@ def get_supplier_ico(words):
 
 def get_buyer_ico(words):
     ico = ''
-    pattern = re.compile(r"\b(?:ICO|1CO:|1ICO|IC|1C0|ICQ)?(\d{8})\b", re.IGNORECASE)
+    pattern = re.compile(
+        r"\b(?:ICO|1CO:|1ICO|IC|1C0|ICQ)?(\d{8})\b", re.IGNORECASE)
     for i, word in enumerate(words):
         if any([kw in word.lower() for kw in ('ico', '1co:', '1ico', 'ic:', '1c0', 'icq', 'ic0')]):
             match = pattern.search(word)

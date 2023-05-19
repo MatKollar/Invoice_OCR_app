@@ -7,8 +7,30 @@ from app.operations import load_image, add_invoice_to_db, check_if_invoice
 paddleocr_bp = Blueprint('paddleocr', __name__)
 
 
+def compute_average_score_and_text(result):
+    total_score = 0
+    num_words = 0
+    text = ""
+    for res in result:
+        for line in res:
+            text += line[1][0] + "\n"
+            total_score += line[1][1]
+            num_words += 1
+
+    average_score = total_score / num_words if num_words > 0 else 0
+    return average_score, text
+
+
+def get_files_from_request():
+    pdf_file = request.files['pdf'].read(
+    ) if request.files.get('pdf') else None
+    image_file = request.files['image'].read(
+    ) if request.files.get('image') else None
+    return pdf_file, image_file
+
+
 @paddleocr_bp.route('/paddleOCR', methods=['POST'])
-def paddleocr():
+def process_paddleocr():
     ocr = PaddleOCR(
         det_model_dir='paddle_models/en_PP-OCRv3_det_infer',
         rec_model_dir='paddle_models/en_PP-OCRv3_rec_infer',
@@ -23,49 +45,26 @@ def paddleocr():
     result = ocr.ocr(img, cls=True)
     recognition_time = time.time() - start_time_recognition
 
-    text = ""
-    total_score = 0
-    num_words = 0
-    for res in result:
-        for line in res:
-            text += line[1][0] + "\n"
-            total_score += line[1][1]
-            num_words += 1
-    average_score = total_score / num_words if num_words > 0 else 0
+    average_score, text = compute_average_score_and_text(result)
 
     start_time_parsing = time.time()
     parsed_data = parse_text(text)
     parsing_time = time.time() - start_time_parsing
 
-    isInvoice = check_if_invoice(parsed_data)
-
-    if isInvoice:
-        pdf_file = None
-        image_file = None
-        if request.files.get('pdf'):
-            pdf_file = request.files['pdf'].read()
-        elif request.files.get('image'):
-            image_file = request.files['image'].read()
-        invoice_id = add_invoice_to_db(parsed_data, text, pdf_file, image_file,
-                                       average_score*100, recognition_time, parsing_time, ocr_method)
-
-        return jsonify({
-            'invoice_id': invoice_id,
-            'text': text,
-            'parsed_data': parsed_data,
-            'time': {
-                'recognition': recognition_time,
-                'parsing': parsing_time,
-            },
-            'average_score': average_score*100
-        })
-
-    return jsonify({
+    response = {
         'text': text,
         'parsed_data': parsed_data,
         'time': {
             'recognition': recognition_time,
             'parsing': parsing_time,
         },
-        'average_score': average_score*100
-    })
+        'average_score': average_score * 100
+    }
+
+    if check_if_invoice(parsed_data):
+        pdf_file, image_file = get_files_from_request()
+        invoice_id = add_invoice_to_db(parsed_data, text, pdf_file, image_file,
+                                       average_score * 100, recognition_time, parsing_time, ocr_method)
+        response['invoice_id'] = invoice_id
+
+    return jsonify(response)

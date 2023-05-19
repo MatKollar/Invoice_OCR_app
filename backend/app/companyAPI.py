@@ -15,7 +15,7 @@ def getCompanyDetails():
     if id_response.status_code == 200:
         data = id_response.json()
     else:
-        print(f"Error: {id_response.status_code}")
+        return jsonify({'error': 'Failed to get company ID.'}), 500
 
     id = data['id'][0]
     url_get_details = f"https://www.registeruz.sk/cruz-public/api/uctovna-jednotka?id={id}"
@@ -24,7 +24,7 @@ def getCompanyDetails():
     if details_response.status_code == 200:
         data = details_response.json()
     else:
-        print(f"Error: {details_response.status_code}")
+        return jsonify({'error': 'Failed to get company details.'}), 500
 
     data = {
         'Name': data['nazovUJ'],

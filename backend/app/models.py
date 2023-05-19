@@ -75,7 +75,8 @@ class Invoice(db.Model):
     bank = db.Column(db.String(100))
     swift = db.Column(db.String(100))
     iban = db.Column(db.String(100))
-    supplier_id = db.Column(db.Integer, db.ForeignKey('suppliers.id'), unique=True)
+    supplier_id = db.Column(
+        db.Integer, db.ForeignKey('suppliers.id'), unique=True)
     buyer_id = db.Column(db.Integer, db.ForeignKey('buyers.id'), unique=True)
     text = db.Column(db.String(100000))
     pdf_file = db.Column(db.LargeBinary)

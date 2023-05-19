@@ -4,25 +4,33 @@ from app.models import db, Organization, User
 organizations_bp = Blueprint('organizations', __name__)
 
 
-@organizations_bp.route('/create_organization', methods=['POST'])
-def create_organization():
+def get_logged_in_user():
     user_id = session.get("user_id")
 
     if not user_id:
-        return jsonify({"error": "User not logged in."}), 401
+        return None
 
-    name = request.json['name']
-    description = request.json['description']
+    return User.query.get(user_id)
 
-    if not name:
-        return jsonify({"error": "Name is required."}), 400
 
-    user = User.query.filter_by(id=user_id).first()
+def get_request_data(*args):
+    return {arg: request.json.get(arg) for arg in args}
+
+
+@organizations_bp.route('/create_organization', methods=['POST'])
+def create_organization():
+    user = get_logged_in_user()
 
     if not user:
-        return jsonify({"error": "User not found."}), 404
+        return jsonify({"error": "User not logged in."}), 401
 
-    organization = Organization(name=name, description=description)
+    data = get_request_data('name', 'description')
+
+    if not data['name']:
+        return jsonify({"error": "Name is required."}), 400
+
+    organization = Organization(
+        name=data['name'], description=data['description'])
     organization.users.append(user)
 
     db.session.add(organization)
@@ -33,17 +41,17 @@ def create_organization():
 
 @organizations_bp.route('/join_organization', methods=['POST'])
 def join_organization():
-    user_id = session.get("user_id")
+    user = get_logged_in_user()
 
-    if not user_id:
+    if not user:
         return jsonify({"error": "User not logged in."}), 401
 
-    invite_code = request.json.get("code")
+    invite_code = get_request_data('code')['code']
 
     organization = Organization.query.filter_by(
         invite_code=invite_code).first()
+
     if organization:
-        user = User.query.get(user_id)
         user.organizations.append(organization)
         db.session.commit()
         return jsonify({"message": "Organization joined successfully!"}), 201
@@ -53,27 +61,22 @@ def join_organization():
 
 @organizations_bp.route('/activate-organization', methods=['POST'])
 def activate_organization():
-    user_id = session.get("user_id")
-    organization_id = request.json['organization_id']
+    user = get_logged_in_user()
 
-    if not user_id:
+    if not user:
         return jsonify({"error": "User not logged in."}), 401
 
-    user = User.query.get(user_id)
-    user.active_organization_id = organization_id
-
+    user.active_organization_id = get_request_data('organization_id')[
+        'organization_id']
     return jsonify({"message": "Organization activated successfully!"}), 201
 
 
 @organizations_bp.route('/deactivate-organization', methods=['POST'])
 def deactivate_organization():
-    user_id = session.get("user_id")
-    organization_id = request.json['organization_id']
+    user = get_logged_in_user()
 
-    if not user_id:
+    if not user:
         return jsonify({"error": "User not logged in."}), 401
 
-    user = User.query.get(user_id)
     user.active_organization_id = None
-
     return jsonify({"message": "Organization deactivated successfully!"}), 201

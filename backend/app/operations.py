@@ -87,8 +87,6 @@ def add_invoice_to_db(parsed_data, text, pdf_file, img_file, average_score, reco
 
 
 def check_if_invoice(parsed_data):
-    if (parsed_data['invoice_number'] or parsed_data['var_symbol'] or parsed_data['total_price'] or parsed_data['due_date'] or parsed_data['iban']
-            or parsed_data['buyer_ico'] or parsed_data['supplier_ico'] or parsed_data["bank"]):
-        return True
-    else:
-        return False
+    required_fields = ['invoice_number', 'var_symbol', 'total_price',
+                       'due_date', 'iban', 'buyer_ico', 'supplier_ico', "bank"]
+    return any(parsed_data.get(field) for field in required_fields)
