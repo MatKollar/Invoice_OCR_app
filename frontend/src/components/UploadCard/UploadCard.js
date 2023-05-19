@@ -81,8 +81,8 @@ const UploadCard = () => {
   return (
     <>
       <div className={classes.rootContainer}>
-        <Typography variant="h5" sx={{ pt: 2 }}>
-          Upload document
+        <Typography variant="h5" sx={{ pt: 2, fontFamily: "Oxanium, cursive" }}>
+          Upload Document
         </Typography>
         <div className={classes.input}>
           <input
@@ -93,7 +93,15 @@ const UploadCard = () => {
         </div>
         <Button
           variant="contained"
-          sx={{ margin: "20px", px: "10%" }}
+          sx={{
+            margin: "20px",
+            px: "10%",
+            fontFamily: "Oxanium, cursive",
+            backgroundColor: "#854de0",
+            "&:hover": {
+              backgroundColor: "#6336ab",
+            },
+          }}
           onClick={() => ocrCtx.setActivePage(1)}
         >
           NEXT

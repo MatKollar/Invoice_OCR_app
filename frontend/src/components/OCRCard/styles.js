@@ -4,7 +4,9 @@ export const useStyles = makeStyles({
   rootContainer: {
     margin: "0 auto",
     marginTop: 20,
+    minWidth: "225px",
     width: "30%",
+    maxWidth: "400px",
     height: "180px",
     borderRadius: 30,
     color: "black",

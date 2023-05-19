@@ -1,10 +1,15 @@
 import { useContext } from "react";
 
-import { Button, Grid, IconButton, Typography } from "@mui/material";
+import { Button, Tooltip, IconButton, Typography } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 import OCRContext from "../../context/ocr-context";
+import grayscaleImage from "../../images/preprocessing/grayscale.png";
+import binarizationImage from "../../images/preprocessing/binarization.svg";
+import noiseReductionImage from "../../images/preprocessing/noise_reduction.png";
+import deskewImage from "../../images/preprocessing/skew_correction.png";
+import removeBarcodeImage from "../../images/preprocessing/remove_barcode.png";
 const cv = window.cv;
 
 const PreprocessingCard = () => {
@@ -59,65 +64,77 @@ const PreprocessingCard = () => {
   return (
     <>
       <div className={classes.rootContainer}>
-        <Typography variant="h5" sx={{ pt: 2 }}>
-          Select preprocessing
+        <Typography variant="h5" sx={{ pt: 2, fontFamily: "Oxanium, cursive" }}>
+          Select Preprocessing
         </Typography>
         <IconButton className={classes.resetButton} onClick={handleReset}>
-          <RestartAltIcon />
+          <RestartAltIcon sx={{ color: "#6336ab" }} />
         </IconButton>
 
-        <Grid container spacing={2}>
-          <Grid item xs={3}>
-            <Button
-              variant="contained"
-              onClick={() => handlePreprocessingMethod("grayscale")}
-              sx={{ px: "10%" }}
-            >
-              Grayscale
+        <div className={classes.buttons}>
+          <Tooltip title="Grayscale Image">
+            <Button variant="text" onClick={() => handlePreprocessingMethod("grayscale")}>
+              <img src={grayscaleImage} alt="Grayscale" style={{ width: "32px" }} />
             </Button>
-          </Grid>
-          <Grid item xs={3}>
+          </Tooltip>
+
+          <Tooltip title="Remove Barcodes">
             <Button
-              variant="contained"
-              onClick={() => handlePreprocessingMethod("binarization")}
-              sx={{ px: "10%" }}
-            >
-              Binarization
-            </Button>
-          </Grid>
-          <Grid item xs={6}>
-            <Button
-              variant="contained"
-              onClick={() => handlePreprocessingMethod("noise_reduction")}
-              sx={{ px: "10%" }}
-            >
-              Noise Reduction
-            </Button>
-          </Grid>
-          <Grid item xs={6}>
-            <Button
-              variant="contained"
-              onClick={() => handlePreprocessingMethod("skew_correction")}
-              sx={{ px: "10%" }}
-            >
-              Skew Correction
-            </Button>
-          </Grid>
-          <Grid item xs={6}>
-            <Button
-              variant="contained"
+              variant="text"
               onClick={() => handlePreprocessingMethod("remove_barcodes")}
-              sx={{ px: "10%" }}
             >
-              Remove Barcodes
+              <img
+                src={removeBarcodeImage}
+                alt="Remove Barcodes"
+                style={{ width: "40px" }}
+              />
             </Button>
-          </Grid>
-        </Grid>
+          </Tooltip>
+
+          <Tooltip title="Noise Reduction">
+            <Button
+              variant="text"
+              onClick={() => handlePreprocessingMethod("noise_reduction")}
+            >
+              <img
+                src={noiseReductionImage}
+                alt="Noise Reduction"
+                style={{ width: "50px", padding: "-20px" }}
+              />
+            </Button>
+          </Tooltip>
+
+          <Tooltip title="Correct Skew">
+            <Button
+              variant="text"
+              onClick={() => handlePreprocessingMethod("skew_correction")}
+            >
+              <img src={deskewImage} alt="Skew Correction" style={{ width: "35px" }} />
+            </Button>
+          </Tooltip>
+
+          <Tooltip title="Binarization">
+            <Button
+              variant="text"
+              onClick={() => handlePreprocessingMethod("binarization")}
+            >
+              <img src={binarizationImage} alt="Binarization" style={{ width: "40px" }} />
+            </Button>
+          </Tooltip>
+        </div>
 
         <Button
           variant="contained"
           onClick={() => ocrCtx.setActivePage(2)}
-          sx={{ margin: "5px", px: "10%" }}
+          sx={{
+            marginBottom: "15px",
+            px: "10%",
+            fontFamily: "Oxanium, cursive",
+            backgroundColor: "#854de0",
+            "&:hover": {
+              backgroundColor: "#6336ab",
+            },
+          }}
         >
           NEXT
         </Button>

@@ -35,7 +35,15 @@ const Navbar = (props) => {
       <div className={classes.headingContainer}>
         {!props.sideMenuVisible && (
           <IconButton onClick={props.toggleSideMenu}>
-            <MenuIcon sx={{ color: "white" }} />
+            <MenuIcon
+              sx={{
+                color: "white",
+                "&:hover": {
+                  color: "#854de0",
+                },
+                marginTop: "-4px",
+              }}
+            />
           </IconButton>
         )}
         <Typography
@@ -54,7 +62,15 @@ const Navbar = (props) => {
         <Button
           className={classes.logout}
           variant="contained"
-          sx={{ mx: 2 }}
+          sx={{
+            mx: 2,
+            backgroundColor: "#854de0",
+            "&:hover": {
+              backgroundColor: "#6336ab",
+            },
+            color: "white",
+            fontFamily: "Oxanium, cursive",
+          }}
           onClick={logoutUser}
         >
           Log out

@@ -17,6 +17,9 @@ export const useStyles = makeStyles(() => ({
   text: {
     display: "block",
   },
+  tabSelected: {
+    color: "#854de0 !important",
+  },
 
   "@media (max-width:570px)": {
     text: {

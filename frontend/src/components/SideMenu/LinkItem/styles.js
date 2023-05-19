@@ -3,11 +3,15 @@ import { makeStyles } from "@mui/styles";
 export const useStyles = makeStyles({
   linkItem: {
     textAlign: "left",
-    marginTop: 27,
+    marginTop: 25,
     marginLeft: "20%",
+    marginBottom: 20,
   },
   link: {
     color: "white",
+    "&:hover": {
+      color: "#854de0",
+    },
   },
   linkIcon: {
     marginRight: 10,

@@ -85,16 +85,26 @@ const OCRCard = () => {
   return (
     <>
       <div className={classes.rootContainer}>
-        <Typography variant="h5" sx={{ pt: 2 }}>
-          Select OCR method
+        <Typography variant="h5" sx={{ pt: 2, fontFamily: "Oxanium, cursive" }}>
+          Select OCR
         </Typography>
 
-        <Grid container spacing={2} sx={{ mt: "15px" }}>
+        <Grid container spacing={0} sx={{ mt: "15px" }}>
           <Grid item xs={6}>
             <Button
-              variant="contained"
+              variant="outlined"
               onClick={() => handleOCRmethod("tesseract")}
-              sx={{ px: "10%" }}
+              sx={{
+                px: "10%",
+                fontFamily: "Oxanium, cursive",
+                color: "#854de0",
+                borderColor: "#854de0",
+                "&:hover": {
+                  backgroundColor: "#854de0",
+                  color: "#fff",
+                  borderColor: "#854de0",
+                },
+              }}
               disabled={loading}
             >
               Tesseract
@@ -102,9 +112,19 @@ const OCRCard = () => {
           </Grid>
           <Grid item xs={6}>
             <Button
-              variant="contained"
+              variant="outlined"
               onClick={() => handleOCRmethod("paddleOCR")}
-              sx={{ px: "10%" }}
+              sx={{
+                px: "10%",
+                fontFamily: "Oxanium, cursive",
+                color: "#854de0",
+                borderColor: "#854de0",
+                "&:hover": {
+                  backgroundColor: "#854de0",
+                  color: "#fff",
+                  borderColor: "#854de0",
+                },
+              }}
               disabled={loading}
             >
               PaddleOCR

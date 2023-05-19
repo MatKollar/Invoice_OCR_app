@@ -11,8 +11,6 @@ import { Typography } from "@mui/material";
 import { useStyles } from "./styles";
 import OCRContext from "../../context/ocr-context";
 
-
-
 const tabList = [
   { label: "UPLOAD", icon: <FileUploadIcon sx={{ mr: 0.5 }} /> },
   { label: "PREPROCESSING", icon: <CleanIcon sx={{ mr: 0.5 }} /> },
@@ -32,19 +30,27 @@ const Tabbar = () => {
     <Grid container className={classes.rootContainer}>
       <Grid item xs={12} container justifyContent="center" flexWrap="wrap">
         <Tabs
+          TabIndicatorProps={{
+            style: {
+              backgroundColor: "#854de0",
+            },
+          }}
           className={classes.tabsContainer}
           value={ocrCtx.activePage}
           onChange={handleChange}
           variant="scrollable"
           centered
+          classes={{ indicator: classes.indicator }}
         >
           {tabList.map((tab, index) => (
             <Tab
               key={index}
+              classes={{ selected: classes.tabSelected }}
               sx={{
                 maxWidth: "100%",
                 mx: { xs: 0, sm: 0.5, md: 1, lg: 2 },
                 p: { xs: 0, sm: 0.5, md: 1, lg: 1.5 },
+                color: ocrCtx.activePage === index ? "inherit" : "black",
               }}
               label={
                 <Typography sx={{ display: "flex", fontFamily: "Oxanium, cursive" }}>

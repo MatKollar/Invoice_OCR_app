@@ -44,7 +44,14 @@ const ProfileIcon = () => {
   return (
     <>
       <IconButton sx={{ p: 0.1, color: "white" }} onClick={handleMenuOpen}>
-        <AccountCircleIcon fontSize="large" />
+        <AccountCircleIcon
+          fontSize="large"
+          sx={{
+            "&:hover": {
+              color: "#854de0",
+            },
+          }}
+        />
       </IconButton>
       <Menu anchorEl={open} open={Boolean(open)} onClose={handleMenuClose}>
         <MenuItem onClick={handleProfileModalOpen}>Profile</MenuItem>

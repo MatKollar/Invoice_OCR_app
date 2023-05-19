@@ -8,7 +8,7 @@ export const useStyles = makeStyles({
     color: "white",
     width: "100%",
     height: "60px",
-    backgroundColor: "#3C4048",
+    backgroundColor: "#242424",
   },
   headingContainer: {
     display: "flex",

@@ -4,7 +4,7 @@ export const useStyles = makeStyles({
   rootContainer: {
     position: "relative",
     color: "white",
-    backgroundColor: "#222222",
+    backgroundColor: "#161616",
     textAlign: "center",
     width: "250px",
     transition: "width 0.3s ease-in-out",
@@ -21,6 +21,7 @@ export const useStyles = makeStyles({
   closeButton: {
     textAlign: "right",
     color: "white",
+
   },
   footerContainer: {
     marginBottom: 20,

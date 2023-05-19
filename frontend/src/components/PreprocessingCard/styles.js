@@ -4,13 +4,21 @@ export const useStyles = makeStyles({
   rootContainer: {
     margin: "0 auto",
     marginTop: 20,
-    width: "500px",
-    height: "180px",
+    minWidth: "220px",
+    width: "30%",
+    maxWidth: "450px",
     borderRadius: 30,
     color: "black",
     backgroundColor: "white",
     boxShadow: "10px 10px 5px #999999",
     position: "relative",
+  },
+  buttons: {
+    display: "flex",
+    justifyContent: "space-around",
+    marginTop: "7px",
+    marginBottom: "30px",
+    flexWrap: "wrap",
   },
   resetButton: {
     position: "absolute !important",

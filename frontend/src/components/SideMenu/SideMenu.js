@@ -45,17 +45,24 @@ const SideMenu = (props) => {
           <div>
             <div className={classes.closeContainer}>
               <IconButton onClick={props.onClose} className={classes.closeButton}>
-                <ArrowBackIosIcon sx={{ color: "white" }} />
+                <ArrowBackIosIcon
+                  sx={{
+                    color: "white",
+                    "&:hover": {
+                      color: "#854de0",
+                    },
+                  }}
+                />
               </IconButton>
             </div>
             <img
               src={OCR_LOGO}
               alt="logo"
               className={classes.logo}
-              width={isSmallScreen ? "40px" : "74px"}
+              width={isSmallScreen ? "40px" : "60px"}
               style={{
-                marginTop: isExtraSmallScreen ? "5px" : "-26px",
-                marginBottom: "20px",
+                marginTop: isExtraSmallScreen ? "5px" : "-16px",
+                marginBottom: "24px",
               }}
             />
             <Divider />
@@ -73,7 +80,16 @@ const SideMenu = (props) => {
               <ProfileIcon />
             </div>
             <IconButton onClick={logoutUser}>
-              <LogoutIcon sx={{ color: "white", fontSize: 30, mt: 2 }} />
+              <LogoutIcon
+                sx={{
+                  color: "white",
+                  fontSize: 30,
+                  mt: 2,
+                  "&:hover": {
+                    color: "#854de0",
+                  },
+                }}
+              />
             </IconButton>
           </div>
         </>
