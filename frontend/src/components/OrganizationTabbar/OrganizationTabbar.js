@@ -8,7 +8,7 @@ import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 
-import userContext from "../../../context/user-context";
+import userContext from "../../context/user-context";
 import { useStyles } from "./styles";
 
 const tabs = [
@@ -42,16 +42,27 @@ const OrganizationTabbar = ({ activePage, onPageChange }) => {
       <Grid item xs={12} container justifyContent="center" flexWrap="wrap">
         <Tabs
           className={classes.tabsContainer}
+          TabIndicatorProps={{
+            style: {
+              backgroundColor: "#854de0",
+            },
+          }}
           value={value}
           variant="scrollable"
           centered
+          classes={{ indicator: classes.indicator }}
         >
           {tabs.map(
             (tab) =>
               (!tab.restricted || !tab.restricted.includes(role)) && (
                 <Tab
+                  classes={{ selected: classes.tabSelected }}
                   key={tab.value}
-                  sx={{ mx: { xs: 0, sm: 1, md: 3, lg: 5 }, p: 2 }}
+                  sx={{
+                    mx: { xs: 0, sm: 1, md: 3, lg: 5 },
+                    p: 2,
+                    color: value === tab.value ? "inherit" : "black",
+                  }}
                   label={
                     <Typography sx={{ display: "flex", fontFamily: "Oxanium, cursive" }}>
                       {tab.icon}

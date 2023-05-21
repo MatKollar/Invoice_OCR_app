@@ -9,7 +9,7 @@ import { useStyles } from "./styles";
 import OrganizationCard from "../../components/OrganizationCard/OrganizationCard";
 import CreateOrganizationCard from "../../components/CreateOrganizationCard/CreateOrganizationCard";
 import userContext from "../../context/user-context";
-import OrganizationTabbar from "./OrganizationTabbar/OrganizationTabbar";
+import OrganizationTabbar from "../../components/OrganizationTabbar/OrganizationTabbar";
 import httpRequest from "../../httpRequest";
 import Card from "../../components/Card/Card";
 import Organization from "../../components/Organization/Organization";

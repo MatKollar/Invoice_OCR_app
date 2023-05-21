@@ -37,7 +37,9 @@ const CreateOrganizationCard = (props) => {
   return (
     <>
       <Paper elevation={3} className={classes.card} sx={{ p: 2, borderRadius: 5 }}>
-        <Typography variant="h5">Create Organization</Typography>
+        <Typography variant="h5" sx={{ fontFamily: "Oxanium, cursive" }}>
+          Create Organization
+        </Typography>
         <br />
         <Box
           component="form"
@@ -49,7 +51,17 @@ const CreateOrganizationCard = (props) => {
             name="name"
             label="Organization name"
             variant="outlined"
-            sx={{ width: "100%" }}
+            sx={{
+              width: "100%",
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: "#854de0",
+                },
+              },
+              "& .MuiInputLabel-outlined.Mui-focused": {
+                color: "#854de0",
+              },
+            }}
             size="small"
             required
           />
@@ -59,12 +71,34 @@ const CreateOrganizationCard = (props) => {
             name="description"
             label="Description"
             variant="outlined"
-            sx={{ mt: 2, width: "100%" }}
+            sx={{
+              mt: 2,
+              width: "100%",
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: "#854de0",
+                },
+              },
+              "& .MuiInputLabel-outlined.Mui-focused": {
+                color: "#854de0",
+              },
+            }}
             multiline
             rows={4}
           />
           <br />
-          <Button variant="contained" type="submit" sx={{ mt: 2 }}>
+          <Button
+            variant="contained"
+            type="submit"
+            sx={{
+              fontFamily: "Oxanium, cursive",
+              mt: 2,
+              backgroundColor: "#854de0",
+              "&:hover": {
+                backgroundColor: "#6336ab",
+              },
+            }}
+          >
             Create
           </Button>
         </Box>

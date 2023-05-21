@@ -91,6 +91,12 @@ function UsersTable({ users, onUserUpdated }) {
                   variant="contained"
                   color="primary"
                   onClick={(event) => handleEdit(event, params.row)}
+                  sx={{
+                    backgroundColor: "#854de0",
+                    "&:hover": {
+                      backgroundColor: "#6336ab",
+                    },
+                  }}
                 >
                   Edit Role
                 </Button>
@@ -131,7 +137,16 @@ function UsersTable({ users, onUserUpdated }) {
               <MenuItem value="ADMIN">ADMIN</MenuItem>
             </Select>
           </FormControl>
-          <Button variant="contained" color="primary" onClick={handleSave}>
+          <Button
+            variant="contained"
+            onClick={handleSave}
+            sx={{
+              backgroundColor: "#854de0",
+              "&:hover": {
+                backgroundColor: "#6336ab",
+              },
+            }}
+          >
             Save
           </Button>
         </Box>

@@ -37,20 +37,40 @@ const OrganizationCard = (props) => {
   return (
     <>
       <Paper elevation={3} className={classes.card} sx={{ p: 2, borderRadius: 5 }}>
-        <Typography variant="h5">
+        <Typography variant="h5" sx={{ fontFamily: "Oxanium, cursive" }}>
           Join Organization
           <br />
           <TextField
             id="outlined-basic"
             label="Enter the code"
             variant="outlined"
-            sx={{ m: 2 }}
+            sx={{
+              m: 2,
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: "#854de0",
+                },
+              },
+              "& .MuiInputLabel-outlined.Mui-focused": {
+                color: "#854de0",
+              },
+            }}
             size="small"
             value={code}
             onChange={handleCodeChange}
-          />{" "}
+          />
           <br />
-          <Button variant="contained" onClick={joinOrganization}>
+          <Button
+            variant="contained"
+            onClick={joinOrganization}
+            sx={{
+              fontFamily: "Oxanium, cursive",
+              backgroundColor: "#854de0",
+              "&:hover": {
+                backgroundColor: "#6336ab",
+              },
+            }}
+          >
             Join
           </Button>
         </Typography>

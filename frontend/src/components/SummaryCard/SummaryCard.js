@@ -175,14 +175,14 @@ const SummaryCard = (props) => {
               <Grid item xs={6} sx={{ textAlign: "right" }}>
                 {isInvoice && (
                   <IconButton sx={{ padding: "10px" }} onClick={handleOpenChart}>
-                    <DonutSmallIcon fontSize="large" />
+                    <DonutSmallIcon fontSize="large" sx={{ color: "#6336ab" }} />
                   </IconButton>
                 )}
                 <IconButton sx={{ padding: "10px" }} onClick={handleDownloadFile}>
-                  <DownloadIcon fontSize="large" />
+                  <DownloadIcon fontSize="large" sx={{ color: "#6336ab" }} />
                 </IconButton>
                 <IconButton sx={{ padding: "10px" }} onClick={handleOpenFile}>
-                  <OpenInNewIcon fontSize="large" />
+                  <OpenInNewIcon fontSize="large" sx={{ color: "#6336ab" }} />
                 </IconButton>
               </Grid>
             </Grid>

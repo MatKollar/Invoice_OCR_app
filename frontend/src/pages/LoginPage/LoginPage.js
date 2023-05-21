@@ -87,6 +87,16 @@ const LoginPage = () => {
                 name="email"
                 autoComplete="off"
                 autoFocus
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#854de0",
+                    },
+                  },
+                  "& .MuiInputLabel-outlined.Mui-focused": {
+                    color: "#854de0",
+                  },
+                }}
               />
               <TextField
                 margin="normal"
@@ -97,12 +107,31 @@ const LoginPage = () => {
                 type="password"
                 id="password"
                 autoComplete="off"
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#854de0",
+                    },
+                  },
+                  "& .MuiInputLabel-outlined.Mui-focused": {
+                    color: "#854de0",
+                  },
+                }}
               />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, fontFamily: "Oxanium, cursive", fontWeight: 1000 }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  fontFamily: "Oxanium, cursive",
+                  fontWeight: 1000,
+                  backgroundColor: "#854de0",
+                  "&:hover": {
+                    backgroundColor: "#6336ab",
+                  },
+                }}
               >
                 Login
               </Button>
@@ -111,7 +140,11 @@ const LoginPage = () => {
                   <Link
                     href="#"
                     variant="body2"
-                    sx={{ fontFamily: "Oxanium, cursive" }}
+                    sx={{
+                      fontFamily: "Oxanium, cursive",
+                      fontWeight: 600,
+                      color: "#854de0",
+                    }}
                     onClick={() => navigate("/register")}
                   >
                     {"Don't have an account? Register"}

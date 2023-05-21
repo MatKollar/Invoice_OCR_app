@@ -88,7 +88,7 @@ const RegisterPage = () => {
     <Container component="main" maxWidth="xs" className={classes.rootContainer}>
       {loading ? (
         <FadeLoader
-          color="#1d67d5"
+          color="#854de0"
           size={50}
           style={{ position: "absolute", top: "40%", left: "50%" }}
         />
@@ -124,6 +124,16 @@ const RegisterPage = () => {
                     label="Name"
                     onBlur={validateName}
                     autoFocus
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#854de0",
+                        },
+                      },
+                      "& .MuiInputLabel-outlined.Mui-focused": {
+                        color: "#854de0",
+                      },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -137,6 +147,16 @@ const RegisterPage = () => {
                     name="email"
                     onBlur={validateEmail}
                     autoComplete="off"
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#854de0",
+                        },
+                      },
+                      "& .MuiInputLabel-outlined.Mui-focused": {
+                        color: "#854de0",
+                      },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -153,6 +173,16 @@ const RegisterPage = () => {
                     id="password"
                     onBlur={validatePassword}
                     autoComplete="off"
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#854de0",
+                        },
+                      },
+                      "& .MuiInputLabel-outlined.Mui-focused": {
+                        color: "#854de0",
+                      },
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -160,7 +190,16 @@ const RegisterPage = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, fontFamily: "Oxanium, cursive", fontWeight: 600 }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  fontFamily: "Oxanium, cursive",
+                  fontWeight: 600,
+                  backgroundColor: "#854de0",
+                  "&:hover": {
+                    backgroundColor: "#6336ab",
+                  },
+                }}
               >
                 Register
               </Button>
@@ -170,7 +209,7 @@ const RegisterPage = () => {
                     href="#"
                     variant="body2"
                     onClick={() => navigate("/login")}
-                    sx={{ fontFamily: "Oxanium, cursive" }}
+                    sx={{ fontFamily: "Oxanium, cursive", color: "#854de0" }}
                   >
                     Already have an account? Login
                   </Link>
