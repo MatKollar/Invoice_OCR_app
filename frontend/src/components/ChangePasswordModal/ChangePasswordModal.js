@@ -7,6 +7,7 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import httpRequest from "../../httpRequest";
 
 const ChangePasswordModal = ({ open, onClose }) => {
@@ -60,7 +61,15 @@ const ChangePasswordModal = ({ open, onClose }) => {
   return (
     <Dialog open={open} onClose={handleClose}>
       <form onSubmit={handleFormSubmit}>
-        <DialogTitle>Change Password</DialogTitle>
+        <DialogTitle>
+          <Typography
+            component="h1"
+            variant="h5"
+            sx={{ fontFamily: "Oxanium, cursive", fontWeight: 600 }}
+          >
+            Change Password
+          </Typography>
+        </DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -71,6 +80,16 @@ const ChangePasswordModal = ({ open, onClose }) => {
             required
             value={oldPassword}
             onChange={(e) => setOldPassword(e.target.value)}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: "#854de0",
+                },
+              },
+              "& .MuiInputLabel-outlined.Mui-focused": {
+                color: "#854de0",
+              },
+            }}
           />
           <TextField
             margin="dense"
@@ -80,6 +99,16 @@ const ChangePasswordModal = ({ open, onClose }) => {
             required
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: "#854de0",
+                },
+              },
+              "& .MuiInputLabel-outlined.Mui-focused": {
+                color: "#854de0",
+              },
+            }}
           />
           <TextField
             margin="dense"
@@ -89,11 +118,51 @@ const ChangePasswordModal = ({ open, onClose }) => {
             required
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: "#854de0",
+                },
+              },
+              "& .MuiInputLabel-outlined.Mui-focused": {
+                color: "#854de0",
+              },
+            }}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Save</Button>
+          <Button
+            variant="outlined"
+            sx={{
+              fontFamily: "Oxanium, cursive",
+              color: "#854de0",
+              borderColor: "#854de0",
+              "&:hover": {
+                backgroundColor: "#854de0",
+                color: "#fff",
+                borderColor: "#854de0",
+              },
+            }}
+            onClick={handleClose}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="outlined"
+            sx={{
+              fontFamily: "Oxanium, cursive",
+              color: "#854de0",
+              borderColor: "#854de0",
+              "&:hover": {
+                backgroundColor: "#854de0",
+                color: "#fff",
+                borderColor: "#854de0",
+              },
+            }}
+            type="submit"
+          >
+            Save
+          </Button>
         </DialogActions>
       </form>
     </Dialog>

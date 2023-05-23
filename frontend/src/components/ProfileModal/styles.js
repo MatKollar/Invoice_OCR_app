@@ -6,4 +6,9 @@ export const useStyles = makeStyles({
     justifyContent: "space-between",
     marginBottom: 10,
   },
+  text: {
+    width: "60%",
+    display: "flex",
+    justifyContent: "space-between",
+  }
 });

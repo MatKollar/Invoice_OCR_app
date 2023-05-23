@@ -7,6 +7,7 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import UserContext from "../../context/user-context";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
@@ -87,12 +88,50 @@ const ProfileModal = ({ open, onClose }) => {
 
   return (
     <Dialog open={open} onClose={handleClose} PaperProps={{ style: { width: 500 } }}>
-      <DialogTitle>Your Profile</DialogTitle>
+      <DialogTitle>
+        <Typography
+          component="h1"
+          variant="h5"
+          sx={{ fontFamily: "Oxanium, cursive", fontWeight: 600 }}
+        >
+          Your Profile
+        </Typography>
+      </DialogTitle>
       <DialogContent>
         {!isChangingName && (
           <div className={classes.profile}>
-            <div>Username: {name}</div>
-            <Button onClick={handleChangeNameClick}>Change Name</Button>
+            <div className={classes.text}>
+              <Typography
+                component="p"
+                variant="body1"
+                sx={{ fontFamily: "Oxanium, cursive" }}
+              >
+                Username:
+              </Typography>
+              <Typography
+                component="p"
+                variant="body1"
+                sx={{ fontFamily: "Oxanium, cursive" }}
+              >
+                {name}
+              </Typography>
+            </div>
+            <Button
+              variant="outlined"
+              onClick={handleChangeNameClick}
+              sx={{
+                fontFamily: "Oxanium, cursive",
+                color: "#854de0",
+                borderColor: "#854de0",
+                "&:hover": {
+                  backgroundColor: "#854de0",
+                  color: "#fff",
+                  borderColor: "#854de0",
+                },
+              }}
+            >
+              Change Name
+            </Button>
           </div>
         )}
         {isChangingName && (
@@ -102,12 +141,52 @@ const ProfileModal = ({ open, onClose }) => {
             onChange={handleNameChange}
             fullWidth
             margin="normal"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: "#854de0",
+                },
+              },
+              "& .MuiInputLabel-outlined.Mui-focused": {
+                color: "#854de0",
+              },
+            }}
           />
         )}
         {!isChangingEmail && (
           <div className={classes.profile}>
-            <div>Email: {email}</div>
-            <Button onClick={handleChangeEmailClick}>Change Email</Button>
+            <div className={classes.text}>
+              <Typography
+                component="p"
+                variant="body1"
+                sx={{ fontFamily: "Oxanium, cursive" }}
+              >
+                Email:
+              </Typography>
+              <Typography
+                component="p"
+                variant="body1"
+                sx={{ fontFamily: "Oxanium, cursive" }}
+              >
+                {email}
+              </Typography>
+            </div>
+            <Button
+              variant="outlined"
+              sx={{
+                fontFamily: "Oxanium, cursive",
+                color: "#854de0",
+                borderColor: "#854de0",
+                "&:hover": {
+                  backgroundColor: "#854de0",
+                  color: "#fff",
+                  borderColor: "#854de0",
+                },
+              }}
+              onClick={handleChangeEmailClick}
+            >
+              Change Email
+            </Button>
           </div>
         )}
         {isChangingEmail && (
@@ -117,15 +196,70 @@ const ProfileModal = ({ open, onClose }) => {
             onChange={handleEmailChange}
             fullWidth
             margin="normal"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: "#854de0",
+                },
+              },
+              "& .MuiInputLabel-outlined.Mui-focused": {
+                color: "#854de0",
+              },
+            }}
           />
         )}
         <div className={classes.profile}>
-          <div>Active organization: {activeOrganization.name}</div>
+          <div className={classes.text}>
+            <Typography
+              component="p"
+              variant="body1"
+              sx={{ fontFamily: "Oxanium, cursive" }}
+            >
+              Active organization:
+            </Typography>
+            <Typography
+              component="p"
+              variant="body1"
+              sx={{ fontFamily: "Oxanium, cursive" }}
+            >
+              {activeOrganization.name}
+            </Typography>
+          </div>
         </div>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleSave}>Save</Button>
+      <DialogActions sx={{ mr: 1 }}>
+        <Button
+          variant="outlined"
+          sx={{
+            fontFamily: "Oxanium, cursive",
+            color: "#854de0",
+            borderColor: "#854de0",
+            "&:hover": {
+              backgroundColor: "#854de0",
+              color: "#fff",
+              borderColor: "#854de0",
+            },
+          }}
+          onClick={handleClose}
+        >
+          Cancel
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{
+            fontFamily: "Oxanium, cursive",
+            color: "#854de0",
+            borderColor: "#854de0",
+            "&:hover": {
+              backgroundColor: "#854de0",
+              color: "#fff",
+              borderColor: "#854de0",
+            },
+          }}
+          onClick={handleSave}
+        >
+          Save
+        </Button>
       </DialogActions>
     </Dialog>
   );

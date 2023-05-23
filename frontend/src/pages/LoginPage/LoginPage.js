@@ -55,7 +55,7 @@ const LoginPage = () => {
     <Container component="main" maxWidth="xs" className={classes.rootContainer}>
       {loading ? (
         <FadeLoader
-          color="#1d67d5"
+          color="#854de0"
           size={50}
           style={{ position: "absolute", top: "40%", left: "50%" }}
         />
