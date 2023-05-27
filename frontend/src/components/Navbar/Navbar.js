@@ -1,7 +1,9 @@
+import { useContext } from "react";
 import { useLocation } from "react-router-dom";
 import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton, Typography } from "@mui/material";
+import AuthContext from "../../context/auth-context";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 import ProfileIcon from "../ProfileIcon/ProfileIcon";
@@ -9,6 +11,7 @@ import ProfileIcon from "../ProfileIcon/ProfileIcon";
 const Navbar = (props) => {
   const classes = useStyles();
   const location = useLocation();
+  const authContext = useContext(AuthContext);
 
   const getPageTitle = () => {
     switch (location.pathname) {
@@ -27,6 +30,7 @@ const Navbar = (props) => {
 
   const logoutUser = async () => {
     await httpRequest.post("//localhost:5000/logout");
+    authContext.logout();
     window.location.href = "/login";
   };
 

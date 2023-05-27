@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import httpRequest from "../../httpRequest";
 import ChangePasswordModal from "../ChangePasswordModal/ChangePasswordModal";
 import ProfileModal from "../ProfileModal/ProfileModal";
+import AuthContext from "../../context/auth-context";
 
 const ProfileIcon = () => {
   const [open, setOpen] = useState(null);
   const [changePasswordOpen, setChangePasswordOpen] = useState(false);
   const [showProfileOpen, setShowProfileOpen] = useState(false);
+  const authContext = useContext(AuthContext);
 
   const handleMenuOpen = (event) => {
     setOpen(event.currentTarget);
@@ -38,6 +40,7 @@ const ProfileIcon = () => {
 
   const logoutUser = async () => {
     await httpRequest.post("//localhost:5000/logout");
+    authContext.logout();
     window.location.href = "/login";
   };
 

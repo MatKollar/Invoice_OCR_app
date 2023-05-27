@@ -11,6 +11,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useMediaQuery } from "@mui/material";
 
 import userContext from "../../context/user-context";
+import AuthContext from "../../context/auth-context";
 import httpRequest from "../../httpRequest";
 import { useStyles } from "./styles";
 import ProfileIcon from "../ProfileIcon/ProfileIcon";
@@ -19,6 +20,7 @@ import OCR_LOGO from "../../images/OCR-logo.png";
 
 const SideMenu = (props) => {
   const userCtx = useContext(userContext);
+  const authCtx = useContext(AuthContext);
   const { role } = userCtx;
   const classes = useStyles();
   const isSmallScreen = useMediaQuery("(max-width:540px)");
@@ -26,6 +28,7 @@ const SideMenu = (props) => {
 
   const logoutUser = async () => {
     await httpRequest.post("//localhost:5000/logout");
+    authCtx.logout();
     window.location.href = "/login";
   };
 
