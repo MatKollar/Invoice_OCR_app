@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
-import { Paper, TextField } from "@mui/material";
+import { Paper, TextField, ThemeProvider, createTheme } from "@mui/material";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#854de0",
+    },
+  },
+});
 
 function DataTable(props) {
   const { data, ico } = props;
@@ -23,18 +31,21 @@ function DataTable(props) {
       sx={{ mb: 1 }}
       variant="standard"
       fullWidth
+      inputProps={{ style: { fontWeight: "bold" } }}
     />
   );
 
   return (
-    <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
-      {renderTextField("Name", "Name")}
-      {renderTextField("Street", "Address")}
-      {renderTextField("City", "City")}
-      {renderTextField("PSC", "PSC")}
-      {renderTextField("ICO", "IČO")}
-      {renderTextField("DIC", "DIČ")}
-    </Paper>
+    <ThemeProvider theme={theme}>
+      <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
+        {renderTextField("Name", "Name")}
+        {renderTextField("Street", "Address")}
+        {renderTextField("City", "City")}
+        {renderTextField("PSC", "PSC")}
+        {renderTextField("ICO", "IČO")}
+        {renderTextField("DIC", "DIČ")}
+      </Paper>
+    </ThemeProvider>
   );
 }
 

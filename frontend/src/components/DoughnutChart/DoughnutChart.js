@@ -81,9 +81,9 @@ const DoughnutChart = ({ handleCloseChart, invoice_id }) => {
             <div className={classes.containers}>
               <div className={classes.titleContainer}>
                 <IconButton onClick={handleIsChartOpen}>
-                  <ArrowBackIcon />
+                  <ArrowBackIcon sx={{ color: "black" }} />
                 </IconButton>
-                <h4 className={classes.title}>{ocrMethod} performance</h4>
+                <h3 className={classes.title}>{ocrMethod} performance</h3>
                 <MuiTooltip title="Tesseract and PaddleOCR score represents different metrics and are calculated using different methods so they cannot be directly compared based on this score.">
                   <PriorityHighIcon className={classes.icon} />
                 </MuiTooltip>

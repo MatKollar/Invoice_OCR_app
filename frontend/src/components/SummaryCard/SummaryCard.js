@@ -212,6 +212,7 @@ const SummaryCard = (props) => {
                         fullWidth
                         rows={20}
                         variant={"standard"}
+                        className={classes.focused}
                         defaultValue={
                           props.dataFromDB ? props.dataFromDB.text : ocrCtx.textResult
                         }
@@ -219,13 +220,13 @@ const SummaryCard = (props) => {
                     </Paper>
                   )}
 
-                  <Button
+                  <ButtonContained
                     variant="contained"
                     onClick={() => setShowText(!showText)}
-                    sx={{ margin: "5px", px: "10%" }}
+                    style={{ margin: "12px", padding: "7px 22px" }}
                   >
                     {showText ? "HIDE TEXT" : "SHOW TEXT"}
-                  </Button>
+                  </ButtonContained>
                 </div>
               </Grid>
               {props.dataFromDB || isInvoice ? (

@@ -1,5 +1,6 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Typography } from "@mui/material";
+import { BarLoader } from "react-spinners";
 import ButtonContained from "../StyledComponents/ButtonContained";
 import OCRContext from "../../context/ocr-context";
 import { useStyles } from "./styles";
@@ -8,6 +9,7 @@ const cv = window.cv;
 const UploadCard = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const PDFJS = require("pdfjs-dist/webpack");
 
@@ -57,6 +59,7 @@ const UploadCard = () => {
   };
 
   const handleImageUpload = async (event) => {
+    setIsLoading(true);
     const file = event.target.files[0];
     ocrCtx.setFile(file);
     if (file.type === "application/pdf") {
@@ -71,11 +74,13 @@ const UploadCard = () => {
           lastModified: new Date().getTime(),
         });
         saveImage(fileImage);
+        setIsLoading(false);
       });
     } else {
       const img = loadImage();
       img.src = URL.createObjectURL(file);
       saveImage(file);
+      setIsLoading(false);
     }
   };
 
@@ -92,6 +97,11 @@ const UploadCard = () => {
             onChange={(e) => handleImageUpload(e)}
           />
         </div>
+        {isLoading && (
+          <div className={classes.loader}>
+            <BarLoader color="#854de0" width={150} />
+          </div>
+        )}
         <ButtonContained
           style={{
             margin: "20px",

@@ -24,7 +24,9 @@ const InvoiceTable = (props) => {
         value={localData[field] || ""}
         onChange={(event) => handleChange(event, field)}
         variant="standard"
+        className={classes.focused}
         fullWidth
+        inputProps={{ style: { fontWeight: "bold" } }}
       />
     </Grid>
   );

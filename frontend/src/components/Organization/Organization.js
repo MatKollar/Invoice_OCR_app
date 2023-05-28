@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
 import { useSnackbar } from "notistack";
@@ -10,6 +10,8 @@ import httpRequest from "../../httpRequest";
 import userContext from "../../context/user-context";
 import InvoiceTable from "../InvoiceTable/InvoiceTable";
 import SummaryCard from "../SummaryCard/SummaryCard";
+import ButtonContained from "../StyledComponents/ButtonContained";
+import ButtonOutlined from "../StyledComponents/ButtonOutlined";
 
 const Organization = (props) => {
   const classes = useStyles();
@@ -93,18 +95,24 @@ const Organization = (props) => {
 
   return (
     <div className={classes.rootContainer}>
-      <h1>{orgData.name}</h1>
-      <h3>INVITE CODE: {orgData.invite_code}</h3>
+      <Typography variant="h2" sx={{ fontFamily: "Oxanium, cursive" }}>
+        {orgData.name}
+      </Typography>
+      <Typography variant="h5" sx={{ fontFamily: "Oxanium, cursive" }}>
+        INVITE CODE: {orgData.invite_code}
+      </Typography>
 
       <div className={classes.activeButton}>
         {activeOrganization && (
-          <Button onClick={deactiveOrganization}>Organization Active</Button>
+          <ButtonOutlined onClick={deactiveOrganization}>
+            Organization Active
+          </ButtonOutlined>
         )}
 
         {!activeOrganization && (
-          <Button variant="contained" onClick={setOrganizationAsActive}>
+          <ButtonContained onClick={setOrganizationAsActive}>
             Set as active
-          </Button>
+          </ButtonContained>
         )}
       </div>
       <Grid container sx={{ mt: 1 }}>
@@ -121,7 +129,7 @@ const Organization = (props) => {
       {isSummaryOpen && (
         <div>
           <IconButton onClick={() => setIsSummaryOpen(false)}>
-            <ArrowBackIcon />
+            <ArrowBackIcon fontSize="large" sx={{ color: "black" }} />
           </IconButton>
           <SummaryCard dataFromDB={selectedInvoice} dataChanged={handleDataChange} />
         </div>

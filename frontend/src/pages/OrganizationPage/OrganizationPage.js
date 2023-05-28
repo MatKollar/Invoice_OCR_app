@@ -95,7 +95,7 @@ const OrganizationPage = () => {
         {isOrganizationOpen && (
           <div>
             <IconButton onClick={() => setIsOrganizationOpen(false)}>
-              <ArrowBackIcon />
+              <ArrowBackIcon fontSize="large" sx={{ color: "black", mb: '-20px' }}  />
             </IconButton>
             <Organization dataFromDB={selectedOrganization} />
           </div>

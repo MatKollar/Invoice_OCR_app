@@ -18,8 +18,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
+import { Typography } from "@mui/material";
 import httpRequest from "../../httpRequest";
+import ButtonOutlined from "../StyledComponents/ButtonOutlined";
+import StyledTextField from "../StyledComponents/StyledTextField";
 
 const columns = [
   { id: "inv_number", label: "Invoice Number", minWidth: 170 },
@@ -175,13 +177,13 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden", mt: 5 }}>
-      <TextField
+      <StyledTextField
         label="Search"
         variant="outlined"
         size="small"
         value={search}
         onChange={handleSearch}
-        sx={{ m: 1, width: "25ch" }}
+        style={{ margin: 10 }}
       />
       <TableContainer sx={{ maxHeight: 700 }}>
         <Table stickyHeader aria-label="sticky table">
@@ -198,7 +200,9 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
                     direction={orderBy === column.id ? order : "asc"}
                     onClick={() => handleSortRequest(column.id)}
                   >
-                    {column.label}
+                    <Typography variant="subtitle1" fontWeight="bold">
+                      {column.label}
+                    </Typography>
                   </TableSortLabel>
                 </TableCell>
               ))}
@@ -231,7 +235,7 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
                       <IconButton
                         onClick={(event) => openDeleteDialogHandler(event, row)}
                       >
-                        <DeleteIcon />
+                        <DeleteIcon sx={{ color: "#854de0" }} />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -255,19 +259,24 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Delete Invoice"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title" sx={{ fontFamily: "Oxanium, cursive" }}>
+          Delete Invoice
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText
+            id="alert-dialog-description"
+            sx={{ fontFamily: "Oxanium, cursive" }}
+          >
             Are you sure you want to delete this invoice?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDeleteCancel} color="primary">
+          <ButtonOutlined onClick={handleDeleteCancel} color="primary">
             Cancel
-          </Button>
-          <Button onClick={handleDeleteConfirmation} color="primary" autoFocus>
+          </ButtonOutlined>
+          <ButtonOutlined onClick={handleDeleteConfirmation} color="primary" autoFocus>
             Yes
-          </Button>
+          </ButtonOutlined>
         </DialogActions>
       </Dialog>
     </Paper>

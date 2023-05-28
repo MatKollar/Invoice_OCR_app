@@ -58,7 +58,7 @@ const HistoryPage = () => {
       {isSummaryOpen && (
         <div>
           <IconButton onClick={() => setIsSummaryOpen(false)}>
-            <ArrowBackIcon />
+            <ArrowBackIcon fontSize="large" sx={{ color: "black", mb: '-30px' }} />
           </IconButton>
           <SummaryCard dataFromDB={selectedInvoice} dataChanged={handleDataChange} />
         </div>

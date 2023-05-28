@@ -25,4 +25,10 @@ export const useStyles = makeStyles({
     top: "2px",
     right: "10px",
   },
+  loader: {
+    position: "absolute",
+    top: "65%",
+    left: "50%",  
+    transform: "translate(-50%, -50%)",
+  }
 });

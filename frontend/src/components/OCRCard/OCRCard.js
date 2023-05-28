@@ -121,7 +121,7 @@ const OCRCard = () => {
           </Grid>
         </Grid>
 
-        {loading && <CircularProgress sx={{ mt: "15px" }} />}
+        {loading && <CircularProgress sx={{ color: "#854de0", mt: "15px" }} />}
       </div>
     </>
   );

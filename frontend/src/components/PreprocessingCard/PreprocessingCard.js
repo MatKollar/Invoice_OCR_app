@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useSnackbar } from "notistack";
 import { Button, Tooltip, IconButton, Typography } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import { BarLoader } from "react-spinners";
 import { useStyles } from "./styles";
 import ButtonContained from "../StyledComponents/ButtonContained";
 import httpRequest from "../../httpRequest";
@@ -17,11 +18,12 @@ const PreprocessingCard = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
   const { enqueueSnackbar } = useSnackbar();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePreprocessingMethod = async (methodEndpoint) => {
     let formData = new FormData();
     formData.append("file", ocrCtx.actualImage);
-
+    setIsLoading(true);
     try {
       const resp = await httpRequest.post(
         `http://localhost:5000/${methodEndpoint}`,
@@ -48,6 +50,7 @@ const PreprocessingCard = () => {
       console.log("Error");
       enqueueSnackbar("Error during preprocessing", { variant: "error" });
     }
+    setIsLoading(false);
   };
 
   const handleReset = () => {
@@ -125,7 +128,11 @@ const PreprocessingCard = () => {
             </Button>
           </Tooltip>
         </div>
-
+        {isLoading && (
+          <div className={classes.loader}>
+            <BarLoader color="#854de0" width={150} />
+          </div>
+        )}
         <ButtonContained
           onClick={() => ocrCtx.setActivePage(2)}
           style={{

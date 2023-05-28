@@ -36,6 +36,15 @@ export const useStyles = makeStyles({
     justifyContent: "space-between",
   },
 
+  focused: {
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "#854de0",
+    },
+    "& .MuiFormLabel-root.Mui-focused": {
+      color: "#854de0",
+    }
+  },
+
   "@media (max-width:570px)": {
     save: {
       marginLeft: "10%",

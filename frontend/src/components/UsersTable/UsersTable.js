@@ -7,11 +7,11 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  TextField,
   Paper,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";
+import StyledTextField from "../StyledComponents/StyledTextField";
 import ButtonContained from "../StyledComponents/ButtonContained";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
@@ -72,13 +72,13 @@ function UsersTable({ users, onUserUpdated }) {
   return (
     <>
       <Paper elevation={3} className={classes.paper}>
-        <TextField
+        <StyledTextField
           label="Search"
           variant="outlined"
           size="small"
           value={search}
           onChange={handleSearchChange}
-          sx={{ m: 1, width: "25ch" }}
+          style={{ margin: 10 }}
         />
         <DataGrid
           rows={filteredUsers}
@@ -122,7 +122,9 @@ function UsersTable({ users, onUserUpdated }) {
             },
           }}
         >
-          <Typography variant="h6">Edit Role for {selectedUser?.name}</Typography>
+          <Typography variant="h6" sx={{ fontFamily: "Oxanium, cursive" }}>
+            Edit Role for {selectedUser?.name}
+          </Typography>
           <FormControl fullWidth sx={{ my: 2 }}>
             <InputLabel id="select-role-label">Role</InputLabel>
             <Select

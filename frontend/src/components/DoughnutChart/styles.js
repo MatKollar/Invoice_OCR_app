@@ -21,6 +21,7 @@ export const useStyles = makeStyles({
     textAlign: "center",
     margin: 15,
     fontWeight: "bold",
+    fontFamily: "Oxanium, cursive",
   },
   titleContainer: {
     display: "flex",
@@ -32,6 +33,7 @@ export const useStyles = makeStyles({
     marginLeft: 10,
   },
   centerScore: {
+    fontFamily: "Oxanium, cursive",
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -57,6 +59,7 @@ export const useStyles = makeStyles({
     fontSize: "1.2rem",
     fontWeight: "bold",
     color: "black",
+    fontFamily: "Oxanium, cursive",
   },
   chartContainer: {
     width: "380px",
@@ -72,6 +75,7 @@ export const useStyles = makeStyles({
     },
   },
   paragraph: {
+    fontFamily: "Oxanium, cursive",
     textAlign: "center",
     margin: "0 auto",
     marginTop: 15,
