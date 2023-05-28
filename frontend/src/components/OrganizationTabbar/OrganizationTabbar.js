@@ -49,7 +49,6 @@ const OrganizationTabbar = ({ activePage, onPageChange }) => {
           }}
           value={value}
           variant="scrollable"
-          centered
           classes={{ indicator: classes.indicator }}
         >
           {tabs.map(

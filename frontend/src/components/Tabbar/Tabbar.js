@@ -39,7 +39,6 @@ const Tabbar = () => {
           value={ocrCtx.activePage}
           onChange={handleChange}
           variant="scrollable"
-          centered
           classes={{ indicator: classes.indicator }}
         >
           {tabList.map((tab, index) => (

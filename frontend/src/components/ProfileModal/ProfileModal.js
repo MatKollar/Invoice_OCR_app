@@ -11,8 +11,8 @@ import httpRequest from "../../httpRequest";
 const ProfileModal = ({ open, onClose }) => {
   const classes = useStyles();
   const userCtx = useContext(UserContext);
-  const [name, setName] = useState(userCtx.userName);
-  const [email, setEmail] = useState(userCtx.email);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [isChangingName, setIsChangingName] = useState(false);
   const [isChangingEmail, setIsChangingEmail] = useState(false);
   const [activeOrganization, setActiveOrganization] = useState("");
@@ -38,8 +38,6 @@ const ProfileModal = ({ open, onClose }) => {
     if (!validateEmail(email)) {
       enqueueSnackbar("Email is not valid!", { variant: "error" });
     } else {
-      userCtx.setUserName(name);
-      userCtx.setEmail(email);
       updateUser(name, email);
     }
   };
@@ -60,6 +58,8 @@ const ProfileModal = ({ open, onClose }) => {
         email,
       });
       enqueueSnackbar("User details updated successfully", { variant: "success" });
+      userCtx.setUserName(name);
+      userCtx.setEmail(email);
     } catch (error) {
       if (error.response.status === 401) {
         enqueueSnackbar("Invalid credentials", { variant: "error" });
