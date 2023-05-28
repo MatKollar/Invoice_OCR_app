@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-import { Button, Paper } from "@mui/material";
+import { Paper } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 import { useSnackbar } from "notistack";
 
+import StyledTextField from "../StyledComponents/StyledTextField";
+import ButtonContained from "../StyledComponents/ButtonContained";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 
@@ -44,39 +45,19 @@ const OrganizationCard = (props) => {
         <Typography variant="h5" sx={{ fontFamily: "Oxanium, cursive" }}>
           Join Organization
           <br />
-          <TextField
+          <StyledTextField
             id="outlined-basic"
             label="Enter the code"
             variant="outlined"
-            sx={{
-              m: 2,
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: "#854de0",
-                },
-              },
-              "& .MuiInputLabel-outlined.Mui-focused": {
-                color: "#854de0",
-              },
+            style={{
+              margin: 20,
             }}
             size="small"
             value={code}
             onChange={handleCodeChange}
           />
           <br />
-          <Button
-            variant="contained"
-            onClick={joinOrganization}
-            sx={{
-              fontFamily: "Oxanium, cursive",
-              backgroundColor: "#854de0",
-              "&:hover": {
-                backgroundColor: "#6336ab",
-              },
-            }}
-          >
-            Join
-          </Button>
+          <ButtonContained onClick={joinOrganization}>Join</ButtonContained>
         </Typography>
       </Paper>
     </>

@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 
 import { useSnackbar } from "notistack";
-import { Button, Typography, Grid, CircularProgress } from "@mui/material";
+import { Typography, Grid, CircularProgress } from "@mui/material";
 import { useStyles } from "./styles";
+import ButtonOutlined from "../StyledComponents/ButtonOutlined";
 import httpRequest from "../../httpRequest";
 import OCRContext from "../../context/ocr-context";
 
@@ -96,44 +97,27 @@ const OCRCard = () => {
 
         <Grid container spacing={0} sx={{ mt: "15px" }}>
           <Grid item xs={6}>
-            <Button
-              variant="outlined"
+            <ButtonOutlined
               onClick={() => handleOCRmethod("tesseract")}
-              sx={{
-                px: "10%",
-                fontFamily: "Oxanium, cursive",
-                color: "#854de0",
-                borderColor: "#854de0",
-                "&:hover": {
-                  backgroundColor: "#854de0",
-                  color: "#fff",
-                  borderColor: "#854de0",
-                },
+              style={{
+                padding: "6px 18px",
               }}
               disabled={loading}
             >
               Tesseract
-            </Button>
+            </ButtonOutlined>
           </Grid>
           <Grid item xs={6}>
-            <Button
+            <ButtonOutlined
               variant="outlined"
               onClick={() => handleOCRmethod("paddleOCR")}
-              sx={{
-                px: "10%",
-                fontFamily: "Oxanium, cursive",
-                color: "#854de0",
-                borderColor: "#854de0",
-                "&:hover": {
-                  backgroundColor: "#854de0",
-                  color: "#fff",
-                  borderColor: "#854de0",
-                },
+              style={{
+                padding: "6px 18px",
               }}
               disabled={loading}
             >
               PaddleOCR
-            </Button>
+            </ButtonOutlined>
           </Grid>
         </Grid>
 

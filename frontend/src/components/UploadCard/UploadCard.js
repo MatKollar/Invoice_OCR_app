@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+import ButtonContained from "../StyledComponents/ButtonContained";
 import OCRContext from "../../context/ocr-context";
 import { useStyles } from "./styles";
 const cv = window.cv;
@@ -91,21 +92,15 @@ const UploadCard = () => {
             onChange={(e) => handleImageUpload(e)}
           />
         </div>
-        <Button
-          variant="contained"
-          sx={{
+        <ButtonContained
+          style={{
             margin: "20px",
-            px: "10%",
-            fontFamily: "Oxanium, cursive",
-            backgroundColor: "#854de0",
-            "&:hover": {
-              backgroundColor: "#6336ab",
-            },
+            padding: "5px 35px",
           }}
           onClick={() => ocrCtx.setActivePage(1)}
         >
           NEXT
-        </Button>
+        </ButtonContained>
       </div>
     </>
   );

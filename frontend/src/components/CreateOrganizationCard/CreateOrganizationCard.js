@@ -1,9 +1,10 @@
-import { Button, Paper, Box } from "@mui/material";
+import { Paper, Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 
 import { useSnackbar } from "notistack";
 import { useStyles } from "./styles";
+import ButtonContained from "../StyledComponents/ButtonContained";
+import StyledTextField from "../StyledComponents/StyledTextField";
 import httpRequest from "../../httpRequest";
 
 const CreateOrganizationCard = (props) => {
@@ -50,61 +51,39 @@ const CreateOrganizationCard = (props) => {
           onSubmit={createOrganization}
           className={classes.textFields}
         >
-          <TextField
+          <StyledTextField
             id="name"
             name="name"
             label="Organization name"
             variant="outlined"
-            sx={{
+            style={{
               width: "100%",
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: "#854de0",
-                },
-              },
-              "& .MuiInputLabel-outlined.Mui-focused": {
-                color: "#854de0",
-              },
             }}
             size="small"
             required
           />
           <br />
-          <TextField
+          <StyledTextField
             id="description"
             name="description"
             label="Description"
             variant="outlined"
-            sx={{
-              mt: 2,
+            style={{
+              marginTop: 20,
               width: "100%",
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: "#854de0",
-                },
-              },
-              "& .MuiInputLabel-outlined.Mui-focused": {
-                color: "#854de0",
-              },
             }}
             multiline
             rows={4}
           />
           <br />
-          <Button
-            variant="contained"
+          <ButtonContained
             type="submit"
-            sx={{
-              fontFamily: "Oxanium, cursive",
-              mt: 2,
-              backgroundColor: "#854de0",
-              "&:hover": {
-                backgroundColor: "#6336ab",
-              },
+            style={{
+              marginTop: 20,
             }}
           >
             Create
-          </Button>
+          </ButtonContained>
         </Box>
       </Paper>
     </>

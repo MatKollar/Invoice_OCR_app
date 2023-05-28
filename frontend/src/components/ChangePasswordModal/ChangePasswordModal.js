@@ -1,14 +1,9 @@
 import { useState } from "react";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-} from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { useSnackbar } from "notistack";
 import Typography from "@mui/material/Typography";
+import ButtonOutlined from "../StyledComponents/ButtonOutlined";
+import StyledTextField from "../StyledComponents/StyledTextField";
 import httpRequest from "../../httpRequest";
 
 const ChangePasswordModal = ({ open, onClose }) => {
@@ -74,7 +69,7 @@ const ChangePasswordModal = ({ open, onClose }) => {
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <TextField
+          <StyledTextField
             autoFocus
             margin="dense"
             label="Old Password"
@@ -83,18 +78,8 @@ const ChangePasswordModal = ({ open, onClose }) => {
             required
             value={oldPassword}
             onChange={(e) => setOldPassword(e.target.value)}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: "#854de0",
-                },
-              },
-              "& .MuiInputLabel-outlined.Mui-focused": {
-                color: "#854de0",
-              },
-            }}
           />
-          <TextField
+          <StyledTextField
             margin="dense"
             label="New Password"
             type="password"
@@ -102,18 +87,8 @@ const ChangePasswordModal = ({ open, onClose }) => {
             required
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: "#854de0",
-                },
-              },
-              "& .MuiInputLabel-outlined.Mui-focused": {
-                color: "#854de0",
-              },
-            }}
           />
-          <TextField
+          <StyledTextField
             margin="dense"
             label="Confirm Password"
             type="password"
@@ -121,51 +96,13 @@ const ChangePasswordModal = ({ open, onClose }) => {
             required
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: "#854de0",
-                },
-              },
-              "& .MuiInputLabel-outlined.Mui-focused": {
-                color: "#854de0",
-              },
-            }}
           />
         </DialogContent>
         <DialogActions>
-          <Button
-            variant="outlined"
-            sx={{
-              fontFamily: "Oxanium, cursive",
-              color: "#854de0",
-              borderColor: "#854de0",
-              "&:hover": {
-                backgroundColor: "#854de0",
-                color: "#fff",
-                borderColor: "#854de0",
-              },
-            }}
-            onClick={handleClose}
-          >
+          <ButtonOutlined variant="outlined" onClick={handleClose}>
             Cancel
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{
-              fontFamily: "Oxanium, cursive",
-              color: "#854de0",
-              borderColor: "#854de0",
-              "&:hover": {
-                backgroundColor: "#854de0",
-                color: "#fff",
-                borderColor: "#854de0",
-              },
-            }}
-            type="submit"
-          >
-            Save
-          </Button>
+          </ButtonOutlined>
+          <ButtonOutlined type="submit">Save</ButtonOutlined>
         </DialogActions>
       </form>
     </Dialog>

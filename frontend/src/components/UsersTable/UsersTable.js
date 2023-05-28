@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  Button,
   Modal,
   Box,
   Typography,
@@ -13,6 +12,7 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";
+import ButtonContained from "../StyledComponents/ButtonContained";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 
@@ -91,19 +91,12 @@ function UsersTable({ users, onUserUpdated }) {
               headerName: "Actions",
               flex: 1,
               renderCell: (params) => (
-                <Button
-                  variant="contained"
+                <ButtonContained
                   color="primary"
                   onClick={(event) => handleEdit(event, params.row)}
-                  sx={{
-                    backgroundColor: "#854de0",
-                    "&:hover": {
-                      backgroundColor: "#6336ab",
-                    },
-                  }}
                 >
                   Edit Role
-                </Button>
+                </ButtonContained>
               ),
             },
           ]}
@@ -141,18 +134,7 @@ function UsersTable({ users, onUserUpdated }) {
               <MenuItem value="ADMIN">ADMIN</MenuItem>
             </Select>
           </FormControl>
-          <Button
-            variant="contained"
-            onClick={handleSave}
-            sx={{
-              backgroundColor: "#854de0",
-              "&:hover": {
-                backgroundColor: "#6336ab",
-              },
-            }}
-          >
-            Save
-          </Button>
+          <ButtonContained onClick={handleSave}>Save</ButtonContained>
         </Box>
       </Modal>
     </>

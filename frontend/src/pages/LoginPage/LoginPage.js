@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -13,6 +11,8 @@ import { FadeLoader } from "react-spinners";
 import { useSnackbar } from "notistack";
 
 import { useStyles } from "./styles";
+import StyledTextField from "../../components/StyledComponents/StyledTextField";
+import ButtonContained from "../../components/StyledComponents/ButtonContained";
 import httpRequest from "../../httpRequest";
 
 const LoginPage = () => {
@@ -78,7 +78,7 @@ const LoginPage = () => {
               LOGIN
             </Typography>
             <Box component="form" onSubmit={submitHandler} sx={{ mt: 1 }}>
-              <TextField
+              <StyledTextField
                 margin="normal"
                 required
                 fullWidth
@@ -87,18 +87,8 @@ const LoginPage = () => {
                 name="email"
                 autoComplete="off"
                 autoFocus
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#854de0",
-                    },
-                  },
-                  "& .MuiInputLabel-outlined.Mui-focused": {
-                    color: "#854de0",
-                  },
-                }}
               />
-              <TextField
+              <StyledTextField
                 margin="normal"
                 required
                 fullWidth
@@ -107,34 +97,18 @@ const LoginPage = () => {
                 type="password"
                 id="password"
                 autoComplete="off"
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#854de0",
-                    },
-                  },
-                  "& .MuiInputLabel-outlined.Mui-focused": {
-                    color: "#854de0",
-                  },
-                }}
               />
-              <Button
+              <ButtonContained
                 type="submit"
                 fullWidth
-                variant="contained"
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  fontFamily: "Oxanium, cursive",
+                style={{
+                  marginTop: 25,
+                  marginBottom: 20,
                   fontWeight: 1000,
-                  backgroundColor: "#854de0",
-                  "&:hover": {
-                    backgroundColor: "#6336ab",
-                  },
                 }}
               >
                 Login
-              </Button>
+              </ButtonContained>
               <Grid container>
                 <Grid item>
                   <Link

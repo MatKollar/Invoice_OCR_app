@@ -1,14 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { useSnackbar } from "notistack";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-} from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import ButtonOutlined from "../StyledComponents/ButtonOutlined";
+import StyledTextField from "../StyledComponents/StyledTextField";
 import UserContext from "../../context/user-context";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
@@ -41,7 +36,7 @@ const ProfileModal = ({ open, onClose }) => {
 
   const handleSave = () => {
     if (!validateEmail(email)) {
-      enqueueSnackbar('Email is not valid!', { variant: 'error' });
+      enqueueSnackbar("Email is not valid!", { variant: "error" });
     } else {
       userCtx.setUserName(name);
       userCtx.setEmail(email);
@@ -64,10 +59,10 @@ const ProfileModal = ({ open, onClose }) => {
         name,
         email,
       });
-      enqueueSnackbar('User details updated successfully', { variant: 'success' });
+      enqueueSnackbar("User details updated successfully", { variant: "success" });
     } catch (error) {
       if (error.response.status === 401) {
-        enqueueSnackbar('Invalid credentials', { variant: 'error' });
+        enqueueSnackbar("Invalid credentials", { variant: "error" });
       }
     }
     handleClose();
@@ -119,41 +114,16 @@ const ProfileModal = ({ open, onClose }) => {
                 {name}
               </Typography>
             </div>
-            <Button
-              variant="outlined"
-              onClick={handleChangeNameClick}
-              sx={{
-                fontFamily: "Oxanium, cursive",
-                color: "#854de0",
-                borderColor: "#854de0",
-                "&:hover": {
-                  backgroundColor: "#854de0",
-                  color: "#fff",
-                  borderColor: "#854de0",
-                },
-              }}
-            >
-              Change Name
-            </Button>
+            <ButtonOutlined onClick={handleChangeNameClick}>Change Name</ButtonOutlined>
           </div>
         )}
         {isChangingName && (
-          <TextField
+          <StyledTextField
             label="Name"
             value={name}
             onChange={handleNameChange}
             fullWidth
             margin="normal"
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: "#854de0",
-                },
-              },
-              "& .MuiInputLabel-outlined.Mui-focused": {
-                color: "#854de0",
-              },
-            }}
           />
         )}
         {!isChangingEmail && (
@@ -174,41 +144,16 @@ const ProfileModal = ({ open, onClose }) => {
                 {email}
               </Typography>
             </div>
-            <Button
-              variant="outlined"
-              sx={{
-                fontFamily: "Oxanium, cursive",
-                color: "#854de0",
-                borderColor: "#854de0",
-                "&:hover": {
-                  backgroundColor: "#854de0",
-                  color: "#fff",
-                  borderColor: "#854de0",
-                },
-              }}
-              onClick={handleChangeEmailClick}
-            >
-              Change Email
-            </Button>
+            <ButtonOutlined onClick={handleChangeEmailClick}>Change Email</ButtonOutlined>
           </div>
         )}
         {isChangingEmail && (
-          <TextField
+          <StyledTextField
             label="Email"
             value={email}
             onChange={handleEmailChange}
             fullWidth
             margin="normal"
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: "#854de0",
-                },
-              },
-              "& .MuiInputLabel-outlined.Mui-focused": {
-                color: "#854de0",
-              },
-            }}
           />
         )}
         <div className={classes.profile}>
@@ -231,38 +176,8 @@ const ProfileModal = ({ open, onClose }) => {
         </div>
       </DialogContent>
       <DialogActions sx={{ mr: 1 }}>
-        <Button
-          variant="outlined"
-          sx={{
-            fontFamily: "Oxanium, cursive",
-            color: "#854de0",
-            borderColor: "#854de0",
-            "&:hover": {
-              backgroundColor: "#854de0",
-              color: "#fff",
-              borderColor: "#854de0",
-            },
-          }}
-          onClick={handleClose}
-        >
-          Cancel
-        </Button>
-        <Button
-          variant="outlined"
-          sx={{
-            fontFamily: "Oxanium, cursive",
-            color: "#854de0",
-            borderColor: "#854de0",
-            "&:hover": {
-              backgroundColor: "#854de0",
-              color: "#fff",
-              borderColor: "#854de0",
-            },
-          }}
-          onClick={handleSave}
-        >
-          Save
-        </Button>
+        <ButtonOutlined onClick={handleClose}>Cancel</ButtonOutlined>
+        <ButtonOutlined onClick={handleSave}>Save</ButtonOutlined>
       </DialogActions>
     </Dialog>
   );

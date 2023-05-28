@@ -3,6 +3,7 @@ import { useSnackbar } from "notistack";
 import { Button, Tooltip, IconButton, Typography } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { useStyles } from "./styles";
+import ButtonContained from "../StyledComponents/ButtonContained";
 import httpRequest from "../../httpRequest";
 import OCRContext from "../../context/ocr-context";
 import grayscaleImage from "../../images/preprocessing/grayscale.png";
@@ -125,21 +126,15 @@ const PreprocessingCard = () => {
           </Tooltip>
         </div>
 
-        <Button
-          variant="contained"
+        <ButtonContained
           onClick={() => ocrCtx.setActivePage(2)}
-          sx={{
+          style={{
             marginBottom: "15px",
-            px: "10%",
-            fontFamily: "Oxanium, cursive",
-            backgroundColor: "#854de0",
-            "&:hover": {
-              backgroundColor: "#6336ab",
-            },
+            padding: "5px 35px",
           }}
         >
           NEXT
-        </Button>
+        </ButtonContained>
       </div>
     </>
   );

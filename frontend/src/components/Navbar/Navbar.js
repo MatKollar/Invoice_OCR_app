@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { useLocation } from "react-router-dom";
-import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton, Typography } from "@mui/material";
+import ButtonContained from "../StyledComponents/ButtonContained";
 import AuthContext from "../../context/auth-context";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
@@ -63,22 +63,15 @@ const Navbar = (props) => {
       </div>
       <div className={classes.rightButtons}>
         <ProfileIcon />
-        <Button
+        <ButtonContained
           className={classes.logout}
-          variant="contained"
-          sx={{
-            mx: 2,
-            backgroundColor: "#854de0",
-            "&:hover": {
-              backgroundColor: "#6336ab",
-            },
-            color: "white",
-            fontFamily: "Oxanium, cursive",
+          style={{
+            margin: "0px 10px",
           }}
           onClick={logoutUser}
         >
           Log out
-        </Button>
+        </ButtonContained>
       </div>
     </div>
   );

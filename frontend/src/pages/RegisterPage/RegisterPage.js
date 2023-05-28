@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -12,6 +10,8 @@ import Container from "@mui/material/Container";
 import { FadeLoader } from "react-spinners";
 import { useSnackbar } from "notistack";
 
+import StyledTextField from "../../components/StyledComponents/StyledTextField";
+import ButtonContained from "../../components/StyledComponents/ButtonContained";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 
@@ -113,7 +113,7 @@ const RegisterPage = () => {
             <Box component="form" onSubmit={submitHandler} sx={{ mt: 3 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <TextField
+                  <StyledTextField
                     error={!nameValid}
                     helperText={!nameValid ? "Name must be at least 3 characters." : ""}
                     autoComplete="off"
@@ -124,20 +124,10 @@ const RegisterPage = () => {
                     label="Name"
                     onBlur={validateName}
                     autoFocus
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        "&.Mui-focused fieldset": {
-                          borderColor: "#854de0",
-                        },
-                      },
-                      "& .MuiInputLabel-outlined.Mui-focused": {
-                        color: "#854de0",
-                      },
-                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                  <StyledTextField
                     error={!emailValid}
                     helperText={!emailValid ? "Incorrect email format." : ""}
                     required
@@ -147,20 +137,10 @@ const RegisterPage = () => {
                     name="email"
                     onBlur={validateEmail}
                     autoComplete="off"
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        "&.Mui-focused fieldset": {
-                          borderColor: "#854de0",
-                        },
-                      },
-                      "& .MuiInputLabel-outlined.Mui-focused": {
-                        color: "#854de0",
-                      },
-                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                  <StyledTextField
                     error={!passwordValid}
                     helperText={
                       !passwordValid ? "Password must be at least 6 characters." : ""
@@ -173,36 +153,20 @@ const RegisterPage = () => {
                     id="password"
                     onBlur={validatePassword}
                     autoComplete="off"
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        "&.Mui-focused fieldset": {
-                          borderColor: "#854de0",
-                        },
-                      },
-                      "& .MuiInputLabel-outlined.Mui-focused": {
-                        color: "#854de0",
-                      },
-                    }}
                   />
                 </Grid>
               </Grid>
-              <Button
+              <ButtonContained
                 type="submit"
                 fullWidth
-                variant="contained"
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  fontFamily: "Oxanium, cursive",
+                style={{
+                  marginTop: 25,
+                  marginBottom: 20,
                   fontWeight: 600,
-                  backgroundColor: "#854de0",
-                  "&:hover": {
-                    backgroundColor: "#6336ab",
-                  },
                 }}
               >
                 Register
-              </Button>
+              </ButtonContained>
               <Grid container justifyContent="flex-start">
                 <Grid item>
                   <Link
