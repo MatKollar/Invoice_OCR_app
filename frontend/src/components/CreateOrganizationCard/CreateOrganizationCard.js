@@ -2,11 +2,13 @@ import { Button, Paper, Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 
+import { useSnackbar } from "notistack";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 
 const CreateOrganizationCard = (props) => {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
 
   const createOrganization = async (event) => {
     event.preventDefault();
@@ -22,15 +24,17 @@ const CreateOrganizationCard = (props) => {
       });
       const status = resp.status;
       if (status === 201) {
+        enqueueSnackbar("Organization created successfully", { variant: "success" });
         props.onPageChange(0, "ORGANIZATIONS");
       }
     } catch (error) {
       if (error.response.status === 401) {
-        alert("User not logged in");
+        enqueueSnackbar("User not logged in", { variant: "error" });
       }
       if (error.response.status === 400) {
-        alert("Name is required");
+        enqueueSnackbar("Name is required", { variant: "warning" });
       }
+      enqueueSnackbar("Something went wrong", { variant: "error" });
     }
   };
 

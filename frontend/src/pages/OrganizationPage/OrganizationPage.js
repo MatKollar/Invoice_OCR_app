@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 
+import { useSnackbar } from "notistack";
 import { Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
@@ -23,6 +24,7 @@ const OrganizationPage = () => {
   const [organizationsData, setOrganizationsData] = useState([]);
   const [isOrganizationOpen, setIsOrganizationOpen] = useState(false);
   const [selectedOrganization, setSelectedOrganization] = useState({});
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     (async () => {
@@ -33,6 +35,7 @@ const OrganizationPage = () => {
         userCtx.setRole(resp.data.role);
       } catch (error) {
         console.log("Not authenticated");
+        enqueueSnackbar("Not authenticated", { variant: "error" });
         window.location.href = "/login";
       }
     })();
@@ -46,6 +49,7 @@ const OrganizationPage = () => {
         userCtx.setActiveOrganization(resp.data.active_organization);
       } catch (error) {
         console.log("Error");
+        enqueueSnackbar("Error", { variant: "error" });
       }
     })();
   }, [activePage]);

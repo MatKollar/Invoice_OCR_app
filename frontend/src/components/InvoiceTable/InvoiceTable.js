@@ -1,5 +1,6 @@
-import * as React from "react";
+import { useState } from "react";
 
+import { useSnackbar } from "notistack";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -29,13 +30,14 @@ const columns = [
 ];
 
 const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [search, setSearch] = React.useState("");
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("");
-  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
-  const [invoiceToDelete, setInvoiceToDelete] = React.useState(null);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [search, setSearch] = useState("");
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("");
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [invoiceToDelete, setInvoiceToDelete] = useState(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   const rows = [];
   const dataToSearch = [];
@@ -151,9 +153,11 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
         },
       });
 
+      enqueueSnackbar("Invoice deleted successfully!", { variant: "success" });
       refreshInvoiceData();
     } catch (error) {
       console.error("Error deleting the invoice:", error.response);
+      enqueueSnackbar("Error while deleting invoice", { variant: "error" });
     }
 
     setOpenDeleteDialog(false);

@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from "react";
 import { Button, Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
+import { useSnackbar } from "notistack";
 
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
@@ -18,6 +19,7 @@ const Organization = (props) => {
   const [selectedInvoice, setSelectedInvoice] = useState({});
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
   const userCtx = useContext(userContext);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     (async () => {
@@ -36,6 +38,7 @@ const Organization = (props) => {
       setInvoices(resp.data.invoices);
     } catch (error) {
       console.log("Error");
+      enqueueSnackbar("Error fetching invoices", { variant: "error" });
     }
   };
 
@@ -56,9 +59,10 @@ const Organization = (props) => {
       await httpRequest.post("http://localhost:5000/activate-organization", {
         organization_id: orgData.id,
       });
+      enqueueSnackbar("Organization activated successfully", { variant: "success" });
     } catch (error) {
       if (error.response.status === 401) {
-        alert("Invalid credentials");
+        enqueueSnackbar("Invalid credentials", { variant: "error" });
       }
     }
   };
@@ -70,9 +74,10 @@ const Organization = (props) => {
       await httpRequest.post("http://localhost:5000/deactivate-organization", {
         organization_id: orgData.id,
       });
+      enqueueSnackbar("Organization deactivated successfully", { variant: "success" });
     } catch (error) {
       if (error.response.status === 401) {
-        alert("Invalid credentials");
+        enqueueSnackbar("Invalid credentials", { variant: "error" });
       }
     }
   };

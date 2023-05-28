@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button, Paper } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import { useSnackbar } from "notistack";
 
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
@@ -10,6 +11,7 @@ import httpRequest from "../../httpRequest";
 const OrganizationCard = (props) => {
   const classes = useStyles();
   const [code, setCode] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
   const joinOrganization = async () => {
     try {
@@ -18,15 +20,17 @@ const OrganizationCard = (props) => {
       });
       const status = resp.status;
       if (status === 201) {
+        enqueueSnackbar("Joined organization successfully", { variant: "success" });
         props.onPageChange(0, "ORGANIZATIONS");
       }
     } catch (error) {
       if (error.response.status === 401) {
-        alert("User not logged in");
+        enqueueSnackbar("User not logged in", { variant: "error" });
       }
       if (error.response.status === 400) {
-        alert("Invalid invite code!");
+        enqueueSnackbar("Invalid invite code!", { variant: "warning" });
       }
+      enqueueSnackbar("Something went wrong", { variant: "error" });
     }
   };
 

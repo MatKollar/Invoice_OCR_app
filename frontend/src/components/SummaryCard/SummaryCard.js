@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 
+import { useSnackbar } from "notistack";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import DownloadIcon from "@mui/icons-material/Download";
 import DonutSmallIcon from "@mui/icons-material/DonutSmall";
@@ -22,6 +23,7 @@ const SummaryCard = (props) => {
   const [dataChanged, setDataChanged] = useState(false);
   const [initialData, setInitialData] = useState({});
   const [newData, setNewData] = useState({});
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     setIsInvoice(ocrCtx.isInvoice);
@@ -138,12 +140,13 @@ const SummaryCard = (props) => {
 
   const handleSave = async () => {
     try {
-      const resp = await httpRequest.post("http://localhost:5000/update-invoice", {
+      await httpRequest.post("http://localhost:5000/update-invoice", {
         new_data: newData,
       });
       props.dataChanged();
     } catch (error) {
       console.log("error");
+      enqueueSnackbar("Error in saving data", { variant: "error" });
     }
 
     setDataChanged(false);

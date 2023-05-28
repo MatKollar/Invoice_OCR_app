@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import { useSnackbar } from "notistack";
 import { Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
@@ -14,6 +15,7 @@ const HistoryPage = () => {
   const [selectedInvoice, setSelectedInvoice] = useState({});
   const [invoicesData, setInvoicesData] = useState([]);
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     (async () => {
@@ -27,6 +29,7 @@ const HistoryPage = () => {
       setInvoicesData(resp.data.invoices);
     } catch (error) {
       console.log("Error");
+      enqueueSnackbar("Error fetching invoices", { variant: "error" });
     }
   };
 

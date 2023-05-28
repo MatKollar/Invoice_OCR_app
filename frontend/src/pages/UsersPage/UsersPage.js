@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-
+import { useSnackbar } from "notistack";
 import httpRequest from "../../httpRequest";
 import userContext from "../../context/user-context";
 import AppLayout from "../../components/AppLayout/AppLayout";
@@ -13,6 +13,7 @@ const UsersPage = () => {
   const [userName, setUserName] = useState();
   const [usersData, setUsersData] = useState([]);
   const [updatedUser, setUpdatedUser] = useState({});
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     (async () => {
@@ -24,6 +25,7 @@ const UsersPage = () => {
           setUsersData(resp.data.users);
         } catch (error) {
           console.log("Not authenticated");
+          enqueueSnackbar("Not authenticated", { variant: "error" });
           window.location.href = "/login";
         }
       }
@@ -40,6 +42,7 @@ const UsersPage = () => {
         setUserName(resp.data.name);
       } catch (error) {
         console.log("Not authenticated");
+        enqueueSnackbar("Not authenticated", { variant: "error" });
         window.location.href = "/login";
       }
     })();

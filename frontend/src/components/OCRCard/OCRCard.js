@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 
+import { useSnackbar } from "notistack";
 import { Button, Typography, Grid, CircularProgress } from "@mui/material";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
@@ -9,6 +10,7 @@ const OCRCard = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
   const [loading, setLoading] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleOCRmethod = async (OCRmethod) => {
     setLoading(true);
@@ -23,6 +25,7 @@ const OCRCard = () => {
       formData.append("image", ocrCtx.file);
     } else {
       console.log("Error");
+      enqueueSnackbar("Error", { variant: "error" });
     }
 
     try {
@@ -46,6 +49,7 @@ const OCRCard = () => {
       }
     } catch (error) {
       console.log("Error");
+      enqueueSnackbar("Error", { variant: "error" });
     }
 
     setLoading(false);
@@ -79,6 +83,7 @@ const OCRCard = () => {
       });
     } catch (error) {
       console.log("Error");
+      enqueueSnackbar("Error", { variant: "error" });
     }
   };
 

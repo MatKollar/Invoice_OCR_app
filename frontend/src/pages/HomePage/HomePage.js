@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-
+import { useSnackbar } from "notistack";
 import httpRequest from "../../httpRequest";
 import OCRContext from "../../context/ocr-context";
 import userContext from "../../context/user-context";
@@ -17,6 +17,7 @@ const HomePage = () => {
   const userCtx = useContext(userContext);
   const [userName, setUserName] = useState();
   const [activePage, setActivePage] = useState(0);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     (async () => {
@@ -27,7 +28,7 @@ const HomePage = () => {
         userCtx.setRole(resp.data.role);
         setUserName(resp.data.name);
       } catch (error) {
-        alert("Not authenticated");
+        enqueueSnackbar("Not authenticated", { variant: "error" });
         window.location.href = "/login";
       }
     })();

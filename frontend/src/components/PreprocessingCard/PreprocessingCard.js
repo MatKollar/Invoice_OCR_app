@@ -1,5 +1,5 @@
 import { useContext } from "react";
-
+import { useSnackbar } from "notistack";
 import { Button, Tooltip, IconButton, Typography } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { useStyles } from "./styles";
@@ -15,6 +15,7 @@ const cv = window.cv;
 const PreprocessingCard = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
+  const { enqueueSnackbar } = useSnackbar();
 
   const handlePreprocessingMethod = async (methodEndpoint) => {
     let formData = new FormData();
@@ -44,6 +45,7 @@ const PreprocessingCard = () => {
       ocrCtx.setActualImage(file);
     } catch (error) {
       console.log("Error");
+      enqueueSnackbar("Error during preprocessing", { variant: "error" });
     }
   };
 

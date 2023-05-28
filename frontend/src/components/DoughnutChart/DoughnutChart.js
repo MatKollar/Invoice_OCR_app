@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import { useSnackbar } from "notistack";
 import { Paper, Tooltip as MuiTooltip } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -18,6 +19,7 @@ const DoughnutChart = ({ handleCloseChart, invoice_id }) => {
   const [other, setOther] = useState(null);
   const [score, setScore] = useState(null);
   const [ocrMethod, setOcrMethod] = useState(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +37,7 @@ const DoughnutChart = ({ handleCloseChart, invoice_id }) => {
         setOcrMethod(resp.data.ocr_method);
       } catch (error) {
         console.log("Error");
+        enqueueSnackbar("Error fetching performance data", { variant: "error" });
       }
     };
     fetchData();

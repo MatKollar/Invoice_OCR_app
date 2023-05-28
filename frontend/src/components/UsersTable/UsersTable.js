@@ -12,6 +12,7 @@ import {
   Paper,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { useSnackbar } from "notistack";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 
@@ -21,6 +22,7 @@ function UsersTable({ users, onUserUpdated }) {
   const [showModal, setShowModal] = useState(false);
   const [selectedRole, setSelectedRole] = useState("");
   const [search, setSearch] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleEdit = (event, user) => {
     if (user.email === "admin") {
@@ -45,8 +47,10 @@ function UsersTable({ users, onUserUpdated }) {
         role: selectedRole,
       });
       onUserUpdated(selectedUser.id, selectedRole);
+      enqueueSnackbar("User role updated successfully", { variant: "success" });
     } catch (error) {
       console.log("Error");
+      enqueueSnackbar("An error occurred while updating user role", { variant: "error" });
     }
 
     setShowModal(false);

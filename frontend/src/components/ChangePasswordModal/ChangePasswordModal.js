@@ -7,6 +7,7 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
+import { useSnackbar } from "notistack";
 import Typography from "@mui/material/Typography";
 import httpRequest from "../../httpRequest";
 
@@ -14,6 +15,7 @@ const ChangePasswordModal = ({ open, onClose }) => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClose = () => {
     setOldPassword("");
@@ -24,12 +26,12 @@ const ChangePasswordModal = ({ open, onClose }) => {
 
   const validatePassword = () => {
     if (newPassword !== confirmPassword) {
-      alert("Passwords do not match");
+      enqueueSnackbar("Passwords do not match", { variant: "warning" });
       return false;
     }
 
     if (newPassword.length < 6) {
-      alert("Password must be at least 6 characters long");
+      enqueueSnackbar("Password must be at least 6 characters long", { variant: "info" });
       return false;
     }
     return true;
@@ -50,9 +52,10 @@ const ChangePasswordModal = ({ open, onClose }) => {
         oldPassword,
         newPassword,
       });
+      enqueueSnackbar("Password changed successfully", { variant: "success" });
     } catch (error) {
       if (error.response.status === 401) {
-        alert("Invalid credentials");
+        enqueueSnackbar("Invalid credentials", { variant: "error" });
       }
     }
     handleClose();

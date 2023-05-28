@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useSnackbar } from "notistack";
 import {
   Button,
   Dialog,
@@ -20,6 +21,7 @@ const ProfileModal = ({ open, onClose }) => {
   const [isChangingName, setIsChangingName] = useState(false);
   const [isChangingEmail, setIsChangingEmail] = useState(false);
   const [activeOrganization, setActiveOrganization] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     setName(userCtx.userName);
@@ -39,7 +41,7 @@ const ProfileModal = ({ open, onClose }) => {
 
   const handleSave = () => {
     if (!validateEmail(email)) {
-      alert("Email is not valid!");
+      enqueueSnackbar('Email is not valid!', { variant: 'error' });
     } else {
       userCtx.setUserName(name);
       userCtx.setEmail(email);
@@ -62,9 +64,10 @@ const ProfileModal = ({ open, onClose }) => {
         name,
         email,
       });
+      enqueueSnackbar('User details updated successfully', { variant: 'success' });
     } catch (error) {
       if (error.response.status === 401) {
-        alert("Invalid credentials");
+        enqueueSnackbar('Invalid credentials', { variant: 'error' });
       }
     }
     handleClose();
