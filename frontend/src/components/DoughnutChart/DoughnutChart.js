@@ -73,16 +73,12 @@ const DoughnutChart = ({ handleCloseChart, invoice_id }) => {
         <Paper
           elevation={3}
           sx={{
-            pl: 15,
-            pr: 15,
-            pt: 0,
-            pb: 10,
             borderRadius: 10,
             textAlign: "left",
           }}
         >
           {recognition ? (
-            <>
+            <div className={classes.containers}>
               <div className={classes.titleContainer}>
                 <IconButton onClick={handleIsChartOpen}>
                   <ArrowBackIcon />
@@ -110,9 +106,14 @@ const DoughnutChart = ({ handleCloseChart, invoice_id }) => {
                   {recognition && (recognition + parsing + other).toFixed(2)}s
                 </strong>
               </p>
-            </>
+            </div>
           ) : (
-            <p className={classes.centerText}>No data available!</p>
+            <div className={classes.containers}>
+              <IconButton onClick={handleIsChartOpen}>
+                <ArrowBackIcon />
+              </IconButton>
+              <p className={classes.centerText}>No data available!</p>
+            </div>
           )}
         </Paper>
       </div>

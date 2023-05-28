@@ -2,11 +2,20 @@ import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles({
   center: {
-    position: "absolute",
-    top: "50%",
-    left: "55%",
-    transform: "translate(-50%, -50%)",
-    width: "650px",
+    position: "relative",
+    margin: "30px auto",
+    width: "60%",
+    "@media (max-width:900px)": {
+      width: "80%",
+    },
+    "@media (max-width:560px)": {
+      width: "90%",
+    },
+  },
+  containers: {
+    width: "100%",
+    padding: 30,
+    paddingTop: 0,
   },
   title: {
     textAlign: "center",
@@ -31,6 +40,14 @@ export const useStyles = makeStyles({
     fontWeight: "bold",
     color: "black",
     cursor: "pointer",
+    "@media (max-width:900px)": {
+      fontSize: "1.5rem",
+      top: "55%",
+    },
+    "@media (max-width:560px)": {
+      fontSize: "1.2rem",
+      top: "55%",
+    },
   },
   centerText: {
     position: "absolute",
@@ -42,17 +59,28 @@ export const useStyles = makeStyles({
     color: "black",
   },
   chartContainer: {
-    width: 325,
+    width: "380px",
     margin: "0 auto",
+    "@media (max-width:900px)": {
+      width: "300px",
+    },
+    "@media (max-width:750px)": {
+      width: "250px",
+    },
+    "@media (max-width:560px)": {
+      width: "200px",
+    },
   },
   paragraph: {
-    position: "absolute",
-    margin: "0",
+    textAlign: "center",
+    margin: "0 auto",
+    marginTop: 15,
     padding: "0",
-    top: "90%",
-    left: "58%",
-    transform: "translate(-50%, -50%)",
     fontSize: "1.2rem",
     width: "400px",
+    "@media (max-width:560px)": {
+      width: "200px",
+      fontSize: "1rem",
+    },
   },
 });

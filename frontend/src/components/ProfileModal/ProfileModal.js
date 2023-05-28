@@ -144,7 +144,12 @@ const ProfileModal = ({ open, onClose }) => {
                 {email}
               </Typography>
             </div>
-            <ButtonOutlined onClick={handleChangeEmailClick}>Change Email</ButtonOutlined>
+            <ButtonOutlined
+              style={{ fontSize: { xs: "5px", sm: "12px" } }}
+              onClick={handleChangeEmailClick}
+            >
+              Change Email
+            </ButtonOutlined>
           </div>
         )}
         {isChangingEmail && (

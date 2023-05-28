@@ -10,7 +10,7 @@ export const useStyles = makeStyles({
     width: "100%",
   },
   textContainer: {
-    marginLeft: 70,
+    marginLeft: "10%",
     marginRight: 70,
     width: "70%",
     height: "100%",
@@ -23,5 +23,47 @@ export const useStyles = makeStyles({
   tableContainer: {
     display: "flex",
     marginBottom: 10,
+  },
+  buttons: {
+    display: "flex",
+    marginRight: "5%",
+  },
+  save: {
+    marginLeft: "42.5%",
+  },
+  bar: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+
+  "@media (max-width:570px)": {
+    save: {
+      marginLeft: "10%",
+      marginBottom: "10px",
+    },
+  },
+
+  "@media (max-width:420px)": {
+    buttons: {
+      marginRight: "5%",
+    },
+    table: {
+      marginLeft: "-25px",
+    },
+    tableContainer: {
+      marginLeft: "-25px",
+    },
+    textContainer: {
+      marginRight: "10px",
+    },
+  },
+
+  "@media (max-width:380px)": {
+    table: {
+      marginRight: "5%",
+    },
+    tableContainer: {
+      marginRight: "5%",
+    },
   },
 });

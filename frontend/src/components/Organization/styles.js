@@ -10,4 +10,8 @@ export const useStyles = makeStyles({
     width: "80%",
     height: "100%",
   },
+  activeButton: {
+    marginTop: "20px",
+    textAlign: "center",
+  },
 });

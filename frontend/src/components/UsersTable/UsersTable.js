@@ -117,6 +117,9 @@ function UsersTable({ users, onUserUpdated }) {
             boxShadow: 24,
             p: 4,
             borderRadius: 2,
+            "@media (max-width:400px)": {
+              width: "250px",
+            },
           }}
         >
           <Typography variant="h6">Edit Role for {selectedUser?.name}</Typography>

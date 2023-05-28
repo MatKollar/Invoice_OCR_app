@@ -93,25 +93,21 @@ const Organization = (props) => {
 
   return (
     <div className={classes.rootContainer}>
-      {activeOrganization && (
-        <Button sx={{ position: "absolute", right: 20 }} onClick={deactiveOrganization}>
-          Organization Active
-        </Button>
-      )}
-
-      {!activeOrganization && (
-        <Button
-          variant="contained"
-          sx={{ position: "absolute", right: 20 }}
-          onClick={setOrganizationAsActive}
-        >
-          Set as active
-        </Button>
-      )}
-
       <h1>{orgData.name}</h1>
       <h3>INVITE CODE: {orgData.invite_code}</h3>
-      <Grid container sx={{ m: 0, mt: 5 }}>
+
+      <div className={classes.activeButton}>
+        {activeOrganization && (
+          <Button onClick={deactiveOrganization}>Organization Active</Button>
+        )}
+
+        {!activeOrganization && (
+          <Button variant="contained" onClick={setOrganizationAsActive}>
+            Set as active
+          </Button>
+        )}
+      </div>
+      <Grid container sx={{ mt: 1 }}>
         {!isSummaryOpen && (
           <div className={classes.table}>
             <InvoiceTable

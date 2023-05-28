@@ -5,6 +5,7 @@ export const useStyles = makeStyles({
     width: "30%",
     margin: "0 auto",
     marginTop: 50,
+    minWidth: 250,
   },
   textFields: {
     margin: "0 auto",

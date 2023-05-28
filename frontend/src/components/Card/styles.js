@@ -8,5 +8,7 @@ export const useStyles = makeStyles({
     "&:hover": {
       boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.8)",
     },
+    minWidth: 100,
+    minHeight: 100,
   },
 });

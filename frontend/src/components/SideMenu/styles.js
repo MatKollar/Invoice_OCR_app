@@ -21,7 +21,6 @@ export const useStyles = makeStyles({
   closeButton: {
     textAlign: "right",
     color: "white",
-
   },
   footerContainer: {
     marginBottom: 20,
@@ -31,6 +30,9 @@ export const useStyles = makeStyles({
   "@media (max-width:590px)": {
     footerContainer: {
       display: "block",
+    },
+    rootContainer: {
+      width: "70px",
     },
   },
 });

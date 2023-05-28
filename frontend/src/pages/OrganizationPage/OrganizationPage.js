@@ -89,7 +89,7 @@ const OrganizationPage = () => {
               {role !== "user" && activePageName == "CREATE" && (
                 <CreateOrganizationCard onPageChange={handlePageChange} />
               )}
-            </div>{" "}
+            </div>
           </div>
         )}
         {isOrganizationOpen && (

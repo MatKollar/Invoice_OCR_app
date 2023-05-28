@@ -1,4 +1,4 @@
-import { Paper } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import { useStyles } from "./styles";
 
 const Card = (props) => {
@@ -11,7 +11,9 @@ const Card = (props) => {
         className={classes.card}
         sx={{ p: 2, borderRadius: 5, textAlign: "center" }}
       >
-        {props.data}
+        <Typography variant="h6" sx={{ fontFamily: "Oxanium, cursive", mt: 2 }}>
+          {props.data}
+        </Typography>
       </Paper>
     </>
   );

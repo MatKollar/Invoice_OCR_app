@@ -8,6 +8,7 @@ import { TextField, Button, Paper, IconButton, Grid } from "@mui/material";
 
 import OCRContext from "../../context/ocr-context";
 import { useStyles } from "./styles";
+import ButtonContained from "../StyledComponents/ButtonContained";
 import DoughnutChart from "../../components/DoughnutChart/DoughnutChart";
 import SellerTable from "./SellerTable/SellerTable";
 import BuyerTable from "./BuyerTable/BuyerTable";
@@ -161,91 +162,107 @@ const SummaryCard = (props) => {
             invoice_id={props.dataFromDB ? props.dataFromDB.id : ocrCtx.invoiceId}
           />
         ) : (
-          <Grid container>
-            <Grid container item xs={12} sx={{ marginRight: 10 }}>
-              <Grid item xs={6} sx={{ textAlign: "right" }}>
+          <>
+            <div className={classes.bar}>
+              <div className={classes.save}>
                 {dataChanged && (
-                  <Button
-                    variant="contained"
-                    color="primary"
+                  <ButtonContained
                     onClick={handleSave}
-                    sx={{ mt: 2 }}
+                    style={{
+                      marginTop: 10,
+                    }}
                   >
                     Save
-                  </Button>
+                  </ButtonContained>
                 )}
-              </Grid>
-              <Grid item xs={6} sx={{ textAlign: "right" }}>
+              </div>
+              <div className={classes.buttons}>
                 {isInvoice && (
-                  <IconButton sx={{ padding: "10px" }} onClick={handleOpenChart}>
+                  <IconButton
+                    sx={{ padding: { xs: "3px", sm: "10px" } }}
+                    onClick={handleOpenChart}
+                  >
                     <DonutSmallIcon fontSize="large" sx={{ color: "#6336ab" }} />
                   </IconButton>
                 )}
-                <IconButton sx={{ padding: "10px" }} onClick={handleDownloadFile}>
+                <IconButton
+                  sx={{ padding: { xs: "3px", sm: "10px" } }}
+                  onClick={handleDownloadFile}
+                >
                   <DownloadIcon fontSize="large" sx={{ color: "#6336ab" }} />
                 </IconButton>
-                <IconButton sx={{ padding: "10px" }} onClick={handleOpenFile}>
+                <IconButton
+                  sx={{ padding: { xs: "3px", sm: "10px" } }}
+                  onClick={handleOpenFile}
+                >
                   <OpenInNewIcon fontSize="large" sx={{ color: "#6336ab" }} />
                 </IconButton>
-              </Grid>
-            </Grid>
-            <Grid item xs={6}>
-              <div className={classes.textContainer}>
-                {showText && (
-                  <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
-                    <TextField
-                      id="outlined-multiline-static"
-                      sx={{ backgroundColor: "white", borderRadius: "20px" }}
-                      label="Text from OCR"
-                      multiline
-                      fullWidth
-                      rows={20}
-                      variant={"standard"}
-                      defaultValue={
-                        props.dataFromDB ? props.dataFromDB.text : ocrCtx.textResult
-                      }
-                    />
-                  </Paper>
-                )}
-
-                <Button
-                  variant="contained"
-                  onClick={() => setShowText(!showText)}
-                  sx={{ margin: "5px", px: "10%" }}
-                >
-                  {showText ? "HIDE TEXT" : "SHOW TEXT"}
-                </Button>
               </div>
-            </Grid>
-            {props.dataFromDB || isInvoice ? (
+            </div>
+            <Grid container>
               <Grid item xs={6}>
-                <div className={classes.tables}>
-                  <InvoiceDataTable
-                    data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
-                    onDataChange={handleDataChange}
-                  />
-                  <div className={classes.tableContainer}>
-                    <SellerTable
-                      data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
-                      onDataChange={handleDataChange}
-                    />
-                    <BuyerTable
-                      data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
-                      onDataChange={handleDataChange}
-                    />
-                  </div>
+                <div className={classes.textContainer}>
+                  {showText && (
+                    <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
+                      <TextField
+                        id="outlined-multiline-static"
+                        sx={{ backgroundColor: "white", borderRadius: "20px" }}
+                        label="Text from OCR"
+                        multiline
+                        fullWidth
+                        rows={20}
+                        variant={"standard"}
+                        defaultValue={
+                          props.dataFromDB ? props.dataFromDB.text : ocrCtx.textResult
+                        }
+                      />
+                    </Paper>
+                  )}
+
+                  <Button
+                    variant="contained"
+                    onClick={() => setShowText(!showText)}
+                    sx={{ margin: "5px", px: "10%" }}
+                  >
+                    {showText ? "HIDE TEXT" : "SHOW TEXT"}
+                  </Button>
                 </div>
               </Grid>
-            ) : (
-              <Grid item xs={5}>
-                <Paper elevation={3} sx={{ mt: 15, p: 10, borderRadius: 5, height: 200 }}>
-                  <h4 style={{ textAlign: "center", marginTop: "-15px" }}>
-                    The recognized document is probably not an invoice!
-                  </h4>
-                </Paper>
-              </Grid>
-            )}
-          </Grid>
+              {props.dataFromDB || isInvoice ? (
+                <Grid item xs={6}>
+                  <div className={classes.tables}>
+                    <div className={classes.table}>
+                      <InvoiceDataTable
+                        data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
+                        onDataChange={handleDataChange}
+                      />
+                    </div>
+                    <div className={classes.tableContainer}>
+                      <SellerTable
+                        data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
+                        onDataChange={handleDataChange}
+                      />
+                      <BuyerTable
+                        data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
+                        onDataChange={handleDataChange}
+                      />
+                    </div>
+                  </div>
+                </Grid>
+              ) : (
+                <Grid item xs={5}>
+                  <Paper
+                    elevation={3}
+                    sx={{ mt: 15, p: 10, borderRadius: 5, height: 200 }}
+                  >
+                    <h4 style={{ textAlign: "center", marginTop: "-15px" }}>
+                      The recognized document is probably not an invoice!
+                    </h4>
+                  </Paper>
+                </Grid>
+              )}
+            </Grid>
+          </>
         )}
       </div>
     </>

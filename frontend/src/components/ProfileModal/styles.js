@@ -10,5 +10,11 @@ export const useStyles = makeStyles({
     width: "60%",
     display: "flex",
     justifyContent: "space-between",
-  }
+  },
+
+  "@media (max-width:470px)": {
+    profile: {
+      flexWrap: "wrap",
+    },
+  },  
 });
