@@ -35,6 +35,15 @@ export const useStyles = makeStyles({
     display: "flex",
     justifyContent: "space-between",
   },
+  invoiceContainer: {
+    width: "105%",
+    backgroundColor: "#f5f5f5",
+  },
+  invoice: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#f5f5f5",
+  },
 
   focused: {
     "& .MuiInput-underline:after": {
@@ -42,7 +51,7 @@ export const useStyles = makeStyles({
     },
     "& .MuiFormLabel-root.Mui-focused": {
       color: "#854de0",
-    }
+    },
   },
 
   "@media (max-width:570px)": {

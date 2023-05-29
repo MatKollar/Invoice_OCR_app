@@ -54,7 +54,7 @@ const Tabbar = () => {
               label={
                 <Typography sx={{ display: "flex", fontFamily: "Oxanium, cursive" }}>
                   {tab.icon}
-                  <div className={classes.text}>{tab.label}</div>
+                  <span className={classes.text}>{tab.label}</span>
                 </Typography>
               }
             />
