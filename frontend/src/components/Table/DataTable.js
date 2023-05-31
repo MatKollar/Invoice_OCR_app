@@ -14,7 +14,7 @@ function DataTable(props) {
   const [localData, setLocalData] = useState(data);
 
   useEffect(() => {
-    setLocalData({ ...data, ICO: ico });
+    setLocalData({ ...data, ICO: ico !== undefined ? ico : data.ICO });
   }, [data, ico]);
 
   const handleChange = (event, field) => {

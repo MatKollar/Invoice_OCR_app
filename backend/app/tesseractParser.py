@@ -184,7 +184,7 @@ def get_supplier_ico(lines):
     ico = ''
     pattern = re.compile(r"\b\d{8}\b")
     for i, line in enumerate(lines):
-        keywords = ('ičo', '1čo:', '1ičo', 'ič ', '1č0', 'ičq')
+        keywords = ('ičo', '1čo:', '1ičo', 'ič:', '1č0', 'ičq')
         count = sum([line.lower().count(kw) for kw in keywords])
         if count >= 2 or (count == 1 and 'odberateľ' not in line.lower()):
             words = line.split()
@@ -202,7 +202,7 @@ def get_buyer_ico(lines):
     ico = ''
     pattern = re.compile(r"\b\d{8}\b")
     for i, line in enumerate(lines):
-        if any([kw in line.lower() for kw in ('ičo', '1čo:', '1ičo', 'ič ', '1č0', 'ičq')]):
+        if any([kw in line.lower() for kw in ('ičo', '1čo:', '1ičo', 'ič:', '1č0', 'ičq')]):
             words = line.split()
             for j, word in enumerate(words):
                 if pattern.match(word):

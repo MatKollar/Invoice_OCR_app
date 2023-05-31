@@ -34,6 +34,12 @@ const SummaryCard = (props) => {
   }, []);
 
   useEffect(() => {
+    if (!chartOpen && !showText) {
+      drawInvoiceOnCanvas();
+    }
+  }, [chartOpen, showText]);
+
+  useEffect(() => {
     setInitialData(props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData);
   }, [props.dataFromDB, ocrCtx.extractedData]);
 

@@ -31,8 +31,5 @@ export const useStyles = makeStyles({
     footerContainer: {
       display: "block",
     },
-    rootContainer: {
-      width: "70px",
-    },
   },
 });
