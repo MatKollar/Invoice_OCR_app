@@ -1,4 +1,10 @@
-# 🧾 Invoice OCR App
+ <p align="center"><img src="./images/OCR-logo.png" alt="Logo" width="100"></p>
+ <h1 align="center">Invoice OCR App</h1>
+
+<p align="center">
+  <img src="https://img.shields.io/tokei/lines/github/MatKollar/Invoice_OCR_app" alt="Lines of code"/>
+  <img src="https://img.shields.io/github/stars/MatKollar/Invoice_OCR_app?style=social" alt="GitHub Repo stars"/>
+</p>
 
 Web application for recognizing and managing data from Slovak invoices.
 
@@ -34,9 +40,13 @@ Invoice OCR App is built with the following technologies:
 - **Python**: For backend server development
 - **Flask**: Manages the backend server
 - **React**: Powers the frontend user interface
+- **OpenCV**: Handles invoice image preprocessing
 - **Tesseract OCR & PaddleOCR**: Handles text recognition from invoices
 - **PostgreSQL**: Database for storing invoice details and user data
 - **Docker**: Ensures smooth setup through containerization
+
+### Project structure
+![Project_Structure](./images/webapp.png)
 
 ## 🚀 Installation
 Here are the steps to get this application up and running:
@@ -59,7 +69,10 @@ Here are the steps to get this application up and running:
     ```
 5. The application should now be running at [http://localhost:3000](http://localhost:3000)
 
+6. After initialization, an admin user is automatically created with login e-mail and password: admin, admin.
+
 ## 📸 Screenshots
+![screenshot](./images/screenshots.jpg)
 
 ## 🔮 Future Work
 * Implementation of NER (Named Entity Recognition) for data extraction
