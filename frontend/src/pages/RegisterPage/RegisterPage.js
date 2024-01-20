@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import CssBaseline from "@mui/material/CssBaseline";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
@@ -21,8 +25,14 @@ const RegisterPage = () => {
   const [nameValid, setNameValid] = useState(true);
   const [emailValid, setEmailValid] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
+
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
 
   const validateName = (event) => {
     const name = event.target.value;
@@ -149,10 +159,23 @@ const RegisterPage = () => {
                     fullWidth
                     name="password"
                     label="Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     onBlur={validatePassword}
                     autoComplete="off"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
               </Grid>
