@@ -17,6 +17,7 @@ import { useStyles } from "./styles";
 import ProfileIcon from "../ProfileIcon/ProfileIcon";
 import LinkItem from "./LinkItem/LinkItem";
 import OCR_LOGO from "../../images/OCR-logo.png";
+import { Link } from 'react-router-dom';
 
 const SideMenu = (props) => {
   const userCtx = useContext(userContext);
@@ -58,16 +59,18 @@ const SideMenu = (props) => {
                 />
               </IconButton>
             </div>
-            <img
-              src={OCR_LOGO}
-              alt="logo"
-              className={classes.logo}
-              width={isSmallScreen ? "40px" : "60px"}
-              style={{
-                marginTop: isExtraSmallScreen ? "5px" : "-16px",
-                marginBottom: "24px",
-              }}
-            />
+            <Link to="/">
+              <img
+                src={OCR_LOGO}
+                alt="logo"
+                className={classes.logo}
+                width={isSmallScreen ? "40px" : "60px"}
+                style={{
+                  marginTop: isExtraSmallScreen ? "5px" : "-16px",
+                  marginBottom: "24px",
+                }}
+              />
+            </Link>
             <Divider />
             <div className={classes.linkContainer}>
               <LinkItem to="/" Icon={DashboardIcon} text="Dashboard" />
