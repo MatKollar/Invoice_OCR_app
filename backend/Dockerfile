@@ -7,7 +7,6 @@ ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
-    libopencv-dev \
     python3-opencv
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
