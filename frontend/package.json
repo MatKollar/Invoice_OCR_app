@@ -16,7 +16,7 @@
     "axios": "^1.2.3",
     "chart.js": "^4.2.1",
     "cors": "^2.8.5",
-    "crypto-js": "^4.1.1",
+    "crypto-js": "^4.2.0",
     "mdb-react-ui-kit": "^5.0.0",
     "notistack": "^3.0.1",
     "nth-check": "^2.1.1",
