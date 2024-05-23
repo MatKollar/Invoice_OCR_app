@@ -43,7 +43,7 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      await httpRequest.post("http://localhost:5000/login", {
+      await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/login`, {
         email,
         password,
       });
@@ -52,7 +52,7 @@ const LoginPage = () => {
     } catch (error) {
       setLoading(false);
 
-      if (error.response.status === 401) {
+      if (error.response && error.response.status === 401) {
         enqueueSnackbar("Wrong email or password", {
           variant: "error",
         });

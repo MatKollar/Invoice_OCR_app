@@ -10,7 +10,7 @@ const useAuth = () => {
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const resp = await httpRequest.get("http://localhost:5000/@me");
+        const resp = await httpRequest.get(`${process.env.REACT_APP_BACKEND_URL}/@me`);
         const { name, email, role } = resp.data;
         authContext.login({ name, email, role });
       } catch (error) {

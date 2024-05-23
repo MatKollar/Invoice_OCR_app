@@ -21,7 +21,7 @@ const UsersPage = () => {
         window.location.href = "/";
       } else {
         try {
-          const resp = await httpRequest.get("http://localhost:5000/get-users");
+          const resp = await httpRequest.get(`${process.env.REACT_APP_BACKEND_URL}/get-users`);
           setUsersData(resp.data.users);
         } catch (error) {
           console.log("Not authenticated");
@@ -35,7 +35,7 @@ const UsersPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const resp = await httpRequest.get("http://localhost:5000/@me");
+        const resp = await httpRequest.get(`${process.env.REACT_APP_BACKEND_URL}/@me`);
         userCtx.setUserName(resp.data.name);
         userCtx.setEmail(resp.data.email);
         userCtx.setRole(resp.data.role);

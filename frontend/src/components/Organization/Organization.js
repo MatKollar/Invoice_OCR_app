@@ -32,7 +32,7 @@ const Organization = (props) => {
   const fetchInvoiceData = async () => {
     try {
       const resp = await httpRequest.post(
-        "http://localhost:5000/get-organization-invoices",
+        `${process.env.REACT_APP_BACKEND_URL}/get-organization-invoices`,
         {
           organization_id: orgData.id,
         },
@@ -58,12 +58,12 @@ const Organization = (props) => {
     setActiveOrganization(true);
     userCtx.setActiveOrganization(orgData);
     try {
-      await httpRequest.post("http://localhost:5000/activate-organization", {
+      await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/activate-organization`, {
         organization_id: orgData.id,
       });
       enqueueSnackbar("Organization activated successfully", { variant: "success" });
     } catch (error) {
-      if (error.response.status === 401) {
+      if (error.response && error.response.status === 401) {
         enqueueSnackbar("Invalid credentials", { variant: "error" });
       }
     }
@@ -73,12 +73,12 @@ const Organization = (props) => {
     setActiveOrganization(false);
     userCtx.setActiveOrganization(null);
     try {
-      await httpRequest.post("http://localhost:5000/deactivate-organization", {
+      await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/deactivate-organization`, {
         organization_id: orgData.id,
       });
       enqueueSnackbar("Organization deactivated successfully", { variant: "success" });
     } catch (error) {
-      if (error.response.status === 401) {
+      if (error.response && error.response.status === 401) {
         enqueueSnackbar("Invalid credentials", { variant: "error" });
       }
     }

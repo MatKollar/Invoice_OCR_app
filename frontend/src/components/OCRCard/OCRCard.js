@@ -31,7 +31,7 @@ const OCRCard = () => {
 
     try {
       const startTime = performance.now();
-      const resp = await httpRequest.post(`http://localhost:5000/${OCRmethod}`, formData);
+      const resp = await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/${OCRmethod}`, formData);
       const endTime = performance.now();
       const duration = (endTime - startTime) / 1000;
       const time_other = duration - resp.data.time.recognition + resp.data.time.parsing;
@@ -78,7 +78,7 @@ const OCRCard = () => {
 
   const saveTimeOther = async (invoice_id, time_other) => {
     try {
-      await httpRequest.post("http://localhost:5000/save-time-other", {
+      await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/save-time-other`, {
         invoice_id: invoice_id,
         time_other: time_other,
       });

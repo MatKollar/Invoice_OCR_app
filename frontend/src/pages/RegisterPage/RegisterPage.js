@@ -73,7 +73,7 @@ const RegisterPage = () => {
     if (nameValid && emailValid && passwordValid) {
       setLoading(true);
       try {
-        await httpRequest.post("http://localhost:5000/register", {
+        await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/register`, {
           name,
           email,
           password,
@@ -81,7 +81,7 @@ const RegisterPage = () => {
         window.location.href = "/";
       } catch (error) {
         setLoading(false);
-        if (error.response.status === 401) {
+        if (error.response && error.response.status === 401) {
           enqueueSnackbar("Invalid credentials", {
             variant: "error",
           });
