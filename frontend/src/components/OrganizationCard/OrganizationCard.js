@@ -16,7 +16,7 @@ const OrganizationCard = (props) => {
 
   const joinOrganization = async () => {
     try {
-      const resp = await httpRequest.post("http://localhost:5000/join_organization", {
+      const resp = await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/join_organization`, {
         code,
       });
       const status = resp.status;
@@ -25,10 +25,10 @@ const OrganizationCard = (props) => {
         props.onPageChange(0, "ORGANIZATIONS");
       }
     } catch (error) {
-      if (error.response.status === 401) {
+      if (error.response && error.response.status === 401) {
         enqueueSnackbar("User not logged in", { variant: "error" });
       }
-      if (error.response.status === 400) {
+      if (error.response && error.response.status === 400) {
         enqueueSnackbar("Invalid invite code!", { variant: "warning" });
       }
       enqueueSnackbar("Something went wrong", { variant: "error" });

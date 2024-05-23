@@ -43,13 +43,13 @@ const ChangePasswordModal = ({ open, onClose }) => {
     }
 
     try {
-      await httpRequest.post("http://localhost:5000/change-password", {
+      await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/change-password`, {
         oldPassword,
         newPassword,
       });
       enqueueSnackbar("Password changed successfully", { variant: "success" });
     } catch (error) {
-      if (error.response.status === 401) {
+      if (error.response && error.response.status === 401) {
         enqueueSnackbar("Invalid credentials", { variant: "error" });
       }
     }

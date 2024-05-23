@@ -29,7 +29,7 @@ const OrganizationPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const resp = await httpRequest.get("http://localhost:5000/@me");
+        const resp = await httpRequest.get(`${process.env.REACT_APP_BACKEND_URL}/@me`);
         userCtx.setUserName(resp.data.name);
         userCtx.setEmail(resp.data.email);
         userCtx.setRole(resp.data.role);
@@ -44,7 +44,7 @@ const OrganizationPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const resp = await httpRequest.get("http://localhost:5000/get-organizations");
+        const resp = await httpRequest.get(`${process.env.REACT_APP_BACKEND_URL}/get-organizations`);
         setOrganizationsData(resp.data.organizations);
         userCtx.setActiveOrganization(resp.data.active_organization);
       } catch (error) {

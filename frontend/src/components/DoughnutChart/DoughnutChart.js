@@ -25,7 +25,7 @@ const DoughnutChart = ({ handleCloseChart, invoice_id }) => {
     const fetchData = async () => {
       try {
         const resp = await httpRequest.post(
-          "http://localhost:5000/get-performance-data",
+          `${process.env.REACT_APP_BACKEND_URL}/get-performance-data`,
           {
             invoice_id: invoice_id,
           },

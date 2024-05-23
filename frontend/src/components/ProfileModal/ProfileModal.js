@@ -53,7 +53,7 @@ const ProfileModal = ({ open, onClose }) => {
 
   const updateUser = async (name, email) => {
     try {
-      await httpRequest.post("http://localhost:5000/update-user", {
+      await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/update-user`, {
         name,
         email,
       });
@@ -61,7 +61,7 @@ const ProfileModal = ({ open, onClose }) => {
       userCtx.setUserName(name);
       userCtx.setEmail(email);
     } catch (error) {
-      if (error.response.status === 401) {
+      if (error.response && error.response.status === 401) {
         enqueueSnackbar("Invalid credentials", { variant: "error" });
       }
     }

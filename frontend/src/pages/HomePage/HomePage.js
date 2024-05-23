@@ -22,7 +22,7 @@ const HomePage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const resp = await httpRequest.get("http://localhost:5000/@me");
+        const resp = await httpRequest.get(`${process.env.REACT_APP_BACKEND_URL}/@me`);
         userCtx.setUserName(resp.data.name);
         userCtx.setEmail(resp.data.email);
         userCtx.setRole(resp.data.role);
