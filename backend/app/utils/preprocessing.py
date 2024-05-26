@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.operations import load_image
+from app.services.operations import load_image
 from PIL import Image
 import io
 import numpy as np

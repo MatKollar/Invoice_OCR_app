@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 import time
-from app.tesseractParser import parse_text
-from app.operations import load_image, add_invoice_to_db, check_if_invoice
+from app.ocr.tesseractParser import parse_text
+from app.services.operations import load_image, add_invoice_to_db, check_if_invoice
 import pytesseract
 
 tesseract_bp = Blueprint('tesseract', __name__)

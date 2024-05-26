@@ -1,5 +1,5 @@
 from flask import request, session
-from app.models import db, Invoice, User, Performance, Supplier, Buyer
+from app.main.models import db, Invoice, User, Performance, Supplier, Buyer
 import numpy as np
 import cv2
 

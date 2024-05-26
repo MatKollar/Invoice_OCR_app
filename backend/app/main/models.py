@@ -3,8 +3,7 @@ from uuid import uuid4
 from enum import Enum
 import string
 import random
-
-db = SQLAlchemy()
+from app.extensions import db
 
 
 def get_uuid():

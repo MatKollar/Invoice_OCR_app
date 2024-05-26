@@ -1,66 +1,22 @@
-from flask import Flask, jsonify, session, request
-from flask_cors import CORS
-from flask_session import Session
-from config import ApplicationConfig
-from app.models import db, User, UserRole, Invoice, Supplier, Buyer
-from app.authentication import authentication_bp
-from app.preprocessing import preprocessing_bp
-from app.tesseractOCR import tesseract_bp
-from app.paddleOCR import paddleocr_bp
-from app.companyAPI import companyAPI_bp
-from app.organizations import organizations_bp
-from app.getData import getData_bp
-from flask_bcrypt import Bcrypt
+from flask import Blueprint, jsonify, session, request
+from .models import db, User, UserRole, Invoice, Supplier, Buyer
 
-app = Flask(__name__)
-app.config.from_object(ApplicationConfig)
-app.config.update(ENV='development')
-app.config['SESSION_SQLALCHEMY'] = db
-app.config['CORS_HEADERS'] = 'Content-Type'
-CORS(app, supports_credentials=True)
-app.register_blueprint(authentication_bp)
-app.register_blueprint(preprocessing_bp)
-app.register_blueprint(tesseract_bp)
-app.register_blueprint(paddleocr_bp)
-app.register_blueprint(companyAPI_bp)
-app.register_blueprint(organizations_bp)
-app.register_blueprint(getData_bp)
-bcrypt = Bcrypt()
+main_bp = Blueprint('main', __name__)
 
-server_session = Session(app)
-db.init_app(app)
-
-with app.app_context():
-    db.create_all()
-
-    admin_user = User.query.filter_by(email='admin').first()
-    if not admin_user:
-        hashed_password = bcrypt.generate_password_hash(
-            'admin').decode('utf-8')
-        admin_user = User(email='admin',
-                          name='Admin', password=hashed_password)
-        admin_user.role = UserRole.ADMIN
-        db.session.add(admin_user)
-        db.session.commit()
-
-
-@app.route("/@me")
+@main_bp.route("/@me")
 def get_current_user():
     user_id = session.get("user_id")
-
     if not user_id:
         return jsonify({"error": "Unauthorized"}), 401
 
     user = User.query.get(user_id)
-
     return jsonify({
         "name": user.name,
         "email": user.email,
         "role": user.role.value
     })
 
-
-@app.route("/edit-role", methods=["POST"])
+@main_bp.route("/edit-role", methods=["POST"])
 def edit_role():
     role = request.json["role"]
     user_id = request.json["user_id"]
@@ -71,11 +27,9 @@ def edit_role():
 
     return jsonify({"success": True}), 200
 
-
-@app.route("/update-user", methods=["POST"])
+@main_bp.route("/update-user", methods=["POST"])
 def update_user():
     user_id = session.get("user_id")
-
     if not user_id:
         return jsonify({"error": "Unauthorized"}), 401
 
@@ -86,16 +40,13 @@ def update_user():
 
     return jsonify({"success": True}), 200
 
-
-@app.route('/delete-invoice', methods=['DELETE'])
+@main_bp.route('/delete-invoice', methods=['DELETE'])
 def delete_invoice():
     invoice_id = request.args.get('id', type=int)
-
     if not invoice_id:
         return jsonify({"error": "ID parameter is missing"}), 400
 
     invoice = Invoice.query.get(invoice_id)
-
     if not invoice:
         return jsonify({"error": "Invoice not found"}), 404
 
@@ -110,7 +61,6 @@ def delete_invoice():
             db.session.delete(buyer)
 
     performance = invoice.performance
-
     if performance:
         db.session.delete(performance)
 
@@ -119,31 +69,23 @@ def delete_invoice():
 
     return jsonify({"message": f"Invoice {invoice_id} has been deleted"}), 200
 
-
-@app.route('/update-invoice', methods=['POST'])
+@main_bp.route('/update-invoice', methods=['POST'])
 def update_invoice():
     new_data = request.json["new_data"]
     invoice_id = new_data["id"]
-
     if not invoice_id:
         return jsonify({"error": "ID parameter is missing"}), 400
 
     invoice = Invoice.query.get(invoice_id)
-
     if not invoice:
         return jsonify({"error": "Invoice not found"}), 404
 
-    invoice.invoice_number = new_data.get(
-        "invoice_number", invoice.invoice_number)
-
+    invoice.invoice_number = new_data.get("invoice_number", invoice.invoice_number)
     invoice.var_symbol = new_data.get("var_symbol", invoice.var_symbol)
-    invoice.date_of_issue = new_data.get(
-        "date_of_issue", invoice.date_of_issue)
+    invoice.date_of_issue = new_data.get("date_of_issue", invoice.date_of_issue)
     invoice.due_date = new_data.get("due_date", invoice.due_date)
-    invoice.delivery_date = new_data.get(
-        "delivery_date", invoice.delivery_date)
-    invoice.payment_method = new_data.get(
-        "payment_method", invoice.payment_method)
+    invoice.delivery_date = new_data.get("delivery_date", invoice.delivery_date)
+    invoice.payment_method = new_data.get("payment_method", invoice.payment_method)
     invoice.total_price = new_data.get("total_price", invoice.total_price)
     invoice.bank = new_data.get("bank", invoice.bank)
     invoice.swift = new_data.get("swift", invoice.swift)
@@ -152,13 +94,10 @@ def update_invoice():
     supplier_data = new_data.get("supplier_data", {})
     if invoice.supplier:
         invoice.supplier.ico = supplier_data.get("ICO", invoice.supplier.ico)
-        invoice.supplier.name = supplier_data.get(
-            "Name", invoice.supplier.name)
-        invoice.supplier.address = supplier_data.get(
-            "Street", invoice.supplier.address)
+        invoice.supplier.name = supplier_data.get("Name", invoice.supplier.name)
+        invoice.supplier.address = supplier_data.get("Street", invoice.supplier.address)
         invoice.supplier.psc = supplier_data.get("PSC", invoice.supplier.psc)
-        invoice.supplier.city = supplier_data.get(
-            "City", invoice.supplier.city)
+        invoice.supplier.city = supplier_data.get("City", invoice.supplier.city)
         invoice.supplier.dic = supplier_data.get("DIC", invoice.supplier.dic)
 
     buyer_data = new_data.get("buyer_data", {})
@@ -172,4 +111,4 @@ def update_invoice():
 
     db.session.commit()
 
-    return jsonify({"message": f"Invoice has been updated"}), 200
+    return jsonify({"message": "Invoice has been updated"}), 200
