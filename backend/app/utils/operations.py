@@ -1,15 +1,5 @@
-from flask import request, session
-from app.main.models import db, Invoice, User, Performance, Supplier, Buyer
-import numpy as np
-import cv2
-
-
-def load_image():
-    file = request.files['file'].read()
-    npimg = np.fromstring(file, np.uint8)
-    img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    return img
+from flask import session
+from app.models import db, Invoice, User, Performance, Supplier, Buyer
 
 
 def add_invoice_to_db(parsed_data, text, pdf_file, img_file, average_score, recognition_time, parsing_time, ocr_method):

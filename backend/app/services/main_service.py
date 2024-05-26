@@ -1,54 +1,32 @@
-from flask import Blueprint, jsonify, session, request
-from .models import db, User, UserRole, Invoice, Supplier, Buyer
+from app.models import db, User, UserRole, Invoice, Supplier, Buyer
 
-main_bp = Blueprint('main', __name__)
 
-@main_bp.route("/@me")
-def get_current_user():
-    user_id = session.get("user_id")
-    if not user_id:
-        return jsonify({"error": "Unauthorized"}), 401
-
+def get_current_user_service(user_id):
     user = User.query.get(user_id)
-    return jsonify({
+    return {
         "name": user.name,
         "email": user.email,
         "role": user.role.value
-    })
+    } if user else None
 
-@main_bp.route("/edit-role", methods=["POST"])
-def edit_role():
-    role = request.json["role"]
-    user_id = request.json["user_id"]
 
+def edit_role_service(user_id, role):
     user = User.query.get(user_id)
     user.role = UserRole[role]
     db.session.commit()
 
-    return jsonify({"success": True}), 200
 
-@main_bp.route("/update-user", methods=["POST"])
-def update_user():
-    user_id = session.get("user_id")
-    if not user_id:
-        return jsonify({"error": "Unauthorized"}), 401
-
+def update_user_service(user_id, name, email):
     user = User.query.get(user_id)
-    user.name = request.json["name"]
-    user.email = request.json["email"]
+    user.name = name
+    user.email = email
     db.session.commit()
 
-    return jsonify({"success": True}), 200
 
-@main_bp.route('/delete-invoice', methods=['DELETE'])
-def delete_invoice():
-    invoice_id = request.args.get('id', type=int)
-    if not invoice_id:
-        return jsonify({"error": "ID parameter is missing"}), 400
-
+def delete_invoice_service(invoice_id):
     invoice = Invoice.query.get(invoice_id)
     if not invoice:
-        return jsonify({"error": "Invoice not found"}), 404
+        return None
 
     if invoice.supplier_id:
         supplier = Supplier.query.get(invoice.supplier_id)
@@ -67,18 +45,14 @@ def delete_invoice():
     db.session.delete(invoice)
     db.session.commit()
 
-    return jsonify({"message": f"Invoice {invoice_id} has been deleted"}), 200
+    return invoice_id
 
-@main_bp.route('/update-invoice', methods=['POST'])
-def update_invoice():
-    new_data = request.json["new_data"]
+
+def update_invoice_service(new_data):
     invoice_id = new_data["id"]
-    if not invoice_id:
-        return jsonify({"error": "ID parameter is missing"}), 400
-
     invoice = Invoice.query.get(invoice_id)
     if not invoice:
-        return jsonify({"error": "Invoice not found"}), 404
+        return None
 
     invoice.invoice_number = new_data.get("invoice_number", invoice.invoice_number)
     invoice.var_symbol = new_data.get("var_symbol", invoice.var_symbol)
@@ -111,4 +85,4 @@ def update_invoice():
 
     db.session.commit()
 
-    return jsonify({"message": "Invoice has been updated"}), 200
+    return invoice_id

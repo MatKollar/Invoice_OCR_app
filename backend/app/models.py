@@ -1,21 +1,10 @@
-from flask_sqlalchemy import SQLAlchemy
-from uuid import uuid4
-from enum import Enum
 import string
 import random
+
+from enum import Enum
+
 from app.extensions import db
-
-
-def get_uuid():
-    return uuid4().hex
-
-
-def generate_invite_code(length):
-    letters_and_digits = string.ascii_uppercase + string.digits
-    while True:
-        code = ''.join(random.choices(letters_and_digits, k=length))
-        if not Organization.query.filter_by(invite_code=code).first():
-            return code
+from app.utils.utils import get_uuid
 
 
 class UserRole(Enum):
@@ -30,6 +19,14 @@ user_organization = db.Table('user_organization', db.metadata,
                              db.Column('organization_id', db.String(32),
                                        db.ForeignKey('organizations.id'))
                              )
+
+
+def generate_invite_code(length):
+    letters_and_digits = string.ascii_uppercase + string.digits
+    while True:
+        code = ''.join(random.choices(letters_and_digits, k=length))
+        if not Organization.query.filter_by(invite_code=code).first():
+            return code
 
 
 class User(db.Model):

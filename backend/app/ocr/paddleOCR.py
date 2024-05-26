@@ -2,7 +2,8 @@ from flask import Blueprint, request, jsonify
 import time
 from paddleocr import PaddleOCR
 from app.ocr.paddleParser import parse_text
-from app.services.operations import load_image, add_invoice_to_db, check_if_invoice
+from app.utils.operations import add_invoice_to_db, check_if_invoice
+from app.utils.utils import load_image
 
 paddleocr_bp = Blueprint('paddleocr', __name__)
 

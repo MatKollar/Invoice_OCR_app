@@ -17,7 +17,7 @@ def get_invoice_number(words):
                 if part.isdigit():
                     invoice_number = part
                     return invoice_number
-            next_words = words[i+1]
+            next_words = words[i + 1]
             next_words = next_words.split()
             for next_word in next_words:
                 if next_word.isdigit():
@@ -34,7 +34,7 @@ def get_variable_symbol(words):
                 if part.isdigit():
                     var_symbol = part
                     return var_symbol
-            next_words = words[i+1]
+            next_words = words[i + 1]
             next_words = next_words.split()
             for next_word in next_words:
                 if next_word.isdigit():
@@ -47,7 +47,9 @@ def get_date_of_issue(words):
     date_pattern = re.compile(r"\d{1,2}\s*[-.:]\s*\d{1,2}\s*[-.:]\s*\d{2,4}")
 
     for i, word in enumerate(words):
-        if any([kw in word.lower().rstrip(':') for kw in ('datum vystavenia', 'datum vyhotovenia', 'datum vyhotovenia', 'vyhotovena', 'vystavenia', 'fakturacie')]):
+        if any([kw in word.lower().rstrip(':') for kw in (
+                'datum vystavenia', 'datum vyhotovenia', 'datum vyhotovenia', 'vyhotovena', 'vystavenia',
+                'fakturacie')]):
             word = re.sub(
                 r'(\d{1,2})\.\s+(\d{1,2})\.\s+(\d{2,4})', r'\1.\2.\3', word)
             word_parts = word.split()
@@ -60,7 +62,7 @@ def get_date_of_issue(words):
                         possible_date = split_word[1]
                         if date_pattern.match(possible_date):
                             return possible_date
-            next_words = words[i+1]
+            next_words = words[i + 1]
             next_words = next_words.split()
             for next_word in next_words:
                 if date_pattern.match(next_word):
@@ -73,7 +75,8 @@ def get_due_date(words):
     date_pattern = re.compile(r"\d{1,2}\s*[-.:]\s*\d{1,2}\s*[-.:]\s*\d{2,4}")
 
     for i, word in enumerate(words):
-        if any([kw in word.lower().rstrip(':') for kw in ('datum splatnosti', 'splatnost', 'splatnost:', 'splatnosti', 'splatnosti')]):
+        if any([kw in word.lower().rstrip(':') for kw in
+                ('datum splatnosti', 'splatnost', 'splatnost:', 'splatnosti', 'splatnosti')]):
             word = re.sub(
                 r'(\d{1,2})\.\s+(\d{1,2})\.\s+(\d{2,4})', r'\1.\2.\3', word)
             word_parts = word.split()
@@ -86,7 +89,7 @@ def get_due_date(words):
                         possible_date = split_word[1]
                         if date_pattern.match(possible_date):
                             return possible_date
-            next_words = words[i+1]
+            next_words = words[i + 1]
             next_words = next_words.split()
             for next_word in next_words:
                 if date_pattern.match(next_word):
@@ -99,8 +102,9 @@ def get_delivery_date(words):
     date_pattern = re.compile(r"\d{1,2}\s*[-.:]\s*\d{1,2}\s*[-.:]\s*\d{2,4}")
 
     for i, word in enumerate(words):
-        if any([kw in word.lower().rstrip(':') for kw in ('datum dodania', 'datum uskut.', 'datum plnenia', 'dodanie', 'dodania', 'datum dan.',
-                                                          'danova povinnost', 'datum dod.', 'povinnost', 'datum zdanitelneho')]):
+        if any([kw in word.lower().rstrip(':') for kw in
+                ('datum dodania', 'datum uskut.', 'datum plnenia', 'dodanie', 'dodania', 'datum dan.',
+                 'danova povinnost', 'datum dod.', 'povinnost', 'datum zdanitelneho')]):
             word = re.sub(
                 r'(\d{1,2})\.\s+(\d{1,2})\.\s+(\d{2,4})', r'\1.\2.\3', word)
             word_parts = word.split()
@@ -113,7 +117,7 @@ def get_delivery_date(words):
                         possible_date = split_word[1]
                         if date_pattern.match(possible_date):
                             return possible_date
-            next_words = words[i+1]
+            next_words = words[i + 1]
             next_words = next_words.split()
             for next_word in next_words:
                 if date_pattern.match(next_word):
@@ -124,7 +128,8 @@ def get_delivery_date(words):
 def get_payment_method(words):
     payment_method = ''
     for i, word in enumerate(words):
-        if any([kw in word.lower() for kw in ('forma uhrady', 'sposob uhrady', 'forma platby', 'sposob platby', 'spos. uhrady', 'uhrada', 'platba')]):
+        if any([kw in word.lower() for kw in (
+                'forma uhrady', 'sposob uhrady', 'forma platby', 'sposob platby', 'spos. uhrady', 'uhrada', 'platba')]):
             for j in range(i, len(words)):
                 next_word = words[j]
                 if any(x in next_word.lower() for x in ['prevod', 'prevodom']):
@@ -153,12 +158,13 @@ def get_total_price(words):
     total_price = ''
     pattern = re.compile(r"€?\b\d+(?:[,\s]\d+)*\b")
     for i, word in enumerate(words):
-        if any([kw1 in word.lower() and kw2 in word.lower() for kw1, kw2 in (('celkom', '€'), ('spolu', '€'), ('celkom', 'eur'), ('spolu', 'eur'),
-                                                                             ('celkova', 'suma'), ('fakturovana', 'suma'), (
-                                                                                 'celkova', 'hodnota'), ('suma', 'uhradu'),
-                                                                             ('spolu', 'uhradu'), ('fakturovana', 'hodnota'), (
-                                                                                 'celkom', 'uhrade'), ('celkom', 'k'), ('k ', 'uhrade'),
-                                                                             ('na', 'zaplatenie'), ('celkom:', ''))]):
+        if any([kw1 in word.lower() and kw2 in word.lower() for kw1, kw2 in
+                (('celkom', '€'), ('spolu', '€'), ('celkom', 'eur'), ('spolu', 'eur'),
+                 ('celkova', 'suma'), ('fakturovana', 'suma'), (
+                         'celkova', 'hodnota'), ('suma', 'uhradu'),
+                 ('spolu', 'uhradu'), ('fakturovana', 'hodnota'), (
+                         'celkom', 'uhrade'), ('celkom', 'k'), ('k ', 'uhrade'),
+                 ('na', 'zaplatenie'), ('celkom:', ''))]):
             parts = re.sub(r'(\d)\s+(\d)', r'\1\2', words[i + 1])
             parts = parts.split()
             for part in parts:
