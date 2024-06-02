@@ -1,33 +1,11 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, jsonify
 import time
 from paddleocr import PaddleOCR
-from app.ocr.paddleParser import parse_text
-from app.utils.operations import add_invoice_to_db, check_if_invoice
-from app.utils.utils import load_image
+from app.parsers.paddleParser import parse_text
+from app.utils.operations import add_invoice_to_db, check_if_invoice, process_paddleocr_text
+from app.utils.utils import load_image, get_files_from_request
 
 paddleocr_bp = Blueprint('paddleocr', __name__)
-
-
-def compute_average_score_and_text(result):
-    total_score = 0
-    num_words = 0
-    text = ""
-    for res in result:
-        for line in res:
-            text += line[1][0] + "\n"
-            total_score += line[1][1]
-            num_words += 1
-
-    average_score = total_score / num_words if num_words > 0 else 0
-    return average_score, text
-
-
-def get_files_from_request():
-    pdf_file = request.files['pdf'].read(
-    ) if request.files.get('pdf') else None
-    image_file = request.files['image'].read(
-    ) if request.files.get('image') else None
-    return pdf_file, image_file
 
 
 @paddleocr_bp.route('/paddleOCR', methods=['POST'])
@@ -46,7 +24,7 @@ def process_paddleocr():
     result = ocr.ocr(img, cls=True)
     recognition_time = time.time() - start_time_recognition
 
-    average_score, text = compute_average_score_and_text(result)
+    average_confidence, text = process_paddleocr_text(result)
 
     start_time_parsing = time.time()
     parsed_data = parse_text(text)
@@ -59,13 +37,13 @@ def process_paddleocr():
             'recognition': recognition_time,
             'parsing': parsing_time,
         },
-        'average_score': average_score * 100
+        'average_confidence': average_confidence * 100
     }
 
     if check_if_invoice(parsed_data):
         pdf_file, image_file = get_files_from_request()
         invoice_id = add_invoice_to_db(parsed_data, text, pdf_file, image_file,
-                                       average_score * 100, recognition_time, parsing_time, ocr_method)
+                                       average_confidence * 100, recognition_time, parsing_time, ocr_method)
         response['invoice_id'] = invoice_id
 
     return jsonify(response)

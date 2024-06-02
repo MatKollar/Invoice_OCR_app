@@ -107,7 +107,7 @@ class Buyer(db.Model):
 class Performance(db.Model):
     __tablename__ = "performance"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    average_score = db.Column(db.Float)
+    average_confidence = db.Column(db.Float)
     recognition_time = db.Column(db.Float)
     parsing_time = db.Column(db.Float)
     other_time = db.Column(db.Float)

@@ -73,7 +73,7 @@ def get_performance_data(invoice_id):
     performance = invoice.performance
     if performance:
         return {
-            'average_score': performance.average_score,
+            'average_confidence': performance.average_confidence,
             'recognition_time': performance.recognition_time,
             'parsing_time': performance.parsing_time,
             'other_time': performance.other_time,

@@ -3,6 +3,9 @@ import os
 
 load_dotenv()
 
+INVOICE_LANG = "slk"
+BACKEND_URL = "http://localhost:5000"
+
 
 class ApplicationConfig:
     SECRET_KEY = os.environ["SECRET_KEY"]
