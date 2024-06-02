@@ -116,7 +116,10 @@ const SummaryCard = (props) => {
     }
 
     if (pdfBase64) {
-      downloadFile(convertBase64ToBlob(pdfBase64, "application/pdf"), "file.pdf");
+      downloadFile(
+        convertBase64ToBlob(pdfBase64, "application/pdf"),
+        "file.pdf"
+      );
     } else if (imageBase64) {
       downloadFile(convertBase64ToBlob(imageBase64, "image/png"), "file.png");
     }
@@ -124,7 +127,9 @@ const SummaryCard = (props) => {
 
   const convertBase64ToBlob = (base64, type) => {
     const byteCharacters = atob(base64);
-    const byteNumbers = Array.from(byteCharacters, (char) => char.charCodeAt(0));
+    const byteNumbers = Array.from(byteCharacters, (char) =>
+      char.charCodeAt(0)
+    );
     const byteArray = new Uint8Array(byteNumbers);
     return new Blob([byteArray], { type });
   };
@@ -156,9 +161,18 @@ const SummaryCard = (props) => {
     setChartOpen(false);
   };
 
-  const handleDataChange = (updatedData) => {
-    setNewData(updatedData);
-    if (JSON.stringify(updatedData) !== JSON.stringify(initialData)) {
+  const handleDataChange = (updatedData, type) => {
+    let mergedData;
+    if (type === "invoice_data") {
+      mergedData = { ...newData, ...updatedData };
+    } else {
+      mergedData = { ...newData, [type]: updatedData };
+    }
+
+    const combinedData = { ...initialData, ...mergedData };
+    setNewData(combinedData);
+
+    if (JSON.stringify(combinedData) !== JSON.stringify(initialData)) {
       setDataChanged(true);
     } else {
       setDataChanged(false);
@@ -183,10 +197,14 @@ const SummaryCard = (props) => {
 
   const handleSave = async () => {
     try {
-      await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/update-invoice`, {
-        new_data: newData,
-      });
+      await httpRequest.post(
+        `${process.env.REACT_APP_BACKEND_URL}/update-invoice`,
+        {
+          new_data: newData,
+        }
+      );
       props.dataChanged();
+      enqueueSnackbar("Data saved successfully", { variant: "success" });
     } catch (error) {
       console.log("error");
       enqueueSnackbar("Error in saving data", { variant: "error" });
@@ -201,7 +219,9 @@ const SummaryCard = (props) => {
         {chartOpen ? (
           <DoughnutChart
             handleCloseChart={handleCloseChart}
-            invoice_id={props.dataFromDB ? props.dataFromDB.id : ocrCtx.invoiceId}
+            invoice_id={
+              props.dataFromDB ? props.dataFromDB.id : ocrCtx.invoiceId
+            }
           />
         ) : (
           <>
@@ -224,7 +244,10 @@ const SummaryCard = (props) => {
                     sx={{ padding: { xs: "3px", sm: "10px" } }}
                     onClick={handleOpenChart}
                   >
-                    <DonutSmallIcon fontSize="large" sx={{ color: "#6336ab" }} />
+                    <DonutSmallIcon
+                      fontSize="large"
+                      sx={{ color: "#6336ab" }}
+                    />
                   </IconButton>
                 )}
                 <IconButton
@@ -256,7 +279,9 @@ const SummaryCard = (props) => {
                         variant={"standard"}
                         className={classes.focused}
                         defaultValue={
-                          props.dataFromDB ? props.dataFromDB.text : ocrCtx.textResult
+                          props.dataFromDB
+                            ? props.dataFromDB.text
+                            : ocrCtx.textResult
                         }
                       />
                     </Paper>
@@ -280,18 +305,36 @@ const SummaryCard = (props) => {
                   <div className={classes.tables}>
                     <div className={classes.table}>
                       <InvoiceDataTable
-                        data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
-                        onDataChange={handleDataChange}
+                        data={
+                          props.dataFromDB
+                            ? props.dataFromDB
+                            : ocrCtx.extractedData
+                        }
+                        onDataChange={(data) =>
+                          handleDataChange(data, "invoice_data")
+                        }
                       />
                     </div>
                     <div className={classes.tableContainer}>
                       <SellerTable
-                        data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
-                        onDataChange={handleDataChange}
+                        data={
+                          props.dataFromDB
+                            ? props.dataFromDB
+                            : ocrCtx.extractedData
+                        }
+                        onDataChange={(data) =>
+                          handleDataChange(data, "supplier_data")
+                        }
                       />
                       <BuyerTable
-                        data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
-                        onDataChange={handleDataChange}
+                        data={
+                          props.dataFromDB
+                            ? props.dataFromDB
+                            : ocrCtx.extractedData
+                        }
+                        onDataChange={(data) =>
+                          handleDataChange(data, "buyer_data")
+                        }
                       />
                     </div>
                   </div>

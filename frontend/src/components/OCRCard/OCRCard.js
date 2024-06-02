@@ -24,9 +24,10 @@ const OCRCard = () => {
       formData.append("image", ocrCtx.file);
     } else if (ocrCtx.file.type === "image/png") {
       formData.append("image", ocrCtx.file);
+    } else if (ocrCtx.file.type === "image/webp") {
+      formData.append("image", ocrCtx.file);
     } else {
-      console.log("Error");
-      enqueueSnackbar("Error", { variant: "error" });
+      formData.append("image", ocrCtx.file);
     }
 
     try {

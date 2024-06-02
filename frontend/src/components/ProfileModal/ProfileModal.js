@@ -1,6 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { useSnackbar } from "notistack";
-import { Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import ButtonOutlined from "../StyledComponents/ButtonOutlined";
 import StyledTextField from "../StyledComponents/StyledTextField";
@@ -53,11 +58,16 @@ const ProfileModal = ({ open, onClose }) => {
 
   const updateUser = async (name, email) => {
     try {
-      await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/update-user`, {
-        name,
-        email,
+      await httpRequest.post(
+        `${process.env.REACT_APP_BACKEND_URL}/update-user`,
+        {
+          name,
+          email,
+        }
+      );
+      enqueueSnackbar("User details updated successfully", {
+        variant: "success",
       });
-      enqueueSnackbar("User details updated successfully", { variant: "success" });
       userCtx.setUserName(name);
       userCtx.setEmail(email);
     } catch (error) {
@@ -85,15 +95,13 @@ const ProfileModal = ({ open, onClose }) => {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} PaperProps={{ style: { width: 500 } }}>
-      <DialogTitle>
-        <Typography
-          component="h1"
-          variant="h5"
-          sx={{ fontFamily: "Oxanium, cursive", fontWeight: 600 }}
-        >
-          Your Profile
-        </Typography>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      PaperProps={{ style: { width: 500 } }}
+    >
+      <DialogTitle sx={{ fontFamily: "Oxanium, cursive", fontWeight: 600 }}>
+        Your Profile
       </DialogTitle>
       <DialogContent>
         {!isChangingName && (
@@ -114,7 +122,9 @@ const ProfileModal = ({ open, onClose }) => {
                 {name}
               </Typography>
             </div>
-            <ButtonOutlined onClick={handleChangeNameClick}>Change Name</ButtonOutlined>
+            <ButtonOutlined onClick={handleChangeNameClick}>
+              Change Name
+            </ButtonOutlined>
           </div>
         )}
         {isChangingName && (

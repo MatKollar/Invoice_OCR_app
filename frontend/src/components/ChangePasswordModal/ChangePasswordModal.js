@@ -1,7 +1,11 @@
 import { useState } from "react";
-import { Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import { useSnackbar } from "notistack";
-import Typography from "@mui/material/Typography";
 import ButtonOutlined from "../StyledComponents/ButtonOutlined";
 import StyledTextField from "../StyledComponents/StyledTextField";
 import httpRequest from "../../httpRequest";
@@ -26,7 +30,9 @@ const ChangePasswordModal = ({ open, onClose }) => {
     }
 
     if (newPassword.length < 6) {
-      enqueueSnackbar("Password must be at least 6 characters long", { variant: "info" });
+      enqueueSnackbar("Password must be at least 6 characters long", {
+        variant: "info",
+      });
       return false;
     }
     return true;
@@ -43,10 +49,13 @@ const ChangePasswordModal = ({ open, onClose }) => {
     }
 
     try {
-      await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/change-password`, {
-        oldPassword,
-        newPassword,
-      });
+      await httpRequest.post(
+        `${process.env.REACT_APP_BACKEND_URL}/change-password`,
+        {
+          oldPassword,
+          newPassword,
+        }
+      );
       enqueueSnackbar("Password changed successfully", { variant: "success" });
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -59,14 +68,8 @@ const ChangePasswordModal = ({ open, onClose }) => {
   return (
     <Dialog open={open} onClose={handleClose}>
       <form onSubmit={handleFormSubmit}>
-        <DialogTitle>
-          <Typography
-            component="h1"
-            variant="h5"
-            sx={{ fontFamily: "Oxanium, cursive", fontWeight: 600 }}
-          >
-            Change Password
-          </Typography>
+        <DialogTitle sx={{ fontFamily: "Oxanium, cursive", fontWeight: 600 }}>
+          Change Password
         </DialogTitle>
         <DialogContent>
           <StyledTextField

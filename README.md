@@ -2,7 +2,6 @@
  <h1 align="center">Invoice OCR App</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/tokei/lines/github/MatKollar/Invoice_OCR_app" alt="Lines of code"/>
   <img src="https://img.shields.io/github/stars/MatKollar/Invoice_OCR_app?style=social" alt="GitHub Repo stars"/>
 </p>
 

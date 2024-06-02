@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 
-import { Button, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
 import { useSnackbar } from "notistack";
@@ -35,7 +35,7 @@ const Organization = (props) => {
         `${process.env.REACT_APP_BACKEND_URL}/get-organization-invoices`,
         {
           organization_id: orgData.id,
-        },
+        }
       );
       setInvoices(resp.data.invoices);
     } catch (error) {
@@ -58,10 +58,15 @@ const Organization = (props) => {
     setActiveOrganization(true);
     userCtx.setActiveOrganization(orgData);
     try {
-      await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/activate-organization`, {
-        organization_id: orgData.id,
+      await httpRequest.post(
+        `${process.env.REACT_APP_BACKEND_URL}/activate-organization`,
+        {
+          organization_id: orgData.id,
+        }
+      );
+      enqueueSnackbar("Organization activated successfully", {
+        variant: "success",
       });
-      enqueueSnackbar("Organization activated successfully", { variant: "success" });
     } catch (error) {
       if (error.response && error.response.status === 401) {
         enqueueSnackbar("Invalid credentials", { variant: "error" });
@@ -73,10 +78,15 @@ const Organization = (props) => {
     setActiveOrganization(false);
     userCtx.setActiveOrganization(null);
     try {
-      await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/deactivate-organization`, {
-        organization_id: orgData.id,
+      await httpRequest.post(
+        `${process.env.REACT_APP_BACKEND_URL}/deactivate-organization`,
+        {
+          organization_id: orgData.id,
+        }
+      );
+      enqueueSnackbar("Organization deactivated successfully", {
+        variant: "success",
       });
-      enqueueSnackbar("Organization deactivated successfully", { variant: "success" });
     } catch (error) {
       if (error.response && error.response.status === 401) {
         enqueueSnackbar("Invalid credentials", { variant: "error" });
@@ -131,7 +141,10 @@ const Organization = (props) => {
           <IconButton onClick={() => setIsSummaryOpen(false)}>
             <ArrowBackIcon fontSize="large" sx={{ color: "black" }} />
           </IconButton>
-          <SummaryCard dataFromDB={selectedInvoice} dataChanged={handleDataChange} />
+          <SummaryCard
+            dataFromDB={selectedInvoice}
+            dataChanged={handleDataChange}
+          />
         </div>
       )}
     </div>

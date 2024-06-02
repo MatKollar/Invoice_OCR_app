@@ -9,7 +9,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import TextField from "@mui/material/TextField";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -124,7 +123,7 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
 
   const openInvoiceSummary = (invoiceRowData) => {
     const invoiceDataSelected = invoiceData.filter(
-      (invoice) => invoice.invoice_number === invoiceRowData.inv_number,
+      (invoice) => invoice.invoice_number === invoiceRowData.inv_number
     );
     openSummary(invoiceDataSelected[0]);
   };
@@ -132,7 +131,8 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
   const filteredRows = dataToSearch.filter((row) => {
     return Object.values(row).some(
       (value) =>
-        typeof value === "string" && value.toLowerCase().includes(search.toLowerCase()),
+        typeof value === "string" &&
+        value.toLowerCase().includes(search.toLowerCase())
     );
   });
 
@@ -149,11 +149,14 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
 
   const handleDeleteConfirmation = async () => {
     try {
-      await httpRequest.delete(`/delete-invoice`, {
-        params: {
-          id: invoiceToDelete.id,
-        },
-      });
+      await httpRequest.delete(
+        `${process.env.REACT_APP_BACKEND_URL}/delete-invoice`,
+        {
+          params: {
+            id: invoiceToDelete.id,
+          },
+        }
+      );
 
       enqueueSnackbar("Invoice deleted successfully!", { variant: "success" });
       refreshInvoiceData();
@@ -259,7 +262,10 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title" sx={{ fontFamily: "Oxanium, cursive" }}>
+        <DialogTitle
+          id="alert-dialog-title"
+          sx={{ fontFamily: "Oxanium, cursive" }}
+        >
           Delete Invoice
         </DialogTitle>
         <DialogContent>
@@ -274,7 +280,11 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
           <ButtonOutlined onClick={handleDeleteCancel} color="primary">
             Cancel
           </ButtonOutlined>
-          <ButtonOutlined onClick={handleDeleteConfirmation} color="primary" autoFocus>
+          <ButtonOutlined
+            onClick={handleDeleteConfirmation}
+            color="primary"
+            autoFocus
+          >
             Yes
           </ButtonOutlined>
         </DialogActions>
