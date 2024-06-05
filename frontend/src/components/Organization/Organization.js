@@ -105,10 +105,10 @@ const Organization = (props) => {
 
   return (
     <div className={classes.rootContainer}>
-      <Typography variant="h2" sx={{ fontFamily: "Oxanium, cursive" }}>
+      <Typography variant="h2">
         {orgData.name}
       </Typography>
-      <Typography variant="h5" sx={{ fontFamily: "Oxanium, cursive" }}>
+      <Typography variant="h5">
         INVITE CODE: {orgData.invite_code}
       </Typography>
 

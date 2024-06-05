@@ -264,14 +264,12 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
       >
         <DialogTitle
           id="alert-dialog-title"
-          sx={{ fontFamily: "Oxanium, cursive" }}
         >
           Delete Invoice
         </DialogTitle>
         <DialogContent>
           <DialogContentText
             id="alert-dialog-description"
-            sx={{ fontFamily: "Oxanium, cursive" }}
           >
             Are you sure you want to delete this invoice?
           </DialogContentText>

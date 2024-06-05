@@ -8,6 +8,9 @@ export const useStyles = makeStyles({
     marginBottom: 20,
   },
   link: {
+    textDecoration: "none",
+    display: "flex",
+    alignItems: "center",
     color: "white",
     "&:hover": {
       color: "#854de0",

@@ -27,8 +27,8 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
-    setShowPassword(!showPassword)
-  }
+    setShowPassword(!showPassword);
+  };
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -83,11 +83,7 @@ const LoginPage = () => {
               alignItems: "center",
             }}
           >
-            <Typography
-              component="h1"
-              variant="h4"
-              sx={{ fontFamily: "Oxanium, cursive", fontWeight: 600 }}
-            >
+            <Typography component="h1" variant="h4" sx={{ fontWeight: 600 }}>
               LOGIN
             </Typography>
             <Box component="form" onSubmit={submitHandler} sx={{ mt: 1 }}>
@@ -143,7 +139,6 @@ const LoginPage = () => {
                     href="#"
                     variant="body2"
                     sx={{
-                      fontFamily: "Oxanium, cursive",
                       fontWeight: 600,
                       color: "#854de0",
                     }}

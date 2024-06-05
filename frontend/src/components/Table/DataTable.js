@@ -1,15 +1,9 @@
 import { useState, useEffect } from "react";
-import { Paper, TextField, ThemeProvider, createTheme } from "@mui/material";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#854de0",
-    },
-  },
-});
+import { Paper, TextField } from "@mui/material";
+import { useStyles } from "./styles";
 
 function DataTable(props) {
+  const classes = useStyles();
   const { data, ico } = props;
   const [localData, setLocalData] = useState(data);
 
@@ -30,22 +24,21 @@ function DataTable(props) {
       onChange={(event) => handleChange(event, field)}
       sx={{ mb: 1 }}
       variant="standard"
+      className={classes.focused}
       fullWidth
       inputProps={{ style: { fontWeight: "bold" } }}
     />
   );
 
   return (
-    <ThemeProvider theme={theme}>
-      <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
-        {renderTextField("Name", "Name")}
-        {renderTextField("Street", "Address")}
-        {renderTextField("City", "City")}
-        {renderTextField("PSC", "PSC")}
-        {renderTextField("ICO", "IČO")}
-        {renderTextField("DIC", "DIČ")}
-      </Paper>
-    </ThemeProvider>
+    <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
+      {renderTextField("Name", "Name")}
+      {renderTextField("Street", "Address")}
+      {renderTextField("City", "City")}
+      {renderTextField("PSC", "PSC")}
+      {renderTextField("ICO", "IČO")}
+      {renderTextField("DIC", "DIČ")}
+    </Paper>
   );
 }
 

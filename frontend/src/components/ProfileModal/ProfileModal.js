@@ -100,25 +100,15 @@ const ProfileModal = ({ open, onClose }) => {
       onClose={handleClose}
       PaperProps={{ style: { width: 500 } }}
     >
-      <DialogTitle sx={{ fontFamily: "Oxanium, cursive", fontWeight: 600 }}>
-        Your Profile
-      </DialogTitle>
+      <DialogTitle sx={{ fontWeight: 600 }}>Your Profile</DialogTitle>
       <DialogContent>
         {!isChangingName && (
           <div className={classes.profile}>
             <div className={classes.text}>
-              <Typography
-                component="p"
-                variant="body1"
-                sx={{ fontFamily: "Oxanium, cursive" }}
-              >
+              <Typography component="p" variant="body1">
                 Username:
               </Typography>
-              <Typography
-                component="p"
-                variant="body1"
-                sx={{ fontFamily: "Oxanium, cursive" }}
-              >
+              <Typography component="p" variant="body1">
                 {name}
               </Typography>
             </div>
@@ -139,18 +129,10 @@ const ProfileModal = ({ open, onClose }) => {
         {!isChangingEmail && (
           <div className={classes.profile}>
             <div className={classes.text}>
-              <Typography
-                component="p"
-                variant="body1"
-                sx={{ fontFamily: "Oxanium, cursive" }}
-              >
+              <Typography component="p" variant="body1">
                 Email:
               </Typography>
-              <Typography
-                component="p"
-                variant="body1"
-                sx={{ fontFamily: "Oxanium, cursive" }}
-              >
+              <Typography component="p" variant="body1">
                 {email}
               </Typography>
             </div>
@@ -173,18 +155,10 @@ const ProfileModal = ({ open, onClose }) => {
         )}
         <div className={classes.profile}>
           <div className={classes.text}>
-            <Typography
-              component="p"
-              variant="body1"
-              sx={{ fontFamily: "Oxanium, cursive" }}
-            >
+            <Typography component="p" variant="body1">
               Active organization:
             </Typography>
-            <Typography
-              component="p"
-              variant="body1"
-              sx={{ fontFamily: "Oxanium, cursive" }}
-            >
+            <Typography component="p" variant="body1">
               {activeOrganization.name}
             </Typography>
           </div>

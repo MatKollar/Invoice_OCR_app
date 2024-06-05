@@ -42,7 +42,7 @@ const OrganizationCard = (props) => {
   return (
     <>
       <Paper elevation={3} className={classes.card} sx={{ p: 2, borderRadius: 5 }}>
-        <Typography variant="h5" sx={{ fontFamily: "Oxanium, cursive" }}>
+        <Typography variant="h5">
           Join Organization
           <br />
           <StyledTextField

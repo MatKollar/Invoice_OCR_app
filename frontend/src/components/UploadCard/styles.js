@@ -17,12 +17,23 @@ export const useStyles = makeStyles({
   input: {
     margin: "0 auto",
     marginTop: 20,
-    width: "70%",
   },
   loader: {
     position: "absolute",
     top: "64%",
     left: "50%",
     transform: "translate(-50%, -50%)",
+  },
+  fileInput: {
+    display: "block",
+    width: "80%",
+    margin: "0 auto",
+    padding: "12px",
+    border: "2px dashed #854de0",
+    borderRadius: "5px",
+    cursor: "pointer",
+    "&:hover": {
+      borderColor: "#6439b7",
+    },
   },
 });

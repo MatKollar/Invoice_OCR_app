@@ -92,7 +92,7 @@ const OCRCard = () => {
   return (
     <>
       <div className={classes.rootContainer}>
-        <Typography variant="h5" sx={{ pt: 2, fontFamily: "Oxanium, cursive" }}>
+        <Typography variant="h5" sx={{ pt: 2 }}>
           Select OCR
         </Typography>
 

@@ -6,7 +6,6 @@ const ButtonOutlined = (props) => {
       {...props}
       variant="outlined"
       sx={{
-        fontFamily: "Oxanium, cursive",
         color: "#854de0",
         borderColor: "#854de0",
         "&:hover": {

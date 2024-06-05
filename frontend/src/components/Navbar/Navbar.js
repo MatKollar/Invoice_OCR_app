@@ -55,7 +55,6 @@ const Navbar = (props) => {
           sx={{
             ml: 4,
             fontSize: { xs: "20px", sm: "24px", md: "26px" },
-            fontFamily: "Oxanium, cursive",
           }}
         >
           {getPageTitle()}

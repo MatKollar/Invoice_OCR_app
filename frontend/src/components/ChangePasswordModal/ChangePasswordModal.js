@@ -68,9 +68,7 @@ const ChangePasswordModal = ({ open, onClose }) => {
   return (
     <Dialog open={open} onClose={handleClose}>
       <form onSubmit={handleFormSubmit}>
-        <DialogTitle sx={{ fontFamily: "Oxanium, cursive", fontWeight: 600 }}>
-          Change Password
-        </DialogTitle>
+        <DialogTitle sx={{ fontWeight: 600 }}>Change Password</DialogTitle>
         <DialogContent>
           <StyledTextField
             autoFocus

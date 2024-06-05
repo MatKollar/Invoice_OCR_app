@@ -70,7 +70,7 @@ const PreprocessingCard = () => {
   return (
     <>
       <div className={classes.rootContainer}>
-        <Typography variant="h5" sx={{ pt: 2, fontFamily: "Oxanium, cursive" }}>
+        <Typography variant="h5" sx={{ pt: 2 }}>
           Select Preprocessing
         </Typography>
         <IconButton className={classes.resetButton} onClick={handleReset}>

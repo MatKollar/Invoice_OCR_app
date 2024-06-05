@@ -52,7 +52,7 @@ const Tabbar = () => {
                 color: ocrCtx.activePage === index ? "inherit" : "black",
               }}
               label={
-                <Typography sx={{ display: "flex", fontFamily: "Oxanium, cursive" }}>
+                <Typography sx={{ display: "flex" }}>
                   {tab.icon}
                   <span className={classes.text}>{tab.label}</span>
                 </Typography>

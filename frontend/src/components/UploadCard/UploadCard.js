@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Typography } from "@mui/material";
+import { Typography, Button, Box } from "@mui/material";
 import { BarLoader } from "react-spinners";
 import ButtonContained from "../StyledComponents/ButtonContained";
 import OCRContext from "../../context/ocr-context";
@@ -87,14 +87,14 @@ const UploadCard = () => {
   return (
     <>
       <div className={classes.rootContainer}>
-        <Typography variant="h5" sx={{ pt: 2, fontFamily: "Oxanium, cursive" }}>
+        <Typography variant="h5" sx={{ pt: 2 }}>
           Upload Document
         </Typography>
         <div className={classes.input}>
           <input
             type="file"
-            className="form-control"
             onChange={(e) => handleImageUpload(e)}
+            className={classes.fileInput}
           />
         </div>
         {isLoading && (

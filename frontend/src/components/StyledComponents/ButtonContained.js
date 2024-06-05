@@ -6,7 +6,6 @@ const ButtonContained = (props) => {
       {...props}
       variant="contained"
       sx={{
-        fontFamily: "Oxanium, cursive",
         backgroundColor: "#854de0",
         "&:hover": {
           backgroundColor: "#6336ab",

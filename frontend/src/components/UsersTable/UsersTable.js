@@ -122,7 +122,7 @@ function UsersTable({ users, onUserUpdated }) {
             },
           }}
         >
-          <Typography variant="h6" sx={{ fontFamily: "Oxanium, cursive" }}>
+          <Typography variant="h6">
             Edit Role for {selectedUser?.name}
           </Typography>
           <FormControl fullWidth sx={{ my: 2 }}>
