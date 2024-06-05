@@ -32,7 +32,7 @@ const HomePage = () => {
         window.location.href = "/login";
       }
     })();
-  }, [userCtx]);
+  }, [userCtx, enqueueSnackbar]);
 
   useEffect(() => {
     setActivePage(ocrCtx.activePage);

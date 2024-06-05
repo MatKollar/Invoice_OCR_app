@@ -48,7 +48,7 @@ const ProfileModal = ({ open, onClose }) => {
   };
 
   const validateEmail = (email) => {
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!emailRegex.test(email) && email.length > 0) {
       return false;
     } else {

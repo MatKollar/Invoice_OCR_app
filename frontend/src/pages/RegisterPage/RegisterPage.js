@@ -43,7 +43,7 @@ const RegisterPage = () => {
   };
 
   const validateEmail = (event) => {
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     const email = event.target.value;
     if (!emailRegex.test(email) && email.length > 0) {
       setEmailValid(false);

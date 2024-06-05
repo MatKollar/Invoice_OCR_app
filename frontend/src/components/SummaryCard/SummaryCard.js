@@ -31,12 +31,14 @@ const SummaryCard = (props) => {
 
   useEffect(() => {
     setIsInvoice(ocrCtx.isInvoice);
+    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     if (!chartOpen && !showText) {
       drawInvoiceOnCanvas();
     }
+    //eslint-disable-next-line
   }, [chartOpen, showText]);
 
   useEffect(() => {

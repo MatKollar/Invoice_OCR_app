@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Typography, Button, Box } from "@mui/material";
+import { Typography } from "@mui/material";
 import { BarLoader } from "react-spinners";
 import ButtonContained from "../StyledComponents/ButtonContained";
 import OCRContext from "../../context/ocr-context";

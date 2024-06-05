@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Paper, TextField, Grid } from "@mui/material";
 import { useStyles } from "./styles";
 
 const InvoiceTable = (props) => {
   const classes = useStyles();
-  const invoiceData = props.data || {};
+  const invoiceData = useMemo(() => props.data || {}, [props.data]);
   const [localData, setLocalData] = useState(invoiceData);
 
   useEffect(() => {

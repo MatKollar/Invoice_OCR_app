@@ -39,6 +39,7 @@ const OrganizationPage = () => {
         window.location.href = "/login";
       }
     })();
+    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const OrganizationPage = () => {
         enqueueSnackbar("Error", { variant: "error" });
       }
     })();
-  }, [activePage]);
+  }, [activePage, enqueueSnackbar, userCtx]);
 
   const handlePageChange = (page, name) => {
     setActivePage(page);
@@ -72,7 +73,7 @@ const OrganizationPage = () => {
         {!isOrganizationOpen && (
           <div>
             <Grid container spacing={2}>
-              {activePageName == "ORGANIZATIONS" &&
+              {activePageName === "ORGANIZATIONS" &&
                 organizationsData &&
                 organizationsData.map((organizationData) => (
                   <Grid key={organizationData.id} item md={2}>
@@ -83,10 +84,10 @@ const OrganizationPage = () => {
                 ))}
             </Grid>
             <div className={classes.cards}>
-              {activePageName == "JOIN" && (
+              {activePageName === "JOIN" && (
                 <OrganizationCard onPageChange={handlePageChange} />
               )}
-              {role !== "user" && activePageName == "CREATE" && (
+              {role !== "user" && activePageName === "CREATE" && (
                 <CreateOrganizationCard onPageChange={handlePageChange} />
               )}
             </div>

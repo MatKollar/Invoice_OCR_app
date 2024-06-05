@@ -27,6 +27,7 @@ const Organization = (props) => {
     (async () => {
       await fetchInvoiceData();
     })();
+    //eslint-disable-next-line
   }, []);
 
   const fetchInvoiceData = async () => {
@@ -52,7 +53,7 @@ const Organization = (props) => {
         setActiveOrganization(false);
       }
     }
-  }, [userCtx.activeOrganization]);
+  }, [userCtx.activeOrganization, orgData.id]);
 
   const setOrganizationAsActive = async () => {
     setActiveOrganization(true);

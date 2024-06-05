@@ -28,7 +28,7 @@ const useAuth = () => {
     ) {
       fetchCurrentUser();
     }
-  }, [location]);
+  }, [location, authContext]);
 };
 
 export default useAuth;
