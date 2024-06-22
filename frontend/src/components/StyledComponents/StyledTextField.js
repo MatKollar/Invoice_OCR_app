@@ -1,4 +1,5 @@
 import TextField from "@mui/material/TextField";
+import { COLORS } from "../../styles/constants";
 
 const StyledTextField = (props) => {
   return (
@@ -11,11 +12,11 @@ const StyledTextField = (props) => {
         autoComplete: "off",
         "& .MuiOutlinedInput-root": {
           "&.Mui-focused fieldset": {
-            borderColor: "#854de0",
+            borderColor: COLORS.PRIMARY,
           },
         },
         "& .MuiInputLabel-outlined.Mui-focused": {
-          color: "#854de0",
+          color: COLORS.PRIMARY,
         },
       }}
     />

@@ -4,6 +4,7 @@ import { BarLoader } from "react-spinners";
 import ButtonContained from "../StyledComponents/ButtonContained";
 import OCRContext from "../../context/ocr-context";
 import { useStyles } from "./styles";
+import { COLORS } from "../../styles/constants";
 const cv = window.cv;
 
 const UploadCard = () => {
@@ -99,7 +100,7 @@ const UploadCard = () => {
         </div>
         {isLoading && (
           <div className={classes.loader}>
-            <BarLoader color="#854de0" width={150} />
+            <BarLoader color={COLORS.PRIMARY} width={150} />
           </div>
         )}
         <ButtonContained

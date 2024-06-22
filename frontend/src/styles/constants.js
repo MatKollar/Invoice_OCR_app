@@ -1,14 +1,11 @@
 export const COLORS = {
-  primary: "#FF6B00",
-  secondary: "#FFD600",
-  tertiary: "#FF8700",
-  background: "#F5F5F5",
-  text: "#333333",
-  textSecondary: "#4F4F4F",
-  textDisabled: "#828282",
-  border: "#BDBDBD",
-  error: "#FF0000",
-  success: "#00FF00",
+  PRIMARY: "#854de0",
+  PRIMARY_HOVER: "#6336ab",
+  GRAY_DARK: "#919191",
+  GRAY_LIGHT: "#b0b0b0",
+  DARK: "#242424",
+  DARKER: "#161616",
+  CREAM: "#ede4e0",
 };
 
 export const FONT_FAMILIES = [

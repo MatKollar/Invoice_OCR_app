@@ -18,6 +18,7 @@ import StyledTextField from "../../components/StyledComponents/StyledTextField";
 import ButtonContained from "../../components/StyledComponents/ButtonContained";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
+import { COLORS } from "../../styles/constants";
 
 const RegisterPage = () => {
   const classes = useStyles();
@@ -100,7 +101,7 @@ const RegisterPage = () => {
     <Container component="main" maxWidth="xs" className={classes.rootContainer}>
       {loading ? (
         <FadeLoader
-          color="#854de0"
+          color={COLORS.PRIMARY}
           size={50}
           style={{ position: "absolute", top: "40%", left: "50%" }}
         />

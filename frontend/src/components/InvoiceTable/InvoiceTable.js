@@ -21,6 +21,7 @@ import { Typography } from "@mui/material";
 import httpRequest from "../../httpRequest";
 import ButtonOutlined from "../StyledComponents/ButtonOutlined";
 import StyledTextField from "../StyledComponents/StyledTextField";
+import { COLORS } from "../../styles/constants";
 
 const columns = [
   { id: "inv_number", label: "Invoice Number", minWidth: 170 },
@@ -238,7 +239,7 @@ const InvoiceTable = ({ invoiceData, openSummary, refreshInvoiceData }) => {
                       <IconButton
                         onClick={(event) => openDeleteDialogHandler(event, row)}
                       >
-                        <DeleteIcon sx={{ color: "#854de0" }} />
+                        <DeleteIcon sx={{ color: COLORS.PRIMARY }} />
                       </IconButton>
                     </TableCell>
                   </TableRow>

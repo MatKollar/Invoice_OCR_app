@@ -1,13 +1,10 @@
 import { createTheme } from "@mui/material";
-import { FONT_FAMILIES } from "./constants";
+import { COLORS, FONT_FAMILIES } from "./constants";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#1976d2",
-    },
-    secondary: {
-      main: "#dc004e",
+      main: COLORS.PRIMARY,
     },
   },
   typography: {

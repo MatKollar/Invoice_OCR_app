@@ -6,6 +6,7 @@ import { useStyles } from "./styles";
 import ButtonOutlined from "../StyledComponents/ButtonOutlined";
 import httpRequest from "../../httpRequest";
 import OCRContext from "../../context/ocr-context";
+import { COLORS } from "../../styles/constants";
 
 const OCRCard = () => {
   const classes = useStyles();
@@ -122,7 +123,7 @@ const OCRCard = () => {
           </Grid>
         </Grid>
 
-        {loading && <CircularProgress sx={{ color: "#854de0", mt: "15px" }} />}
+        {loading && <CircularProgress sx={{ color: COLORS.PRIMARY, mt: "15px" }} />}
       </div>
     </>
   );

@@ -18,6 +18,7 @@ import { useStyles } from "./styles";
 import StyledTextField from "../../components/StyledComponents/StyledTextField";
 import ButtonContained from "../../components/StyledComponents/ButtonContained";
 import httpRequest from "../../httpRequest";
+import { COLORS } from "../../styles/constants";
 
 const LoginPage = () => {
   const classes = useStyles();
@@ -68,7 +69,7 @@ const LoginPage = () => {
     <Container component="main" maxWidth="xs" className={classes.rootContainer}>
       {loading ? (
         <FadeLoader
-          color="#854de0"
+          color={COLORS.PRIMARY}
           size={50}
           style={{ position: "absolute", top: "40%", left: "50%" }}
         />
@@ -140,7 +141,7 @@ const LoginPage = () => {
                     variant="body2"
                     sx={{
                       fontWeight: 600,
-                      color: "#854de0",
+                      color: COLORS.PRIMARY,
                     }}
                     onClick={() => navigate("/register")}
                   >

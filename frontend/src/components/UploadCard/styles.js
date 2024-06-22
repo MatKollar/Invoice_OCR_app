@@ -1,4 +1,5 @@
 import { makeStyles } from "@mui/styles";
+import { COLORS } from "../../styles/constants";
 
 export const useStyles = makeStyles({
   rootContainer: {
@@ -29,7 +30,7 @@ export const useStyles = makeStyles({
     width: "80%",
     margin: "0 auto",
     padding: "12px",
-    border: "2px dashed #854de0",
+    border: `2px dashed ${COLORS.PRIMARY}`,
     borderRadius: "5px",
     cursor: "pointer",
     "&:hover": {

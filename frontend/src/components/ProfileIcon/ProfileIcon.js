@@ -5,6 +5,7 @@ import httpRequest from "../../httpRequest";
 import ChangePasswordModal from "../ChangePasswordModal/ChangePasswordModal";
 import ProfileModal from "../ProfileModal/ProfileModal";
 import AuthContext from "../../context/auth-context";
+import { COLORS } from "../../styles/constants";
 
 const ProfileIcon = () => {
   const [open, setOpen] = useState(null);
@@ -51,7 +52,7 @@ const ProfileIcon = () => {
           fontSize="large"
           sx={{
             "&:hover": {
-              color: "#854de0",
+              color: COLORS.PRIMARY,
             },
           }}
         />

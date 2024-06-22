@@ -18,6 +18,7 @@ import ProfileIcon from "../ProfileIcon/ProfileIcon";
 import LinkItem from "./LinkItem/LinkItem";
 import OCR_LOGO from "../../images/OCR-logo.png";
 import { Link } from 'react-router-dom';
+import { COLORS } from "../../styles/constants";
 
 const SideMenu = (props) => {
   const userCtx = useContext(userContext);
@@ -53,7 +54,7 @@ const SideMenu = (props) => {
                   sx={{
                     color: "white",
                     "&:hover": {
-                      color: "#854de0",
+                      color: COLORS.PRIMARY,
                     },
                   }}
                 />
@@ -92,7 +93,7 @@ const SideMenu = (props) => {
                   fontSize: 30,
                   mt: 2,
                   "&:hover": {
-                    color: "#854de0",
+                    color: COLORS.PRIMARY,
                   },
                 }}
               />

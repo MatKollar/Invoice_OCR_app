@@ -10,6 +10,7 @@ import Grid from "@mui/material/Grid";
 
 import userContext from "../../context/user-context";
 import { useStyles } from "./styles";
+import { COLORS } from "../../styles/constants";
 
 const tabs = [
   { label: "ORGANIZATIONS", icon: <CorporateFareIcon sx={{ mr: 1 }} />, value: 0 },
@@ -44,7 +45,7 @@ const OrganizationTabbar = ({ activePage, onPageChange }) => {
           className={classes.tabsContainer}
           TabIndicatorProps={{
             style: {
-              backgroundColor: "#854de0",
+              backgroundColor: COLORS.PRIMARY,
             },
           }}
           value={value}

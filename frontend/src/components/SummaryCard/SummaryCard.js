@@ -14,6 +14,7 @@ import SellerTable from "./SellerTable/SellerTable";
 import BuyerTable from "./BuyerTable/BuyerTable";
 import InvoiceDataTable from "./InvoiceDataTable/InvoiceDataTable";
 import httpRequest from "../../httpRequest";
+import { COLORS } from "../../styles/constants";
 const cv = window.cv;
 
 const SummaryCard = (props) => {
@@ -248,7 +249,7 @@ const SummaryCard = (props) => {
                   >
                     <DonutSmallIcon
                       fontSize="large"
-                      sx={{ color: "#6336ab" }}
+                      sx={{ color: COLORS.PRIMARY_HOVER }}
                     />
                   </IconButton>
                 )}
@@ -256,13 +257,13 @@ const SummaryCard = (props) => {
                   sx={{ padding: { xs: "3px", sm: "10px" } }}
                   onClick={handleDownloadFile}
                 >
-                  <DownloadIcon fontSize="large" sx={{ color: "#6336ab" }} />
+                  <DownloadIcon fontSize="large" sx={{ color: COLORS.PRIMARY_HOVER }} />
                 </IconButton>
                 <IconButton
                   sx={{ padding: { xs: "3px", sm: "10px" } }}
                   onClick={handleOpenFile}
                 >
-                  <OpenInNewIcon fontSize="large" sx={{ color: "#6336ab" }} />
+                  <OpenInNewIcon fontSize="large" sx={{ color: COLORS.PRIMARY_HOVER }} />
                 </IconButton>
               </div>
             </div>

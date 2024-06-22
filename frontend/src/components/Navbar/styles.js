@@ -1,4 +1,5 @@
 import { makeStyles } from "@mui/styles";
+import { COLORS } from "../../styles/constants";
 
 export const useStyles = makeStyles({
   rootContainer: {
@@ -8,7 +9,7 @@ export const useStyles = makeStyles({
     color: "white",
     width: "100%",
     height: "60px",
-    backgroundColor: "#242424",
+    backgroundColor: COLORS.DARK,
   },
   headingContainer: {
     display: "flex",
