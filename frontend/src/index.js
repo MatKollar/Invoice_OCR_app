@@ -5,7 +5,6 @@ import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@mui/material/styles";
 
 import "./index.css";
-// import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import App from "./pages/App/App";
 import { OCRContextProvider } from "./context/ocr-context";
 import { UserContextProvider } from "./context/user-context";
