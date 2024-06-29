@@ -8,7 +8,7 @@ const LinkItem = ({ to, Icon, text }) => {
     <div className={classes.linkItem}>
       <Link to={to} className={classes.link}>
         <Tooltip title={text} placement="right">
-          <Typography variant="h7" sx={{ fontFamily: "Oxanium, cursive" }}>
+          <Typography variant="body1" className={classes.link}>
             <Icon className={classes.linkIcon} />
             <span className={classes.mobileHide}>{text}</span>
           </Typography>

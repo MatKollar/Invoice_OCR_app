@@ -1,10 +1,11 @@
 import { makeStyles } from "@mui/styles";
+import { COLORS } from "../../styles/constants";
 
 export const useStyles = makeStyles(() => ({
   rootContainer: {
     width: "100%",
     height: "55px",
-    backgroundColor: "#EDE4E0",
+    backgroundColor: COLORS.CREAM,
     boxShadow: "1px 3px 3px #999999",
     display: "flex",
     justifyContent: "space-around",
@@ -18,7 +19,7 @@ export const useStyles = makeStyles(() => ({
     display: "block",
   },
   tabSelected: {
-    color: "#854de0 !important",
+    color: `${COLORS.PRIMARY} !important`,
   },
 
   "@media (max-width:570px)": {

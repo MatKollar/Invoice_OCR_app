@@ -6,6 +6,7 @@ import { useStyles } from "./styles";
 import ButtonOutlined from "../StyledComponents/ButtonOutlined";
 import httpRequest from "../../httpRequest";
 import OCRContext from "../../context/ocr-context";
+import { COLORS } from "../../styles/constants";
 
 const OCRCard = () => {
   const classes = useStyles();
@@ -24,9 +25,10 @@ const OCRCard = () => {
       formData.append("image", ocrCtx.file);
     } else if (ocrCtx.file.type === "image/png") {
       formData.append("image", ocrCtx.file);
+    } else if (ocrCtx.file.type === "image/webp") {
+      formData.append("image", ocrCtx.file);
     } else {
-      console.log("Error");
-      enqueueSnackbar("Error", { variant: "error" });
+      formData.append("image", ocrCtx.file);
     }
 
     try {
@@ -91,7 +93,7 @@ const OCRCard = () => {
   return (
     <>
       <div className={classes.rootContainer}>
-        <Typography variant="h5" sx={{ pt: 2, fontFamily: "Oxanium, cursive" }}>
+        <Typography variant="h5" sx={{ pt: 2 }}>
           Select OCR
         </Typography>
 
@@ -121,7 +123,7 @@ const OCRCard = () => {
           </Grid>
         </Grid>
 
-        {loading && <CircularProgress sx={{ color: "#854de0", mt: "15px" }} />}
+        {loading && <CircularProgress sx={{ color: COLORS.PRIMARY, mt: "15px" }} />}
       </div>
     </>
   );

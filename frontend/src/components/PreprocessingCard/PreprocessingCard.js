@@ -12,6 +12,7 @@ import binarizationImage from "../../images/preprocessing/binarization.svg";
 import noiseReductionImage from "../../images/preprocessing/noise_reduction.png";
 import deskewImage from "../../images/preprocessing/skew_correction.png";
 import removeBarcodeImage from "../../images/preprocessing/remove_barcode.png";
+import { COLORS } from "../../styles/constants";
 const cv = window.cv;
 
 const PreprocessingCard = () => {
@@ -70,11 +71,11 @@ const PreprocessingCard = () => {
   return (
     <>
       <div className={classes.rootContainer}>
-        <Typography variant="h5" sx={{ pt: 2, fontFamily: "Oxanium, cursive" }}>
+        <Typography variant="h5" sx={{ pt: 2 }}>
           Select Preprocessing
         </Typography>
         <IconButton className={classes.resetButton} onClick={handleReset}>
-          <RestartAltIcon sx={{ color: "#6336ab" }} />
+          <RestartAltIcon sx={{ color: COLORS.PRIMARY_HOVER }} />
         </IconButton>
 
         <div className={classes.buttons}>
@@ -130,7 +131,7 @@ const PreprocessingCard = () => {
         </div>
         {isLoading && (
           <div className={classes.loader}>
-            <BarLoader color="#854de0" width={150} />
+            <BarLoader color={COLORS.PRIMARY} width={150} />
           </div>
         )}
         <ButtonContained

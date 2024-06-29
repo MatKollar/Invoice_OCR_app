@@ -30,7 +30,7 @@ const UsersPage = () => {
         }
       }
     })();
-  }, [role, updatedUser]);
+  }, [role, updatedUser, enqueueSnackbar]);
 
   useEffect(() => {
     (async () => {
@@ -46,6 +46,7 @@ const UsersPage = () => {
         window.location.href = "/login";
       }
     })();
+    //eslint-disable-next-line
   }, []);
 
   const handleUserUpdated = (updatedUserID, updatedUserRole) => {

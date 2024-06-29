@@ -1,22 +1,10 @@
-from flask_sqlalchemy import SQLAlchemy
-from uuid import uuid4
-from enum import Enum
 import string
 import random
 
-db = SQLAlchemy()
+from enum import Enum
 
-
-def get_uuid():
-    return uuid4().hex
-
-
-def generate_invite_code(length):
-    letters_and_digits = string.ascii_uppercase + string.digits
-    while True:
-        code = ''.join(random.choices(letters_and_digits, k=length))
-        if not Organization.query.filter_by(invite_code=code).first():
-            return code
+from app.extensions import db
+from app.utils.utils import get_uuid
 
 
 class UserRole(Enum):
@@ -31,6 +19,14 @@ user_organization = db.Table('user_organization', db.metadata,
                              db.Column('organization_id', db.String(32),
                                        db.ForeignKey('organizations.id'))
                              )
+
+
+def generate_invite_code(length):
+    letters_and_digits = string.ascii_uppercase + string.digits
+    while True:
+        code = ''.join(random.choices(letters_and_digits, k=length))
+        if not Organization.query.filter_by(invite_code=code).first():
+            return code
 
 
 class User(db.Model):
@@ -111,7 +107,7 @@ class Buyer(db.Model):
 class Performance(db.Model):
     __tablename__ = "performance"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    average_score = db.Column(db.Float)
+    average_confidence = db.Column(db.Float)
     recognition_time = db.Column(db.Float)
     parsing_time = db.Column(db.Float)
     other_time = db.Column(db.Float)

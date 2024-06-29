@@ -33,7 +33,7 @@ const DoughnutChart = ({ handleCloseChart, invoice_id }) => {
         setRecognition(resp.data.recognition_time);
         setParsing(resp.data.parsing_time);
         setOther(resp.data.other_time);
-        setScore(resp.data.average_score);
+        setScore(resp.data.average_confidence);
         setOcrMethod(resp.data.ocr_method);
       } catch (error) {
         console.log("Error");
@@ -41,7 +41,7 @@ const DoughnutChart = ({ handleCloseChart, invoice_id }) => {
       }
     };
     fetchData();
-  }, [invoice_id]);
+  }, [invoice_id, enqueueSnackbar]);
 
   let data = "";
   if (recognition) {

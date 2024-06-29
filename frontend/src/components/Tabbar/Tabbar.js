@@ -10,6 +10,7 @@ import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
 import { useStyles } from "./styles";
 import OCRContext from "../../context/ocr-context";
+import { COLORS } from "../../styles/constants";
 
 const tabList = [
   { label: "UPLOAD", icon: <FileUploadIcon sx={{ mr: 0.5 }} /> },
@@ -32,7 +33,7 @@ const Tabbar = () => {
         <Tabs
           TabIndicatorProps={{
             style: {
-              backgroundColor: "#854de0",
+              backgroundColor: COLORS.PRIMARY,
             },
           }}
           className={classes.tabsContainer}
@@ -52,7 +53,7 @@ const Tabbar = () => {
                 color: ocrCtx.activePage === index ? "inherit" : "black",
               }}
               label={
-                <Typography sx={{ display: "flex", fontFamily: "Oxanium, cursive" }}>
+                <Typography sx={{ display: "flex" }}>
                   {tab.icon}
                   <span className={classes.text}>{tab.label}</span>
                 </Typography>

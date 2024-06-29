@@ -1,10 +1,11 @@
 import { makeStyles } from "@mui/styles";
+import { COLORS } from "../../styles/constants";
 
 export const useStyles = makeStyles({
   rootContainer: {
     position: "relative",
     color: "white",
-    backgroundColor: "#161616",
+    backgroundColor: COLORS.DARKER,
     textAlign: "center",
     width: "250px",
     transition: "width 0.3s ease-in-out",

@@ -18,6 +18,7 @@ import StyledTextField from "../../components/StyledComponents/StyledTextField";
 import ButtonContained from "../../components/StyledComponents/ButtonContained";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
+import { COLORS } from "../../styles/constants";
 
 const RegisterPage = () => {
   const classes = useStyles();
@@ -29,10 +30,9 @@ const RegisterPage = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
-
   const handleClickShowPassword = () => {
-    setShowPassword(!showPassword)
-  }
+    setShowPassword(!showPassword);
+  };
 
   const validateName = (event) => {
     const name = event.target.value;
@@ -44,7 +44,7 @@ const RegisterPage = () => {
   };
 
   const validateEmail = (event) => {
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     const email = event.target.value;
     if (!emailRegex.test(email) && email.length > 0) {
       setEmailValid(false);
@@ -73,11 +73,14 @@ const RegisterPage = () => {
     if (nameValid && emailValid && passwordValid) {
       setLoading(true);
       try {
-        await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/register`, {
-          name,
-          email,
-          password,
-        });
+        await httpRequest.post(
+          `${process.env.REACT_APP_BACKEND_URL}/register`,
+          {
+            name,
+            email,
+            password,
+          }
+        );
         window.location.href = "/";
       } catch (error) {
         setLoading(false);
@@ -98,7 +101,7 @@ const RegisterPage = () => {
     <Container component="main" maxWidth="xs" className={classes.rootContainer}>
       {loading ? (
         <FadeLoader
-          color="#854de0"
+          color={COLORS.PRIMARY}
           size={50}
           style={{ position: "absolute", top: "40%", left: "50%" }}
         />
@@ -113,11 +116,7 @@ const RegisterPage = () => {
               alignItems: "center",
             }}
           >
-            <Typography
-              component="h1"
-              variant="h4"
-              sx={{ fontFamily: "Oxanium, cursive", fontWeight: 600 }}
-            >
+            <Typography component="h1" variant="h4" sx={{ fontWeight: 600 }}>
               REGISTER
             </Typography>
             <Box component="form" onSubmit={submitHandler} sx={{ mt: 3 }}>
@@ -125,7 +124,9 @@ const RegisterPage = () => {
                 <Grid item xs={12}>
                   <StyledTextField
                     error={!nameValid}
-                    helperText={!nameValid ? "Name must be at least 3 characters." : ""}
+                    helperText={
+                      !nameValid ? "Name must be at least 3 characters." : ""
+                    }
                     autoComplete="off"
                     name="name"
                     required
@@ -153,7 +154,9 @@ const RegisterPage = () => {
                   <StyledTextField
                     error={!passwordValid}
                     helperText={
-                      !passwordValid ? "Password must be at least 6 characters." : ""
+                      !passwordValid
+                        ? "Password must be at least 6 characters."
+                        : ""
                     }
                     required
                     fullWidth
@@ -196,7 +199,6 @@ const RegisterPage = () => {
                     href="#"
                     variant="body2"
                     onClick={() => navigate("/login")}
-                    sx={{ fontFamily: "Oxanium, cursive", color: "#854de0" }}
                   >
                     Already have an account? Login
                   </Link>

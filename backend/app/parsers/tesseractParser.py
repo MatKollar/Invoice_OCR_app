@@ -1,5 +1,6 @@
 import re
 import requests
+from app.config import BACKEND_URL
 
 
 def get_invoice_number(lines):
@@ -45,7 +46,9 @@ def get_date_of_issue(lines):
             if match:
                 date_of_issue = match.group()
                 return date_of_issue
-        if any([kw in line.lower() for kw in ('dátum vystavenia', 'dátum vyhotovenia', 'dátum vyhotovenia:', 'vyhotovená:', 'vystavenia:', 'vyštavenia')]):
+        if any([kw in line.lower() for kw in (
+                'dátum vystavenia', 'dátum vyhotovenia', 'dátum vyhotovenia:', 'vyhotovená:', 'vystavenia:',
+                'vyštavenia')]):
             match = date_pattern.search(line)
             if match:
                 date_of_issue = match.group()
@@ -57,7 +60,8 @@ def get_due_date(lines):
     due_date = ''
     date_pattern = re.compile(r"\d{1,2}\s*[-.:]\s*\d{1,2}\s*[-.:]\s*\d{2,4}")
     for line in lines:
-        if any([kw in line.lower() for kw in ('dátum splatnosti', 'splatnosť', 'splatnosť:', 'splatnosti:', 'splatností')]):
+        if any([kw in line.lower() for kw in
+                ('dátum splatnosti', 'splatnosť', 'splatnosť:', 'splatnosti:', 'splatností')]):
             match = date_pattern.search(line)
             if match:
                 due_date = match.group()
@@ -69,7 +73,9 @@ def get_delivery_date(lines):
     delivery_date = ''
     date_pattern = re.compile(r"\d{1,2}\s*[-.:]\s*\d{1,2}\s*[-.:]\s*\d{2,4}")
     for line in lines:
-        if any([kw in line.lower() for kw in ('dátum dodania', 'dátum uskut.', 'dátum plnenia', 'dodanie', 'dodania', 'dátum daň. povin.', 'daňová povinnosť')]):
+        if any([kw in line.lower() for kw in (
+                'dátum dodania', 'dátum uskut.', 'dátum plnenia', 'dodanie', 'dodania', 'dátum daň. povin.',
+                'daňová povinnosť')]):
             match = date_pattern.search(line)
             if match:
                 delivery_date = match.group()
@@ -80,10 +86,13 @@ def get_delivery_date(lines):
 def get_payment_method(lines):
     payment_method = ''
     for line in lines:
-        if any([kw in line.lower() for kw in ('forma úhrady', 'spôsob úhrady', 'forma platby', 'spôsob platby', 'spôs. úhrady', 'úhrada', 'platba')]):
+        if any([kw in line.lower() for kw in (
+                'forma úhrady', 'spôsob úhrady', 'forma platby', 'spôsob platby', 'spôs. úhrady', 'úhrada', 'platba')]):
             words = line.split()
             for i, word in enumerate(words):
-                if word.lower().rstrip('.:') == 'úhrady' or word.lower().rstrip('.:') == 'úhrada' or word.lower().rstrip('.:') == 'platby' or word.lower().rstrip('.:') == 'platba':
+                if word.lower().rstrip('.:') == 'úhrady' or word.lower().rstrip(
+                        '.:') == 'úhrada' or word.lower().rstrip('.:') == 'platby' or word.lower().rstrip(
+                    '.:') == 'platba':
                     if any(x in words for x in ['prevod', 'Prevod', 'prevodom', 'Prevodom']):
                         payment_method = 'Bankovým prevodom'
                     elif any(x in words for x in ['hotovosť', 'Hotovosť', 'hotovosťou', 'Hotovosťou', 'hotovosti']):
@@ -93,9 +102,9 @@ def get_payment_method(lines):
                     elif ':PP' in words:
                         payment_method = 'PP'
                     else:
-                        if i+1 < len(words) and words[i + 1].isalpha():
+                        if i + 1 < len(words) and words[i + 1].isalpha():
                             payment_method = words[i + 1]
-                        elif i+2 < len(words):
+                        elif i + 2 < len(words):
                             payment_method = words[i + 2]
                     return payment_method
     return payment_method
@@ -105,12 +114,13 @@ def get_total_price(lines):
     total_price = ''
     pattern = re.compile(r"€?\b\d+(?:[,\s]\d+)*\b")
     for line in lines:
-        if any([kw1 in line.lower() and kw2 in line.lower() for kw1, kw2 in (('celkom', '€'), ('spolu', '€'), ('celkom', 'eur'), ('spolu', 'eur'),
-                                                                             ('celková', 'suma'), ('fakturovaná', 'suma'), (
-                                                                                 'celková', 'hodnota'), ('suma', ' úhradu:'),
-                                                                             ('spolu', 'úhradu'), ('fakturovaná', 'hodnota'), (
-                                                                                 'celkom', 'úhrade'),
-                                                                             ('na', 'zaplatenie'))]):
+        if any([kw1 in line.lower() and kw2 in line.lower() for kw1, kw2 in
+                (('celkom', '€'), ('spolu', '€'), ('celkom', 'eur'), ('spolu', 'eur'),
+                 ('celková', 'suma'), ('fakturovaná', 'suma'), (
+                         'celková', 'hodnota'), ('suma', ' úhradu:'),
+                 ('spolu', 'úhradu'), ('fakturovaná', 'hodnota'), (
+                         'celkom', 'úhrade'),
+                 ('na', 'zaplatenie'))]):
             line = re.sub(r'(\d)\s+(\d)', r'\1\2', line)
             words = line.split()
             for word in words:
@@ -226,7 +236,7 @@ def parse_text(text):
 
     supplier_ico = get_supplier_ico(lines)
     if supplier_ico:
-        details_url = f"http://localhost:5000/get_details?ico={supplier_ico}"
+        details_url = f"{BACKEND_URL}/get_details?ico={supplier_ico}"
         supplier_details = requests.post(details_url)
 
         if supplier_details.status_code == 200:
@@ -234,7 +244,7 @@ def parse_text(text):
 
     buyer_ico = get_buyer_ico(lines)
     if buyer_ico:
-        details_url = f"http://localhost:5000/get_details?ico={buyer_ico}"
+        details_url = f"{BACKEND_URL}/get_details?ico={buyer_ico}"
         buyer_details = requests.post(details_url)
 
         if buyer_details.status_code == 200:

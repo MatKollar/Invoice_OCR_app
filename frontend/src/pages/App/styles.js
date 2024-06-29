@@ -1,4 +1,5 @@
 import { makeStyles } from "@mui/styles";
+import { COLORS } from "../../styles/constants";
 
 export const useStyles = makeStyles({
   appContainer: {
@@ -13,6 +14,6 @@ export const useStyles = makeStyles({
   contentWrapper: {
     width: "100%",
     height: "100%",
-    backgroundColor: "#B2B2B2",
+    backgroundColor: COLORS.GRAY_LIGHT,
   },
 });

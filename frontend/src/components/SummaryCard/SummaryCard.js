@@ -1,11 +1,9 @@
-import { useContext, useEffect, useState } from "react";
-
+import { useContext, useEffect, useState, useRef } from "react";
 import { useSnackbar } from "notistack";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import DownloadIcon from "@mui/icons-material/Download";
 import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 import { TextField, Paper, IconButton, Grid } from "@mui/material";
-
 import OCRContext from "../../context/ocr-context";
 import { useStyles } from "./styles";
 import ButtonContained from "../StyledComponents/ButtonContained";
@@ -14,6 +12,7 @@ import SellerTable from "./SellerTable/SellerTable";
 import BuyerTable from "./BuyerTable/BuyerTable";
 import InvoiceDataTable from "./InvoiceDataTable/InvoiceDataTable";
 import httpRequest from "../../httpRequest";
+import { COLORS } from "../../styles/constants";
 const cv = window.cv;
 
 const SummaryCard = (props) => {
@@ -28,16 +27,12 @@ const SummaryCard = (props) => {
   const [newData, setNewData] = useState({});
   const { enqueueSnackbar } = useSnackbar();
   const PDFJS = require("pdfjs-dist/webpack");
+  const canvasRef = useRef(null);
 
   useEffect(() => {
     setIsInvoice(ocrCtx.isInvoice);
+    //eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    if (!chartOpen && !showText) {
-      drawInvoiceOnCanvas();
-    }
-  }, [chartOpen, showText]);
 
   useEffect(() => {
     setInitialData(props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData);
@@ -64,6 +59,15 @@ const SummaryCard = (props) => {
   }, [props, ocrCtx, showText]);
 
   const drawInvoiceOnCanvas = async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      console.error("Canvas element not found");
+      return;
+    }
+    const context = canvas.getContext("2d");
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
     if (pdfBase64) {
       const pdfData = atob(pdfBase64);
       let uint8Array = new Uint8Array(pdfData.length);
@@ -74,8 +78,6 @@ const SummaryCard = (props) => {
       const pdf = await loadingTask.promise;
       const page = await pdf.getPage(1);
       const viewport = page.getViewport({ scale: 1.5 });
-      const canvas = document.getElementById("invoice");
-      const context = canvas.getContext("2d");
       canvas.height = viewport.height;
       canvas.width = viewport.width;
       const renderContext = {
@@ -93,7 +95,7 @@ const SummaryCard = (props) => {
     img.src = `data:image/jpeg;base64,${base64}`;
     img.onload = () => {
       const mat = cv.imread(img);
-      cv.imshow("invoice", mat);
+      cv.imshow(canvasRef.current, mat);
       mat.delete();
     };
   };
@@ -116,7 +118,10 @@ const SummaryCard = (props) => {
     }
 
     if (pdfBase64) {
-      downloadFile(convertBase64ToBlob(pdfBase64, "application/pdf"), "file.pdf");
+      downloadFile(
+        convertBase64ToBlob(pdfBase64, "application/pdf"),
+        "file.pdf"
+      );
     } else if (imageBase64) {
       downloadFile(convertBase64ToBlob(imageBase64, "image/png"), "file.png");
     }
@@ -124,7 +129,9 @@ const SummaryCard = (props) => {
 
   const convertBase64ToBlob = (base64, type) => {
     const byteCharacters = atob(base64);
-    const byteNumbers = Array.from(byteCharacters, (char) => char.charCodeAt(0));
+    const byteNumbers = Array.from(byteCharacters, (char) =>
+      char.charCodeAt(0)
+    );
     const byteArray = new Uint8Array(byteNumbers);
     return new Blob([byteArray], { type });
   };
@@ -156,39 +163,49 @@ const SummaryCard = (props) => {
     setChartOpen(false);
   };
 
-  const handleDataChange = (updatedData) => {
-    setNewData(updatedData);
-    if (JSON.stringify(updatedData) !== JSON.stringify(initialData)) {
+  const handleDataChange = (updatedData, type) => {
+    let mergedData;
+    if (type === "invoice_data") {
+      mergedData = { ...newData, ...updatedData };
+    } else {
+      mergedData = { ...newData, [type]: updatedData };
+    }
+
+    const combinedData = { ...initialData, ...mergedData };
+    setNewData(combinedData);
+
+    if (JSON.stringify(combinedData) !== JSON.stringify(initialData)) {
       setDataChanged(true);
     } else {
       setDataChanged(false);
     }
   };
 
-  const handleShowText = () => {
-    setShowText(!showText);
-    const outputCanvas = document.getElementById("output");
-    if (showText) {
+  useEffect(() => {
+    if (!chartOpen && !showText) {
       drawInvoiceOnCanvas();
     }
-    if (Object.keys(props).length === 0) {
-      if (showText) {
-        outputCanvas.style.display = "none";
-      } else {
-        outputCanvas.style.display = "block";
-        outputCanvas.style.margin = "0 auto";
-      }
-    }
+    //eslint-disable-next-line
+  }, [chartOpen, showText]);
+
+  const handleShowText = () => {
+    setShowText(!showText);
   };
 
   const handleSave = async () => {
     try {
-      await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/update-invoice`, {
-        new_data: newData,
-      });
-      props.dataChanged();
+      await httpRequest.post(
+        `${process.env.REACT_APP_BACKEND_URL}/update-invoice`,
+        {
+          new_data: newData,
+        }
+      );
+      if (props && Object.keys(props).length > 0) {
+        props.dataChanged();
+      }
+      enqueueSnackbar("Data saved successfully", { variant: "success" });
     } catch (error) {
-      console.log("error");
+      console.error("Error in saving data:", error);
       enqueueSnackbar("Error in saving data", { variant: "error" });
     }
 
@@ -201,7 +218,9 @@ const SummaryCard = (props) => {
         {chartOpen ? (
           <DoughnutChart
             handleCloseChart={handleCloseChart}
-            invoice_id={props.dataFromDB ? props.dataFromDB.id : ocrCtx.invoiceId}
+            invoice_id={
+              props.dataFromDB ? props.dataFromDB.id : ocrCtx.invoiceId
+            }
           />
         ) : (
           <>
@@ -224,20 +243,23 @@ const SummaryCard = (props) => {
                     sx={{ padding: { xs: "3px", sm: "10px" } }}
                     onClick={handleOpenChart}
                   >
-                    <DonutSmallIcon fontSize="large" sx={{ color: "#6336ab" }} />
+                    <DonutSmallIcon
+                      fontSize="large"
+                      sx={{ color: COLORS.PRIMARY_HOVER }}
+                    />
                   </IconButton>
                 )}
                 <IconButton
                   sx={{ padding: { xs: "3px", sm: "10px" } }}
                   onClick={handleDownloadFile}
                 >
-                  <DownloadIcon fontSize="large" sx={{ color: "#6336ab" }} />
+                  <DownloadIcon fontSize="large" sx={{ color: COLORS.PRIMARY_HOVER }} />
                 </IconButton>
                 <IconButton
                   sx={{ padding: { xs: "3px", sm: "10px" } }}
                   onClick={handleOpenFile}
                 >
-                  <OpenInNewIcon fontSize="large" sx={{ color: "#6336ab" }} />
+                  <OpenInNewIcon fontSize="large" sx={{ color: COLORS.PRIMARY_HOVER }} />
                 </IconButton>
               </div>
             </div>
@@ -256,13 +278,19 @@ const SummaryCard = (props) => {
                         variant={"standard"}
                         className={classes.focused}
                         defaultValue={
-                          props.dataFromDB ? props.dataFromDB.text : ocrCtx.textResult
+                          props.dataFromDB
+                            ? props.dataFromDB.text
+                            : ocrCtx.textResult
                         }
                       />
                     </Paper>
                   ) : (
                     <div className={classes.invoiceContainer}>
-                      <canvas className={classes.invoice} id="invoice" />
+                      <canvas
+                        className={classes.invoice}
+                        id="invoice"
+                        ref={canvasRef}
+                      />
                     </div>
                   )}
 
@@ -280,18 +308,36 @@ const SummaryCard = (props) => {
                   <div className={classes.tables}>
                     <div className={classes.table}>
                       <InvoiceDataTable
-                        data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
-                        onDataChange={handleDataChange}
+                        data={
+                          props.dataFromDB
+                            ? props.dataFromDB
+                            : ocrCtx.extractedData
+                        }
+                        onDataChange={(data) =>
+                          handleDataChange(data, "invoice_data")
+                        }
                       />
                     </div>
                     <div className={classes.tableContainer}>
                       <SellerTable
-                        data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
-                        onDataChange={handleDataChange}
+                        data={
+                          props.dataFromDB
+                            ? props.dataFromDB
+                            : ocrCtx.extractedData
+                        }
+                        onDataChange={(data) =>
+                          handleDataChange(data, "supplier_data")
+                        }
                       />
                       <BuyerTable
-                        data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}
-                        onDataChange={handleDataChange}
+                        data={
+                          props.dataFromDB
+                            ? props.dataFromDB
+                            : ocrCtx.extractedData
+                        }
+                        onDataChange={(data) =>
+                          handleDataChange(data, "buyer_data")
+                        }
                       />
                     </div>
                   </div>

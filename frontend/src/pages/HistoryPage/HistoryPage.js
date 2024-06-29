@@ -21,6 +21,7 @@ const HistoryPage = () => {
     (async () => {
       await fetchInvoiceData();
     })();
+    //eslint-disable-next-line
   }, []);
 
   const fetchInvoiceData = async () => {

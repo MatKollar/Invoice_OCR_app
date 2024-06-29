@@ -1,4 +1,5 @@
 import { makeStyles } from "@mui/styles";
+import { COLORS } from "../../../styles/constants";
 
 export const useStyles = makeStyles({
   table: {
@@ -7,10 +8,10 @@ export const useStyles = makeStyles({
   },
   focused: {
     "& .MuiInput-underline:after": {
-      borderBottomColor: "#854de0",
+      borderBottomColor: COLORS.PRIMARY,
     },
     "& .MuiFormLabel-root.Mui-focused": {
-      color: "#854de0",
+      color: COLORS.PRIMARY,
     },
   },
 });

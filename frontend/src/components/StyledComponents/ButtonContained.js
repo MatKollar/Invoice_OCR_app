@@ -1,4 +1,5 @@
 import Button from "@mui/material/Button";
+import { COLORS } from "../../styles/constants";
 
 const ButtonContained = (props) => {
   return (
@@ -6,10 +7,9 @@ const ButtonContained = (props) => {
       {...props}
       variant="contained"
       sx={{
-        fontFamily: "Oxanium, cursive",
-        backgroundColor: "#854de0",
+        backgroundColor: COLORS.PRIMARY,
         "&:hover": {
-          backgroundColor: "#6336ab",
+          backgroundColor: COLORS.PRIMARY_HOVER,
         },
       }}
     />

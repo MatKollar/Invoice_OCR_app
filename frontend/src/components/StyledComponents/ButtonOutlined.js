@@ -1,4 +1,5 @@
 import Button from "@mui/material/Button";
+import { COLORS } from "../../styles/constants";
 
 const ButtonOutlined = (props) => {
   return (
@@ -6,13 +7,12 @@ const ButtonOutlined = (props) => {
       {...props}
       variant="outlined"
       sx={{
-        fontFamily: "Oxanium, cursive",
-        color: "#854de0",
-        borderColor: "#854de0",
+        color: COLORS.PRIMARY,
+        borderColor: COLORS.PRIMARY,
         "&:hover": {
-          backgroundColor: "#854de0",
+          backgroundColor: COLORS.PRIMARY,
           color: "#fff",
-          borderColor: "#854de0",
+          borderColor: COLORS.PRIMARY,
         },
       }}
     />

@@ -1,6 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { useSnackbar } from "notistack";
-import { Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import ButtonOutlined from "../StyledComponents/ButtonOutlined";
 import StyledTextField from "../StyledComponents/StyledTextField";
@@ -43,7 +48,7 @@ const ProfileModal = ({ open, onClose }) => {
   };
 
   const validateEmail = (email) => {
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!emailRegex.test(email) && email.length > 0) {
       return false;
     } else {
@@ -53,11 +58,16 @@ const ProfileModal = ({ open, onClose }) => {
 
   const updateUser = async (name, email) => {
     try {
-      await httpRequest.post(`${process.env.REACT_APP_BACKEND_URL}/update-user`, {
-        name,
-        email,
+      await httpRequest.post(
+        `${process.env.REACT_APP_BACKEND_URL}/update-user`,
+        {
+          name,
+          email,
+        }
+      );
+      enqueueSnackbar("User details updated successfully", {
+        variant: "success",
       });
-      enqueueSnackbar("User details updated successfully", { variant: "success" });
       userCtx.setUserName(name);
       userCtx.setEmail(email);
     } catch (error) {
@@ -85,36 +95,26 @@ const ProfileModal = ({ open, onClose }) => {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} PaperProps={{ style: { width: 500 } }}>
-      <DialogTitle>
-        <Typography
-          component="h1"
-          variant="h5"
-          sx={{ fontFamily: "Oxanium, cursive", fontWeight: 600 }}
-        >
-          Your Profile
-        </Typography>
-      </DialogTitle>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      PaperProps={{ style: { width: 500 } }}
+    >
+      <DialogTitle sx={{ fontWeight: 600 }}>Your Profile</DialogTitle>
       <DialogContent>
         {!isChangingName && (
           <div className={classes.profile}>
             <div className={classes.text}>
-              <Typography
-                component="p"
-                variant="body1"
-                sx={{ fontFamily: "Oxanium, cursive" }}
-              >
+              <Typography component="p" variant="body1">
                 Username:
               </Typography>
-              <Typography
-                component="p"
-                variant="body1"
-                sx={{ fontFamily: "Oxanium, cursive" }}
-              >
+              <Typography component="p" variant="body1">
                 {name}
               </Typography>
             </div>
-            <ButtonOutlined onClick={handleChangeNameClick}>Change Name</ButtonOutlined>
+            <ButtonOutlined onClick={handleChangeNameClick}>
+              Change Name
+            </ButtonOutlined>
           </div>
         )}
         {isChangingName && (
@@ -129,18 +129,10 @@ const ProfileModal = ({ open, onClose }) => {
         {!isChangingEmail && (
           <div className={classes.profile}>
             <div className={classes.text}>
-              <Typography
-                component="p"
-                variant="body1"
-                sx={{ fontFamily: "Oxanium, cursive" }}
-              >
+              <Typography component="p" variant="body1">
                 Email:
               </Typography>
-              <Typography
-                component="p"
-                variant="body1"
-                sx={{ fontFamily: "Oxanium, cursive" }}
-              >
+              <Typography component="p" variant="body1">
                 {email}
               </Typography>
             </div>
@@ -163,18 +155,10 @@ const ProfileModal = ({ open, onClose }) => {
         )}
         <div className={classes.profile}>
           <div className={classes.text}>
-            <Typography
-              component="p"
-              variant="body1"
-              sx={{ fontFamily: "Oxanium, cursive" }}
-            >
+            <Typography component="p" variant="body1">
               Active organization:
             </Typography>
-            <Typography
-              component="p"
-              variant="body1"
-              sx={{ fontFamily: "Oxanium, cursive" }}
-            >
+            <Typography component="p" variant="body1">
               {activeOrganization.name}
             </Typography>
           </div>

@@ -7,6 +7,7 @@ import AuthContext from "../../context/auth-context";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
 import ProfileIcon from "../ProfileIcon/ProfileIcon";
+import { COLORS } from "../../styles/constants";
 
 const Navbar = (props) => {
   const classes = useStyles();
@@ -43,7 +44,7 @@ const Navbar = (props) => {
               sx={{
                 color: "white",
                 "&:hover": {
-                  color: "#854de0",
+                  color: COLORS.PRIMARY,
                 },
                 marginTop: "-4px",
               }}
@@ -55,7 +56,6 @@ const Navbar = (props) => {
           sx={{
             ml: 4,
             fontSize: { xs: "20px", sm: "24px", md: "26px" },
-            fontFamily: "Oxanium, cursive",
           }}
         >
           {getPageTitle()}

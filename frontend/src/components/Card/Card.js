@@ -11,7 +11,7 @@ const Card = (props) => {
         className={classes.card}
         sx={{ p: 2, borderRadius: 5, textAlign: "center" }}
       >
-        <Typography variant="h6" sx={{ fontFamily: "Oxanium, cursive", mt: 2 }}>
+        <Typography variant="h6" sx={{ mt: 2 }}>
           {props.data}
         </Typography>
       </Paper>
