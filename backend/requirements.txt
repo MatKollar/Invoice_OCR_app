@@ -12,3 +12,4 @@ pytesseract==0.3.10
 paddlepaddle==2.6.0
 paddleocr==2.7.3
 requests==2.31.0
+numpy==1.24.3
