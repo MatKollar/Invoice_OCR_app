@@ -1,31 +1,81 @@
 version: "3.8"
+
 services:
   postgres:
-    image: 'postgres'
+    image: "postgres:15"
     restart: always
-    volumes: 
+    volumes:
       - data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: password
-    ports: 
-      - '5432:5432'
+      POSTGRES_USER: postgres
+      POSTGRES_DB: invoice_db
+    ports:
+      - "5433:5432"
+    mem_limit: 1g
+    cpus: "2"
+    networks:
+      - app-network
+
+  ollama:
+    image: ollama/ollama:0.5.11
+    restart: always
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    entrypoint: ["/bin/sh", "-c", "ollama serve"]
+    mem_limit: 6g
+    cpus: "6"
+    deploy:  # Pridaná podpora GPU
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    environment:  # Pridané CUDA nastavenia
+      - CUDA_VISIBLE_DEVICES=0
+    networks:
+      - app-network
+
   backend:
     build: ./backend
     ports:
-      - '5000:5000'
+      - "5000:5000"
     volumes:
-        - ./backend:/app
-    depends_on: 
+      - ./backend:/app
+      - ./paddle_models:/paddle_models
+    environment:
+      - DEEPSEEK_HOST=http://ollama:11434
+      - DEEPSEEK_MODEL=deepseek-r1:8b
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/invoice_db
+    depends_on:
       - postgres
-  frontend: 
+      - ollama
+    # command: ["/bin/sh", "-c", "sleep 10 && gunicorn --bind 0.0.0.0:5000 app:app"]  # Zakomentované alebo odstránené
+    mem_limit: 10g
+    cpus: "4"
+    networks:
+      - app-network
+
+  frontend:
     build: ./frontend
-    ports: 
-      - '3000:3000'
-    volumes: 
+    ports:
+      - "3000:3000"
+    volumes:
       - ./frontend/src:/app/src
     stdin_open: true
     tty: true
-    depends_on: 
+    depends_on:
       - backend
-volumes: 
+    networks:
+      - app-network
+
+volumes:
   data:
+  ollama_data:
+
+networks:
+  app-network:
+    driver: bridge

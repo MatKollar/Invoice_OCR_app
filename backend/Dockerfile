@@ -5,10 +5,13 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# Inštalácia curl spolu s existujúcimi balíkmi
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
-    python3-opencv
+    python3-opencv \
+    curl
 
+# Vyčistenie apt cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ENV TESSDATA_PREFIX /usr/share/tesseract-ocr/4.00/tessdata
@@ -23,4 +26,5 @@ COPY ./tessdata/slk.traineddata $TESSDATA_PREFIX
 
 COPY . /app
 
+# CMD je prepísané v docker-compose.yml na /app/entrypoint.sh, takže toto môžeme ponechať
 CMD ["python", "run.py"]

@@ -13,3 +13,5 @@ paddlepaddle==2.6.0
 paddleocr==2.7.3
 requests==2.31.0
 numpy==1.24.3
+gunicorn==20.1.0
+aiohttp
