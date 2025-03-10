@@ -25,21 +25,9 @@ def categorize_text(ocr_text):
 
     Expected JSON format:
     {{
-      "categorized_data": {{
-        "Bank": "",
-        "Date of issue": "",
-        "Delivery date": "",
-        "Due date": "",
-        "IBAN": "",
-        "Invoice number": "",
-        "Payment method": "",
-        "SWIFT": "",
-        "Total amount": "",
-        "Variable symbol": ""
-      }},
       "parsed_data": {{
         "bank": "",
-        "buyer_data": {{Name: "", Street: "", PSC: "", City: "", DIC: ""}},
+        "buyer_data": {{"Name": "", "Street": "", "PSC": "", "City": "", "DIC": ""}},
         "buyer_ico": "",
         "date_of_issue": "",
         "delivery_date": "",
@@ -47,7 +35,7 @@ def categorize_text(ocr_text):
         "iban": "",
         "invoice_number": "",
         "payment_method": "",
-        "supplier_data": {{Name: "", Street: "", PSC: "", City: "", DIC: ""}},
+        "supplier_data": {{"Name": "", "Street": "", "PSC": "", "City": "", "DIC": ""}},
         "supplier_ico": "",
         "swift": "",
         "total_price": "",
@@ -71,7 +59,7 @@ def categorize_text(ocr_text):
                 "stream": True
             },
             stream=True,
-            timeout=(10, 120)  # Connect timeout 10s, read timeout 60s
+            timeout=(10, 120)  # Connect timeout 10s, read timeout 120s
         )
 
         if response.status_code != 200:
@@ -89,7 +77,7 @@ def categorize_text(ocr_text):
 
         if not full_response.strip():
             logger.error("Empty response from Ollama")
-            return {"categorized_data": {}, "parsed_data": {}, "error": "Empty response from DeepSeek"}
+            return {"parsed_data": {}, "error": "Empty response from DeepSeek"}
 
         json_start = full_response.find("```json")
         json_end = full_response.rfind("```")
@@ -99,15 +87,13 @@ def categorize_text(ocr_text):
             result = json.loads(json_str)
         else:
             logger.error("No valid JSON block found in response")
-            return {"categorized_data": {}, "parsed_data": {}, "error": "No valid JSON block in DeepSeek response"}
+            return {"parsed_data": {}, "error": "No valid JSON block in DeepSeek response"}
 
-        result.setdefault("categorized_data", {
-            "Bank": "", "Date of issue": "", "Delivery date": "", "Due date": "", "IBAN": "",
-            "Invoice number": "", "Payment method": "", "SWIFT": "", "Total amount": "", "Variable symbol": ""
-        })
+        # Zaistenie, že parsed_data má predvolené hodnoty
         result.setdefault("parsed_data", {
-            "bank": "", "buyer_data": {}, "buyer_ico": "", "date_of_issue": "", "delivery_date": "",
-            "due_date": "", "iban": "", "invoice_number": "", "payment_method": "", "supplier_data": {},
+            "bank": "", "buyer_data": {"Name": "", "Street": "", "PSC": "", "City": "", "DIC": ""},
+            "buyer_ico": "", "date_of_issue": "", "delivery_date": "", "due_date": "", "iban": "",
+            "invoice_number": "", "payment_method": "", "supplier_data": {"Name": "", "Street": "", "PSC": "", "City": "", "DIC": ""},
             "supplier_ico": "", "swift": "", "total_price": "", "var_symbol": ""
         })
 
@@ -115,13 +101,13 @@ def categorize_text(ocr_text):
 
     except requests.Timeout:
         logger.error("DeepSeek API request timed out")
-        return {"categorized_data": {}, "parsed_data": {}, "error": "DeepSeek API timeout"}
+        return {"parsed_data": {}, "error": "DeepSeek API timeout"}
     except requests.RequestException as e:
         logger.error(f"DeepSeek API request failed: {str(e)}")
-        return {"categorized_data": {}, "parsed_data": {}, "error": f"DeepSeek API error: {str(e)}"}
+        return {"parsed_data": {}, "error": f"DeepSeek API error: {str(e)}"}
     except json.JSONDecodeError as e:
         logger.error(f"JSON parsing failed: {str(e)}. Raw response: '{full_response}'")
-        return {"categorized_data": {}, "parsed_data": {}, "error": "Failed to parse JSON from DeepSeek response"}
+        return {"parsed_data": {}, "error": "Failed to parse JSON from DeepSeek response"}
 
 @deepseek_bp.route('/deepseek', methods=['POST'])
 def process_deepseek():
@@ -141,14 +127,11 @@ def process_deepseek():
         return jsonify({"error": result["error"]}), 500
 
     parsed_data = result.get("parsed_data", {})
-    categorized_data = result.get("categorized_data", {})
-
     is_invoice = check_if_invoice(parsed_data)
 
     response = {
         'text': ocr_text,
         'parsed_data': parsed_data,
-        'categorized_data': categorized_data,
         'time': {
             'recognition': data.get('recognition_time', 0),
             'parsing': 0.0,
@@ -159,5 +142,21 @@ def process_deepseek():
     }
 
     if is_invoice:
-        pdf_file = data.get('pdf_file')
-        image
+        pdf_file, image_file = get_files_from_request()
+        try:
+            invoice_id = add_invoice_to_db(
+                parsed_data,
+                ocr_text,
+                pdf_file,
+                image_file,
+                data.get('average_confidence', 0),
+                data.get('recognition_time', 0),
+                categorization_time,
+                ocr_method
+            )
+            response['invoice_id'] = invoice_id
+        except Exception as e:
+            logger.error(f"Failed to add invoice to database: {str(e)}")
+            return jsonify({"error": f"Failed to add invoice to database: {str(e)}"}), 500
+
+    return jsonify(response)
